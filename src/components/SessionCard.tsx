@@ -30,9 +30,9 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session, onTogglePin, 
   return (
     <Card 
       padding="none"
-      className={`group relative transition-all duration-300 hover:shadow-xl hover:-translate-y-1 ${
+      className={`group relative transition-all duration-500 premium-card ${
         session.pinned 
-          ? 'border-indigo-200 dark:border-indigo-900/50 ring-1 ring-indigo-100 dark:ring-indigo-900/20' 
+          ? 'border-indigo-200 dark:border-indigo-900/50 ring-2 ring-indigo-50 dark:ring-indigo-900/20' 
           : ''
       }`}
     >
@@ -42,18 +42,18 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session, onTogglePin, 
             e.preventDefault();
             onTogglePin(session.id);
           }}
-          className={`absolute top-4 right-4 p-2 rounded-xl transition-all z-10 ${
+          className={`absolute top-5 right-5 p-2.5 rounded-xl transition-all duration-300 z-10 ${
             session.pinned
-              ? 'bg-indigo-50 text-indigo-600 dark:bg-indigo-900/50 dark:text-indigo-400'
-              : 'bg-gray-50 text-gray-400 opacity-0 group-hover:opacity-100 dark:bg-gray-700'
+              ? 'bg-indigo-600 text-white shadow-indigo'
+              : 'bg-slate-50 dark:bg-slate-800 text-slate-400 opacity-0 group-hover:opacity-100 hover:text-indigo-600 dark:hover:text-indigo-400'
           }`}
         >
           {session.pinned ? <Pin className="w-4 h-4 fill-current" /> : <PinOff className="w-4 h-4" />}
         </button>
       )}
 
-      <Link to={`/session/${session.id}`} className="block p-6">
-        <div className="flex flex-wrap items-center gap-2 mb-4">
+      <Link to={`/session/${session.id}`} className="block p-8">
+        <div className="flex flex-wrap items-center gap-2 mb-6">
           <Badge variant={statusConfig[session.status].variant} icon={StatusIcon} size="xs">
             {statusConfig[session.status].label}
           </Badge>
@@ -65,39 +65,39 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session, onTogglePin, 
           </Badge>
         </div>
 
-        <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 line-clamp-1 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+        <h3 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white mb-4 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-tight">
           {session.title}
         </h3>
 
-        <Card variant="indigo" padding="md" className="mb-4 bg-indigo-50/50 dark:bg-indigo-900/10 border-indigo-100/50 dark:border-indigo-900/20">
-          <p className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">Next Step</p>
-          <p className="text-sm font-bold text-gray-800 dark:text-gray-200 line-clamp-2 leading-relaxed">
+        <div className="mb-6 p-5 bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100/50 dark:border-indigo-900/20 rounded-2xl">
+          <p className="text-[11px] font-display font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-2">Next Step</p>
+          <p className="text-sm font-bold text-slate-800 dark:text-slate-200 line-clamp-2 leading-relaxed">
             {session.nextStep || 'No next step defined...'}
           </p>
-        </Card>
+        </div>
 
-        <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
-          <div className="flex items-center gap-3 text-gray-400 dark:text-gray-500">
-            <div className="flex items-center gap-1 text-xs font-bold">
+        <div className="flex items-center justify-between mt-auto pt-6 border-t border-slate-100 dark:border-white/5">
+          <div className="flex items-center gap-4 text-slate-400 dark:text-slate-500">
+            <div className="flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest">
               <Clock className="w-3.5 h-3.5" />
               {new Date(session.updatedAt).toLocaleDateString()}
             </div>
             {session.links.length > 0 && (
-              <div className="flex items-center gap-1 text-xs font-bold">
+              <div className="flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest">
                 <ExternalLink className="w-3.5 h-3.5" />
                 {session.links.length}
               </div>
             )}
           </div>
           
-          <div className="flex gap-1">
+          <div className="flex gap-1.5">
             {session.tags.slice(0, 2).map((tag) => (
-              <Badge key={tag} variant="gray" size="xs" className="px-2 py-0.5 rounded-md">
+              <Badge key={tag} variant="gray" size="xs" className="rounded-lg">
                 #{tag}
               </Badge>
             ))}
             {session.tags.length > 2 && (
-              <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500">
+              <span className="text-[11px] font-display font-bold text-slate-400 dark:text-slate-500 self-center ml-1">
                 +{session.tags.length - 2}
               </span>
             )}
@@ -106,4 +106,4 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session, onTogglePin, 
       </Link>
     </Card>
   );
-}
+};

@@ -16,17 +16,17 @@ export function Layout() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#FBFBFB] dark:bg-[#121212] text-[#37352F] dark:text-[#E3E3E3] flex flex-col font-sans transition-colors duration-300">
-      <header className="bg-white/80 dark:bg-[#121212]/80 backdrop-blur-md border-b border-gray-200/50 dark:border-white/5 sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Link to="/" className="flex items-center gap-2.5 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight hover:opacity-80 transition-opacity">
-              <div className="w-8 h-8 bg-indigo-600 dark:bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-                <BookMarked className="w-5 h-5" />
+    <div className="min-h-screen bg-[#FBFBFB] dark:bg-[#0A0A0B] text-slate-900 dark:text-slate-100 flex flex-col font-sans transition-colors duration-500">
+      <header className="glass sticky top-0 z-30 border-b border-slate-200/50 dark:border-white/5">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-6">
+            <Link to="/" className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 font-display font-extrabold text-2xl tracking-tight hover:opacity-80 transition-all active:scale-95">
+              <div className="w-10 h-10 bg-indigo-600 dark:bg-indigo-500 rounded-xl flex items-center justify-center text-white shadow-indigo">
+                <BookMarked className="w-6 h-6" />
               </div>
               <span className="hidden sm:inline">Context Saver</span>
             </Link>
-            <div className="hidden sm:block">
+            <div className="hidden lg:block">
               <PlanBadge plan={currentPlan} size="sm" />
             </div>
           </div>
@@ -38,10 +38,10 @@ export function Layout() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`relative flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
+                  className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-display font-bold transition-all duration-300 ${
                     isActive
                       ? 'text-indigo-700 dark:text-indigo-300'
-                      : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-white/5 hover:text-gray-900 dark:hover:text-white'
+                      : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'
                   }`}
                 >
                   {isActive && (
@@ -60,14 +60,14 @@ export function Layout() {
         </div>
       </header>
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-10 pb-32 sm:pb-10">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-6 py-12 pb-32 sm:pb-12">
         <AnimatePresence mode="wait">
           <motion.div
             key={location.pathname}
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.2 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           >
             <Outlet />
           </motion.div>
@@ -75,7 +75,7 @@ export function Layout() {
       </main>
 
       {/* Mobile Navigation - Only on small screens */}
-      <nav className="sm:hidden fixed bottom-6 left-6 right-6 bg-white/90 dark:bg-[#1E1E1E]/90 backdrop-blur-lg border border-gray-200/50 dark:border-white/10 rounded-[2rem] shadow-2xl z-40 overflow-hidden p-2">
+      <nav className="sm:hidden fixed bottom-8 left-6 right-6 glass rounded-[2.5rem] shadow-premium z-40 overflow-hidden p-2 border-2 border-white/40 dark:border-white/10">
         <div className="flex justify-around items-center h-16">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -87,18 +87,18 @@ export function Layout() {
                 className={`relative flex flex-col items-center justify-center w-full h-full space-y-1 transition-all active:scale-90 ${
                   isActive
                     ? 'text-indigo-600 dark:text-indigo-400'
-                    : 'text-gray-400 dark:text-gray-500'
+                    : 'text-slate-400 dark:text-slate-500'
                 }`}
               >
                 {isActive && (
                   <motion.div
                     layoutId="mobile-nav-pill"
-                    className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/30 rounded-2xl"
+                    className="absolute inset-0 bg-indigo-50 dark:bg-indigo-900/30 rounded-[1.5rem]"
                     transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
                 )}
                 <Icon className={`w-5 h-5 relative z-10 ${item.highlight && !isActive ? 'text-amber-500 animate-pulse' : ''}`} />
-                <span className="text-[10px] font-bold uppercase tracking-widest relative z-10">{item.label.split(' ')[0]}</span>
+                <span className="text-[10px] font-display font-bold uppercase tracking-widest relative z-10">{item.label.split(' ')[0]}</span>
               </Link>
             );
           })}

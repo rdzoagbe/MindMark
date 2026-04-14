@@ -14,10 +14,10 @@ export function Card({
   padding = 'lg'
 }: CardProps) {
   const variants = {
-    default: 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-sm',
-    indigo: 'bg-indigo-600 text-white shadow-xl shadow-indigo-100 dark:shadow-none border-transparent',
-    danger: 'bg-red-50/30 dark:bg-red-900/10 border-red-100 dark:border-red-900/20',
-    ghost: 'bg-gray-50/50 dark:bg-gray-900/50 border-dashed border-gray-200 dark:border-gray-700'
+    default: 'bg-white dark:bg-slate-900 border-slate-100 dark:border-white/5 shadow-premium hover:shadow-premium-hover',
+    indigo: 'bg-indigo-600 text-white shadow-indigo border-transparent',
+    danger: 'bg-rose-50/30 dark:bg-rose-900/10 border-rose-100 dark:border-rose-900/20',
+    ghost: 'bg-slate-50/50 dark:bg-slate-900/50 border-dashed border-slate-200 dark:border-slate-700'
   };
 
   const paddings = {
@@ -28,7 +28,7 @@ export function Card({
   };
 
   return (
-    <div className={`rounded-[2.5rem] border transition-all duration-300 ${variants[variant]} ${paddings[padding]} ${className}`}>
+    <div className={`rounded-[3rem] border-2 transition-all duration-500 ${variants[variant]} ${paddings[padding]} ${className}`}>
       {children}
     </div>
   );

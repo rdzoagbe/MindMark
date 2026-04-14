@@ -13,6 +13,8 @@ import { useAuth } from '../hooks/useAuth';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
+import { motion } from 'motion/react';
+import { Clock } from 'lucide-react';
 
 export function Home() {
   const { sessions, togglePin, updateStatus } = useSessions();
@@ -40,8 +42,23 @@ export function Home() {
   const pinnedSessions = filteredSessions.filter(s => s.pinned);
   const otherSessions = filteredSessions.filter(s => !s.pinned);
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
+
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       <PageHeader 
         title="Dashboard" 
         description="Welcome back. Pick up exactly where you left off."
@@ -58,50 +75,65 @@ export function Home() {
       <SummaryStrip sessions={sessions} />
       
       {isFree && (
-        <Link to="/pricing" className="block group">
-          <Card className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:scale-[1.01] active:scale-[0.99] transition-all border-none">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center">
-                  <Sparkles className="w-6 h-6" />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5 }}
+        >
+          <Link to="/pricing" className="block group">
+            <Card className="bg-gradient-to-r from-indigo-600 to-violet-600 text-white hover:scale-[1.01] active:scale-[0.99] transition-all border-none relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform duration-500">
+                <Sparkles className="w-32 h-32" />
+              </div>
+              <div className="relative z-10 flex items-center justify-between">
+                <div className="flex items-center gap-6">
+                  <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-md">
+                    <Sparkles className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-extrabold text-2xl">Upgrade to Plus</h3>
+                    <p className="text-indigo-100 font-medium">Unlock pinned sessions, smart reminders, and more.</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-bold text-lg">Upgrade to Plus</p>
-                  <p className="text-indigo-100 text-sm">Unlock pinned sessions, smart reminders, and more.</p>
+                <div className="hidden sm:flex items-center gap-2 bg-white/20 px-6 py-3 rounded-2xl text-sm font-display font-bold group-hover:bg-white/30 transition-colors backdrop-blur-md">
+                  View Plans
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </div>
-              <div className="hidden sm:flex items-center gap-2 bg-white/20 px-4 py-2 rounded-xl text-sm font-bold group-hover:bg-white/30 transition-colors">
-                View Plans
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </div>
-            </div>
-          </Card>
-        </Link>
+            </Card>
+          </Link>
+        </motion.div>
       )}
 
       {isPro && !isAuthenticated && (
-        <Link to="/signup" className="block group">
-          <Card variant="ghost" className="hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-200 dark:shadow-none">
-                  <Cloud className="w-6 h-6" />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+        >
+          <Link to="/signup" className="block group">
+            <Card variant="ghost" className="hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-300 border-indigo-100 dark:border-indigo-900/50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-6">
+                  <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-indigo">
+                    <Cloud className="w-7 h-7" />
+                  </div>
+                  <div>
+                    <h3 className="font-display font-extrabold text-2xl text-slate-900 dark:text-white">Cloud Sync Available</h3>
+                    <p className="text-slate-500 dark:text-slate-400 font-medium">Create account to sync across devices.</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="font-bold text-lg text-indigo-900 dark:text-indigo-100">Cloud Sync Available</p>
-                  <p className="text-indigo-700 dark:text-indigo-300 text-sm">Create account to sync across devices.</p>
+                <div className="hidden sm:flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-display font-bold text-sm">
+                  Get Started
+                  <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform" />
                 </div>
               </div>
-              <div className="hidden sm:flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-sm">
-                Get Started
-                <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform" />
-              </div>
-            </div>
-          </Card>
-        </Link>
+            </Card>
+          </Link>
+        </motion.div>
       )}
 
-      <div className="space-y-6">
+      <div className="space-y-8">
         <SearchFilterBar 
           searchQuery={searchQuery} 
           setSearchQuery={setSearchQuery}
@@ -110,42 +142,61 @@ export function Home() {
         />
 
         {filteredSessions.length > 0 ? (
-          <div className="space-y-10">
+          <div className="space-y-16">
             <FeatureGate feature="pinned_sessions" inline>
               {pinnedSessions.length > 0 && (
-                <section className="space-y-4">
-                  <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
-                    <Pin className="w-4 h-4 fill-current" />
-                    <h2 className="text-xs font-bold uppercase tracking-widest">Pinned Sessions</h2>
+                <section className="space-y-8">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-[1rem] bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                      <Pin className="w-5 h-5 fill-current" />
+                    </div>
+                    <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white">Pinned Sessions</h2>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <motion.div 
+                    variants={container}
+                    initial="hidden"
+                    animate="show"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                  >
                     {pinnedSessions.map((session) => (
-                      <SessionCard 
-                        key={session.id} 
-                        session={session} 
-                        onTogglePin={togglePin}
-                        onUpdateStatus={updateStatus}
-                      />
+                      <motion.div key={session.id} variants={item}>
+                        <SessionCard 
+                          session={session} 
+                          onTogglePin={togglePin}
+                          onUpdateStatus={updateStatus}
+                        />
+                      </motion.div>
                     ))}
-                  </div>
+                  </motion.div>
                 </section>
               )}
             </FeatureGate>
 
-            <section className="space-y-4">
-              {pinnedSessions.length > 0 && (
-                <h2 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest ml-1">All Sessions</h2>
-              )}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {otherSessions.map((session) => (
-                  <SessionCard 
-                    key={session.id} 
-                    session={session} 
-                    onTogglePin={togglePin}
-                    onUpdateStatus={updateStatus}
-                  />
-                ))}
+            <section className="space-y-8">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-[1rem] bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white">
+                  {pinnedSessions.length > 0 ? 'Recent Sessions' : 'All Sessions'}
+                </h2>
               </div>
+              <motion.div 
+                variants={container}
+                initial="hidden"
+                animate="show"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              >
+                {otherSessions.map((session) => (
+                  <motion.div key={session.id} variants={item}>
+                    <SessionCard 
+                      session={session} 
+                      onTogglePin={togglePin}
+                      onUpdateStatus={updateStatus}
+                    />
+                  </motion.div>
+                ))}
+              </motion.div>
             </section>
           </div>
         ) : (

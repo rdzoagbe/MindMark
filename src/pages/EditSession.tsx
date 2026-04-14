@@ -1,6 +1,8 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useSessions } from '../hooks/useSessions';
 import { SessionForm } from '../components/SessionForm';
+import { EmptyState } from '../components/EmptyState';
+import { FileQuestion } from 'lucide-react';
 
 export function EditSession() {
   const { id } = useParams();
@@ -11,14 +13,16 @@ export function EditSession() {
 
   if (!session) {
     return (
-      <div className="text-center py-20">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Session not found</h2>
-        <button
-          onClick={() => navigate('/')}
-          className="mt-4 text-indigo-600 dark:text-indigo-400 font-bold hover:underline"
-        >
-          Go back home
-        </button>
+      <div className="py-20">
+        <EmptyState
+          icon={FileQuestion}
+          title="Session Not Found"
+          description="The session you are trying to edit does not exist or has been deleted."
+          action={{
+            label: "Go back home",
+            onClick: () => navigate('/')
+          }}
+        />
       </div>
     );
   }

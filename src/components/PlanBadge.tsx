@@ -11,7 +11,7 @@ export function PlanBadge({ plan, size = 'md' }: PlanBadgeProps) {
     free: {
       label: 'Free',
       icon: User,
-      className: 'bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 border-gray-200 dark:border-gray-700'
+      className: 'bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-400 border-slate-200 dark:border-slate-700'
     },
     plus: {
       label: 'Plus',
@@ -29,8 +29,8 @@ export function PlanBadge({ plan, size = 'md' }: PlanBadgeProps) {
   const Icon = config.icon;
 
   return (
-    <span className={`inline-flex items-center gap-1.5 font-bold uppercase tracking-widest border rounded-full ${config.className} ${
-      size === 'sm' ? 'px-2 py-0.5 text-[8px]' : 'px-3 py-1 text-[10px]'
+    <span className={`inline-flex items-center gap-1.5 font-display font-bold uppercase tracking-widest border rounded-full ${config.className} ${
+      size === 'sm' ? 'px-2 py-0.5 text-[9px]' : 'px-3 py-1 text-[11px]'
     }`}>
       <Icon className={size === 'sm' ? 'w-2.5 h-2.5' : 'w-3 h-3'} />
       {config.label}

@@ -50,9 +50,15 @@ export function SessionDetail() {
 
   if (!session) {
     return (
-      <div className="text-center py-20">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Session not found</h2>
-        <Button onClick={() => navigate('/')} variant="ghost" className="mt-4">
+      <div className="text-center py-32 space-y-6">
+        <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-[2rem] flex items-center justify-center mx-auto text-slate-400">
+          <AlertCircle className="w-10 h-10" />
+        </div>
+        <div className="space-y-2">
+          <h2 className="text-3xl font-display font-extrabold text-slate-900 dark:text-white">Session not found</h2>
+          <p className="text-slate-500 dark:text-slate-400 font-medium">The session you are looking for does not exist or has been deleted.</p>
+        </div>
+        <Button onClick={() => navigate('/')} variant="primary" size="lg">
           Go back home
         </Button>
       </div>
@@ -84,57 +90,59 @@ export function SessionDetail() {
   const StatusIcon = statusConfig[session.status].icon;
 
   return (
-    <div className="max-w-5xl mx-auto space-y-10 pb-20">
-      <div className="flex items-center gap-2 text-sm font-bold text-gray-500 dark:text-gray-400">
+    <div className="max-w-5xl mx-auto space-y-12 pb-20">
+      <div className="flex items-center gap-2 text-sm font-display font-bold text-slate-500 dark:text-slate-400">
         <Link to="/" className="hover:text-indigo-600 transition-colors">Dashboard</Link>
         <ChevronRight className="w-4 h-4" />
-        <span className="text-gray-900 dark:text-white truncate max-w-[200px]">{session.title}</span>
+        <span className="text-slate-900 dark:text-white truncate max-w-[200px]">{session.title}</span>
       </div>
 
       <PageHeader title={session.title}>
-        <FeatureGate feature="pinned_sessions" inline>
+        <div className="flex flex-wrap items-center gap-3">
+          <FeatureGate feature="pinned_sessions" inline>
+            <Button
+              variant="outline"
+              size="sm"
+              icon={session.pinned ? PinOff : Pin}
+              onClick={() => togglePin(session.id)}
+              title={session.pinned ? "Unpin" : "Pin"}
+            >
+              {session.pinned ? 'Unpin' : 'Pin'}
+            </Button>
+          </FeatureGate>
           <Button
             variant="outline"
             size="sm"
-            icon={session.pinned ? PinOff : Pin}
-            onClick={() => togglePin(session.id)}
-            title={session.pinned ? "Unpin" : "Pin"}
+            icon={Copy}
+            onClick={handleDuplicate}
+            title="Duplicate"
           >
-            {session.pinned ? 'Unpin' : 'Pin'}
+            Duplicate
           </Button>
-        </FeatureGate>
-        <Button
-          variant="outline"
-          size="sm"
-          icon={Copy}
-          onClick={handleDuplicate}
-          title="Duplicate"
-        >
-          Duplicate
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          icon={Edit2}
-          onClick={() => navigate(`/edit/${session.id}`)}
-          title="Edit"
-        >
-          Edit
-        </Button>
-        <Button
-          variant="danger"
-          size="sm"
-          icon={Trash2}
-          onClick={handleDelete}
-          title="Delete"
-        >
-          Delete
-        </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            icon={Edit2}
+            onClick={() => navigate(`/edit/${session.id}`)}
+            title="Edit"
+          >
+            Edit
+          </Button>
+          <Button
+            variant="danger"
+            size="sm"
+            icon={Trash2}
+            onClick={handleDelete}
+            title="Delete"
+          >
+            Delete
+          </Button>
+        </div>
       </PageHeader>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <Card className="space-y-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="lg:col-span-2 space-y-10">
+          <Card className="space-y-10 premium-card">
             <div className="flex flex-wrap items-center gap-3">
               <Badge variant={statusConfig[session.status].variant} icon={StatusIcon}>
                 {statusConfig[session.status].label}
@@ -148,16 +156,16 @@ export function SessionDetail() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Current Task</h3>
-              <p className="text-xl font-bold text-gray-900 dark:text-white leading-relaxed whitespace-pre-wrap">
+              <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Current Task</h3>
+              <p className="text-3xl font-display font-extrabold text-slate-900 dark:text-white leading-tight whitespace-pre-wrap">
                 {session.currentTask || 'No task description provided.'}
               </p>
             </div>
 
             {session.pauseReason && (
-              <div className="pt-6 border-t border-gray-100 dark:border-gray-700">
-                <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Pause Reason</h3>
-                <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
+              <div className="pt-8 border-t border-slate-100 dark:border-white/5">
+                <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4 ml-1">Pause Reason</h3>
+                <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
                   {session.pauseReason}
                 </p>
               </div>
@@ -166,40 +174,40 @@ export function SessionDetail() {
 
           <ResumeBox nextStep={session.nextStep} />
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-4">
             {session.status !== 'done' && (
               <Button 
                 onClick={handleMarkDone}
                 variant="outline"
                 icon={CheckCircle}
-                className="bg-white dark:bg-gray-800"
+                className="bg-white dark:bg-slate-900 border-emerald-100 dark:border-emerald-900/30 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
               >
-                <span className="text-green-500">Mark as Done</span>
+                Mark as Done
               </Button>
             )}
             <Button 
               onClick={handleArchive}
               variant="outline"
               icon={Archive}
-              className="bg-white dark:bg-gray-800"
+              className="bg-white dark:bg-slate-900"
             >
               {session.status === 'archived' ? 'Restore Session' : 'Archive Session'}
             </Button>
           </div>
 
           {session.notes && (
-            <Card className="space-y-4">
-              <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Additional Notes</h3>
-              <p className="text-gray-700 dark:text-gray-300 leading-relaxed whitespace-pre-wrap">
+            <Card className="space-y-6 premium-card">
+              <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Additional Notes</h3>
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap font-medium">
                 {session.notes}
               </p>
             </Card>
           )}
         </div>
 
-        <div className="space-y-8">
-          <Card className="space-y-6">
-            <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Reference Links</h3>
+        <div className="space-y-10">
+          <Card className="space-y-8 premium-card">
+            <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Reference Links</h3>
             <div className="space-y-4">
               {session.links.map((link) => (
                 <a
@@ -207,74 +215,79 @@ export function SessionDetail() {
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block p-4 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-indigo-500 dark:hover:border-indigo-500 transition-all"
+                  className="group block p-5 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-white/5 hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-300"
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-bold text-gray-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className="text-sm font-display font-extrabold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {link.label || 'Untitled Link'}
                     </span>
-                    <ExternalLink className="w-3.5 h-3.5 text-gray-400 group-hover:text-indigo-500" />
+                    <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-indigo-50 group-hover:bg-indigo-600 p-1 rounded-md transition-all" />
                   </div>
-                  <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate font-medium">
                     {link.url}
                   </p>
                   {link.comment && (
-                    <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-2 italic">
+                    <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3 italic font-medium">
                       {link.comment}
                     </p>
                   )}
                 </a>
               ))}
               {session.links.length === 0 && (
-                <p className="text-center text-xs text-gray-400 dark:text-gray-500 py-4 italic">
-                  No links attached.
-                </p>
+                <div className="text-center py-8 space-y-3">
+                  <div className="w-12 h-12 bg-slate-50 dark:bg-slate-900/50 rounded-xl flex items-center justify-center mx-auto text-slate-300">
+                    <Tag className="w-6 h-6" />
+                  </div>
+                  <p className="text-xs text-slate-400 dark:text-slate-500 italic font-medium">
+                    No links attached.
+                  </p>
+                </div>
               )}
             </div>
           </Card>
 
-          <Card className="space-y-4">
-            <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Tags</h3>
+          <Card className="space-y-6 premium-card">
+            <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {session.tags.map((tag) => (
-                <Badge key={tag} variant="indigo" icon={Tag}>
+                <Badge key={tag} variant="indigo" icon={Tag} className="rounded-xl">
                   {tag}
                 </Badge>
               ))}
               {session.tags.length === 0 && (
-                <p className="text-xs text-gray-400 dark:text-gray-500 italic">No tags.</p>
+                <p className="text-xs text-slate-400 dark:text-slate-500 italic font-medium ml-1">No tags.</p>
               )}
             </div>
           </Card>
 
-          <Card className="space-y-4">
-            <h3 className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest">Metadata</h3>
-            <div className="space-y-4">
-              <div className="flex items-center gap-3 text-sm">
-                <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-gray-900/50 flex items-center justify-center text-gray-400">
-                  <Calendar className="w-4 h-4" />
+          <Card className="space-y-6 premium-card">
+            <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Metadata</h3>
+            <div className="space-y-6">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-[1rem] bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center text-slate-400">
+                  <Calendar className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Created</p>
-                  <p className="font-bold text-gray-900 dark:text-white">{format(new Date(session.createdAt), 'MMM d, yyyy')}</p>
+                  <p className="text-[10px] font-display font-bold text-slate-400 uppercase tracking-widest">Created</p>
+                  <p className="font-display font-extrabold text-slate-900 dark:text-white">{format(new Date(session.createdAt), 'MMM d, yyyy')}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 text-sm">
-                <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-gray-900/50 flex items-center justify-center text-gray-400">
-                  <Clock className="w-4 h-4" />
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-[1rem] bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center text-slate-400">
+                  <Clock className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Last Updated</p>
-                  <p className="font-bold text-gray-900 dark:text-white">{format(new Date(session.updatedAt), 'HH:mm')}</p>
+                  <p className="text-[10px] font-display font-bold text-slate-400 uppercase tracking-widest">Last Updated</p>
+                  <p className="font-display font-extrabold text-slate-900 dark:text-white">{format(new Date(session.updatedAt), 'HH:mm')}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 text-sm">
-                <div className="w-8 h-8 rounded-lg bg-gray-50 dark:bg-gray-900/50 flex items-center justify-center text-gray-400">
-                  <MoreVertical className="w-4 h-4" />
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 rounded-[1rem] bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center text-slate-400">
+                  <MoreVertical className="w-5 h-5" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">ID</p>
-                  <p className="font-mono text-[10px] text-gray-400">{session.id.slice(0, 8)}...</p>
+                  <p className="text-[10px] font-display font-bold text-slate-400 uppercase tracking-widest">Session ID</p>
+                  <p className="font-mono text-[11px] text-slate-400 font-bold">{session.id.slice(0, 12)}...</p>
                 </div>
               </div>
             </div>
