@@ -53,26 +53,26 @@ export function SessionDetail() {
     );
   }
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this session?')) {
-      deleteSession(session.id);
+      await deleteSession(session.id);
       navigate('/');
     }
   };
 
-  const handleDuplicate = () => {
-    const newSession = duplicateSession(session.id);
+  const handleDuplicate = async () => {
+    const newSession = await duplicateSession(session.id);
     if (newSession) {
       navigate(`/session/${newSession.id}`);
     }
   };
 
-  const handleMarkDone = () => {
-    updateStatus(session.id, 'done');
+  const handleMarkDone = async () => {
+    await updateStatus(session.id, 'done');
   };
 
-  const handleArchive = () => {
-    updateStatus(session.id, session.status === 'archived' ? 'active' : 'archived');
+  const handleArchive = async () => {
+    await updateStatus(session.id, session.status === 'archived' ? 'active' : 'archived');
   };
 
   const StatusIcon = statusConfig[session.status].icon;

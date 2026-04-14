@@ -23,8 +23,8 @@ export function EditSession() {
     );
   }
 
-  const handleSubmit = (data: any) => {
-    updateSession(session.id, data);
+  const handleSubmit = async (data: any) => {
+    await updateSession(session.id, data);
     navigate(`/session/${session.id}`);
   };
 

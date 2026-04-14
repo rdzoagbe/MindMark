@@ -1,0 +1,43 @@
+{
+  "entities": {
+    "Session": {
+      "title": "Session",
+      "description": "A work context session",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique session ID" },
+        "title": { "type": "string", "description": "Session title" },
+        "category": { "type": "string", "description": "Session category" },
+        "currentTask": { "type": "string", "description": "What the user is currently doing" },
+        "pauseReason": { "type": "string", "description": "Why the session was paused" },
+        "nextStep": { "type": "string", "description": "What to do next when resuming" },
+        "notes": { "type": "string", "description": "Additional notes" },
+        "tags": { "type": "array", "items": { "type": "string" }, "description": "List of tags" },
+        "links": { 
+          "type": "array", 
+          "items": { 
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "label": { "type": "string" },
+              "url": { "type": "string" },
+              "comment": { "type": "string" }
+            }
+          }
+        },
+        "priority": { "type": "string", "enum": ["low", "medium", "high"] },
+        "status": { "type": "string", "enum": ["active", "archived", "done", "blocked"] },
+        "pinned": { "type": "boolean" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" }
+      },
+      "required": ["id", "title", "category", "currentTask", "nextStep", "priority", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}/sessions/{sessionId}": {
+      "schema": "Session",
+      "description": "User's work context sessions"
+    }
+  }
+}

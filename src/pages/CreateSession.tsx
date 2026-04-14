@@ -6,8 +6,8 @@ export function CreateSession() {
   const navigate = useNavigate();
   const { addSession } = useSessions();
 
-  const handleSubmit = (data: any) => {
-    addSession(data);
+  const handleSubmit = async (data: any) => {
+    await addSession(data);
     navigate('/');
   };
 

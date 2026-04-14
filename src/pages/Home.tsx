@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { Plus, Search, Filter, Pin, Sparkles } from 'lucide-react';
+import { Plus, Search, Filter, Pin, Sparkles, Cloud } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useSessions } from '../hooks/useSessions';
 import { SessionCard } from '../components/SessionCard';
@@ -9,10 +9,12 @@ import { EmptyState } from '../components/EmptyState';
 import { SessionStatus } from '../types';
 import { FeatureGate } from '../components/FeatureGate';
 import { usePlan } from '../hooks/usePlan';
+import { useAuth } from '../hooks/useAuth';
 
 export function Home() {
   const { sessions, togglePin, updateStatus } = useSessions();
-  const { isFree } = usePlan();
+  const { isFree, isPro } = usePlan();
+  const { isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<SessionStatus | 'all'>('active');
 
@@ -71,6 +73,29 @@ export function Home() {
             </div>
             <div className="hidden sm:block bg-white/20 px-4 py-2 rounded-xl text-sm font-bold group-hover:bg-white/30 transition-colors">
               View Plans
+            </div>
+          </div>
+        </Link>
+      )}
+
+      {isPro && !isAuthenticated && (
+        <Link 
+          to="/signup"
+          className="block p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-[2rem] border border-indigo-100 dark:border-indigo-900/30 hover:bg-indigo-100 dark:hover:bg-indigo-900/30 transition-colors group"
+        >
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-200 dark:shadow-none">
+                <Cloud className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="font-bold text-lg text-indigo-900 dark:text-indigo-100">Cloud Sync Available</p>
+                <p className="text-indigo-700 dark:text-indigo-300 text-sm">Create account to sync across devices.</p>
+              </div>
+            </div>
+            <div className="hidden sm:flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-sm">
+              Get Started
+              <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform" />
             </div>
           </div>
         </Link>

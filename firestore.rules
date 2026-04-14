@@ -1,0 +1,88 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: /users/{userId}/sessions
+    // Document ID: sessionId
+    // Fields:
+    //   - id: string (required)
+    //   - title: string (required, 1-100 chars)
+    //   - category: string (required, 1-50 chars)
+    //   - currentTask: string (required, 0-5000 chars)
+    //   - pauseReason: string (optional, 0-500 chars)
+    //   - nextStep: string (required, 1-500 chars)
+    //   - notes: string (optional, 0-10000 chars)
+    //   - tags: list of strings (max 20 tags, each max 30 chars)
+    //   - links: list of objects (max 20 links)
+    //   - priority: string (low, medium, high)
+    //   - status: string (active, archived, done, blocked)
+    //   - pinned: bool (required)
+    //   - createdAt: number (required, immutable)
+    //   - updatedAt: number (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() && 
+        (request.auth.token.email == "rolanddzoagbe@gmail.com" && request.auth.token.email_verified == true);
+    }
+
+    function isValidSession(data) {
+      return data.keys().hasAll(['id', 'title', 'category', 'currentTask', 'nextStep', 'priority', 'status', 'pinned', 'createdAt', 'updatedAt']) &&
+             data.id is string &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 100 &&
+             data.category is string && data.category.size() <= 50 &&
+             data.currentTask is string && data.currentTask.size() <= 5000 &&
+             data.nextStep is string && data.nextStep.size() <= 500 &&
+             data.priority in ['low', 'medium', 'high'] &&
+             data.status in ['active', 'archived', 'done', 'blocked'] &&
+             data.pinned is bool &&
+             data.createdAt is number &&
+             data.updatedAt is number;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId) || isAdmin();
+      
+      match /sessions/{sessionId} {
+        allow read: if isOwner(userId) || isAdmin();
+        
+        allow create: if isOwner(userId) && 
+                         isValidSession(request.resource.data) &&
+                         request.resource.data.id == sessionId;
+                         
+        allow update: if (isOwner(userId) || isAdmin()) && 
+                         isValidSession(request.resource.data) &&
+                         request.resource.data.createdAt == resource.data.createdAt &&
+                         request.resource.data.id == resource.data.id;
+                         
+        allow delete: if isOwner(userId) || isAdmin();
+      }
+    }
+
+    // Default deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
