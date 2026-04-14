@@ -47,13 +47,13 @@ export function Pricing() {
         <PricingCard
           title="Free"
           price="€0"
-          description="Perfect for individuals just starting to capture their work context."
+          description="Local-only sessions for focused individual work."
           features={[
-            'Local-only storage',
-            'Unlimited sessions',
+            'Local-only sessions',
+            'Create, edit, archive, delete',
             'Search and filtering',
-            'Export/Import JSON',
-            'Dark mode support'
+            'Export/import JSON',
+            'Dark mode'
           ]}
           isCurrent={currentPlan === 'free'}
           onUpgrade={downgrade}
@@ -62,13 +62,14 @@ export function Pricing() {
         <PricingCard
           title="Plus"
           price="€5"
-          description="For power users who need advanced organization and reminders."
+          description="Advanced organization and priority workflows."
           features={[
+            'Everything in Free',
             'Pinned sessions',
-            'Smart reminders',
-            'Custom templates',
+            'Templates',
+            'Recurring reminders',
             'Advanced filters',
-            'Priority support'
+            'Priority workflows'
           ]}
           highlight
           isCurrent={currentPlan === 'plus'}
@@ -78,18 +79,20 @@ export function Pricing() {
         <PricingCard
           title="Pro"
           price="€10"
-          description="For professionals who need their context everywhere, all the time."
+          description="Future-proof your context with cloud sync and intelligence."
           features={[
             'Everything in Plus',
-            'Cloud sync across devices',
-            'Session history restore',
-            'Advanced analytics',
-            'Team collaboration',
-            'API access'
+            { text: 'Account-based access', comingSoon: true },
+            { text: 'Cross-device sync', comingSoon: true },
+            { text: 'Session history restore', comingSoon: true },
+            { text: 'Smart resume tools', comingSoon: true },
+            { text: 'Advanced analytics', comingSoon: true },
+            'Early access to new features'
           ]}
           isCurrent={currentPlan === 'pro'}
           onUpgrade={() => handleUpgrade('pro')}
           ctaLabel={loadingPlan === 'pro' ? 'Redirecting...' : 'Upgrade to Pro'}
+          footerNote="Pro unlocks upcoming multi-device sync and advanced continuity features currently in development."
         />
       </div>
 

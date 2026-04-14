@@ -22,25 +22,22 @@ export function UpgradeSuccess() {
             🎉 Payment successful!
           </h1>
           <p className="text-gray-500 dark:text-gray-400 text-lg font-medium leading-relaxed">
-            Your subscription has been activated.
+            You now have access to premium features.
           </p>
-          <div className="p-4 bg-amber-50 dark:bg-amber-900/20 rounded-2xl border border-amber-100 dark:border-amber-900/50">
-            <p className="text-sm text-amber-700 dark:text-amber-400 font-medium">
-              Note: Full premium features will be enabled in the upcoming synced version.
+          <div className="p-4 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-900/50">
+            <p className="text-sm text-indigo-700 dark:text-indigo-400 font-medium">
+              Multi-device sync and account-based features are currently in development and will be available soon.
             </p>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-          <div className="p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-3xl border border-indigo-100 dark:border-indigo-900/50">
-            <Sparkles className="w-6 h-6 text-indigo-600 dark:text-indigo-400 mb-3" />
-            <h3 className="font-bold text-gray-900 dark:text-white text-sm">Cloud Sync</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Your sessions are now safely synced across all your devices.</p>
-          </div>
+        <div className="grid grid-cols-1 gap-4 text-left">
           <div className="p-6 bg-indigo-50 dark:bg-indigo-900/20 rounded-3xl border border-indigo-100 dark:border-indigo-900/50">
             <CheckCircle className="w-6 h-6 text-indigo-600 dark:text-indigo-400 mb-3" />
-            <h3 className="font-bold text-gray-900 dark:text-white text-sm">Reminders</h3>
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">We'll nudge you to resume blocked or long-paused sessions.</p>
+            <h3 className="font-bold text-gray-900 dark:text-white text-sm">Premium Features Unlocked</h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              You can now use pinned sessions, custom templates, and advanced filters to supercharge your productivity.
+            </p>
           </div>
         </div>
 

@@ -111,6 +111,39 @@ export function Settings() {
           </div>
         </div>
 
+        {/* Cloud Sync */}
+        <div className="p-8 sm:p-10 border-b border-gray-100 dark:border-gray-700">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <Upload className="w-5 h-5 text-indigo-500" />
+              Cloud Sync
+            </h2>
+            <span className="text-[10px] font-bold uppercase tracking-widest bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 px-2 py-1 rounded-lg border border-indigo-100 dark:border-indigo-900/50">
+              Coming Soon
+            </span>
+          </div>
+          
+          <div className="p-6 bg-gray-50 dark:bg-gray-900/50 rounded-3xl border border-dashed border-gray-200 dark:border-gray-700 text-center space-y-4">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-white dark:bg-gray-800 shadow-sm text-gray-400">
+              <Sparkles className="w-6 h-6" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-gray-900 dark:text-white">Multi-device Continuity</p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1 max-w-xs mx-auto">
+                We're building a secure, account-based sync system to keep your context available across all your devices.
+              </p>
+            </div>
+            <div className="pt-2">
+              <Link
+                to="/pricing"
+                className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+              >
+                Learn about Pro features →
+              </Link>
+            </div>
+          </div>
+        </div>
+
         {/* Appearance */}
         <div className="p-8 sm:p-10 border-b border-gray-100 dark:border-gray-700">
           <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">

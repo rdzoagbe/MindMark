@@ -1,5 +1,6 @@
 import { useLocalStorage } from './useLocalStorage';
 import { UserPlan, PlanType, Feature } from '../types';
+import { FEATURES } from '../config/constants';
 
 const PLAN_FEATURES: Record<PlanType, Feature[]> = {
   free: [],
@@ -19,6 +20,11 @@ export function usePlan() {
   };
 
   const isFeatureEnabled = (feature: Feature): boolean => {
+    // Check if feature is globally disabled via feature flags
+    if (feature === 'cloud_sync' && !FEATURES.SYNC_ENABLED) {
+      return false;
+    }
+    
     return PLAN_FEATURES[plan.type].includes(feature);
   };
 
@@ -31,5 +37,6 @@ export function usePlan() {
     isPro: plan.type === 'pro',
     isPlus: plan.type === 'plus',
     isFree: plan.type === 'free',
+    hasPlusOrBetter: plan.type === 'plus' || plan.type === 'pro',
   };
 }

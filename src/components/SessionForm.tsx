@@ -4,6 +4,7 @@ import { Session, SessionLink, Priority, SessionStatus } from '../types';
 import { sessionValidation } from '../utils/sessionValidation';
 import { useNavigate } from 'react-router-dom';
 import { normalizeUrl, isValidUrl } from '../utils/normalizeUrl';
+import { FeatureGate } from './FeatureGate';
 
 interface SessionFormProps {
   initialData?: Partial<Session>;
@@ -224,21 +225,23 @@ export function SessionForm({ initialData, onSubmit, onCancel }: SessionFormProp
               </select>
             </div>
 
-            <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-100 dark:border-gray-700">
-              <div className="flex items-center gap-3">
-                <div className={`p-2 rounded-lg ${formData.pinned ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-200 text-gray-400'}`}>
-                  {formData.pinned ? <Pin className="w-4 h-4" /> : <PinOff className="w-4 h-4" />}
+            <FeatureGate feature="pinned_sessions" inline>
+              <div className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-900/50 rounded-2xl border border-gray-100 dark:border-gray-700">
+                <div className="flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${formData.pinned ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-200 text-gray-400'}`}>
+                    {formData.pinned ? <Pin className="w-4 h-4" /> : <PinOff className="w-4 h-4" />}
+                  </div>
+                  <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Pin Session</span>
                 </div>
-                <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Pin Session</span>
+                <button
+                  type="button"
+                  onClick={() => setFormData({ ...formData, pinned: !formData.pinned })}
+                  className={`w-12 h-6 rounded-full transition-all relative ${formData.pinned ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-700'}`}
+                >
+                  <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${formData.pinned ? 'left-7' : 'left-1'}`} />
+                </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setFormData({ ...formData, pinned: !formData.pinned })}
-                className={`w-12 h-6 rounded-full transition-all relative ${formData.pinned ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-700'}`}
-              >
-                <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${formData.pinned ? 'left-7' : 'left-1'}`} />
-              </button>
-            </div>
+            </FeatureGate>
           </section>
 
           {/* Tags */}
