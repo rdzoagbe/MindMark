@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import { CreateSession } from './pages/CreateSession';
@@ -18,7 +18,7 @@ function AppContent() {
   useTheme(); // Initialize theme
 
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -30,7 +30,7 @@ function AppContent() {
           <Route path="upgrade-success" element={<UpgradeSuccess />} />
         </Route>
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
