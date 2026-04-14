@@ -1,0 +1,36 @@
+/**
+ * @license
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Layout } from './components/Layout';
+import { Home } from './pages/Home';
+import { CreateSession } from './pages/CreateSession';
+import { EditSession } from './pages/EditSession';
+import { SessionDetail } from './pages/SessionDetail';
+import { Settings } from './pages/Settings';
+import { useTheme } from './hooks/useTheme';
+
+function AppContent() {
+  useTheme(); // Initialize theme
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="create" element={<CreateSession />} />
+          <Route path="edit/:id" element={<EditSession />} />
+          <Route path="session/:id" element={<SessionDetail />} />
+          <Route path="settings" element={<Settings />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
+
+export default function App() {
+  return <AppContent />;
+}
+
