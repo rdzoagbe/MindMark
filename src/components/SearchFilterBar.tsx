@@ -1,5 +1,6 @@
 import { Search, Filter, ChevronDown } from 'lucide-react';
 import { SessionStatus } from '../types';
+import { memo } from 'react';
 
 interface SearchFilterBarProps {
   searchQuery: string;
@@ -8,7 +9,7 @@ interface SearchFilterBarProps {
   setStatusFilter: (status: SessionStatus | 'all') => void;
 }
 
-export function SearchFilterBar({ searchQuery, setSearchQuery, statusFilter, setStatusFilter }: SearchFilterBarProps) {
+export const SearchFilterBar = memo(({ searchQuery, setSearchQuery, statusFilter, setStatusFilter }: SearchFilterBarProps) => {
   return (
     <div className="flex flex-col sm:flex-row gap-4">
       <div className="relative flex-1 group">
@@ -45,4 +46,4 @@ export function SearchFilterBar({ searchQuery, setSearchQuery, statusFilter, set
       </div>
     </div>
   );
-}
+});

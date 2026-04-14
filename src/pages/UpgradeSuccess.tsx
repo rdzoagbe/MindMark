@@ -1,10 +1,28 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { CheckCircle, Sparkles, ArrowRight } from 'lucide-react';
 import { usePlan } from '../hooks/usePlan';
 import { motion } from 'motion/react';
+import { PlanType } from '../types';
 
 export function UpgradeSuccess() {
   const navigate = useNavigate();
+  const [planName, setPlanName] = useState<string>('');
+  const { upgrade } = usePlan();
+
+  useEffect(() => {
+    const lastPlan = localStorage.getItem('last_selected_plan') as PlanType | null;
+    if (lastPlan) {
+      setPlanName(lastPlan.charAt(0).toUpperCase() + lastPlan.slice(1));
+      
+      // Simulate successful webhook by upgrading locally for now
+      upgrade(lastPlan);
+    }
+    
+    // TODO: Future webhook validation
+    // In a full-stack app, we would verify the checkout session ID with our backend here
+    // e.g. await verifyStripeSession(sessionId);
+  }, [upgrade]);
 
   return (
     <div className="max-w-2xl mx-auto py-12 sm:py-24 px-4">
@@ -23,12 +41,12 @@ export function UpgradeSuccess() {
             🎉 Payment successful!
           </h1>
           <p className="text-slate-500 dark:text-slate-400 text-lg font-medium leading-relaxed max-w-md mx-auto">
-            You now have full access to all premium features. Your productivity is about to skyrocket.
+            Thank you for upgrading to the <span className="font-bold text-indigo-600 dark:text-indigo-400">{planName || 'Premium'}</span> plan. Your new features are now unlocked.
           </p>
           <div className="p-5 bg-indigo-50 dark:bg-indigo-900/20 rounded-2xl border border-indigo-100 dark:border-indigo-900/50 max-w-md mx-auto">
             <p className="text-sm text-indigo-700 dark:text-indigo-400 font-bold flex items-center justify-center gap-2">
               <Sparkles className="w-4 h-4" />
-              Pro Features Activated
+              {planName ? `${planName} Features Activated` : 'Pro Features Activated'}
             </p>
           </div>
         </div>

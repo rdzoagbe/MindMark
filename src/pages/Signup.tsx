@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { UserPlus, Mail, Lock, AlertCircle, ArrowRight, BookMarked, ShieldCheck } from 'lucide-react';
 import { signUp } from '../services/authService';
+import { analytics } from '../services/analytics';
 import { motion } from 'motion/react';
 
 import { Card } from '../components/ui/Card';
@@ -32,7 +33,11 @@ export function Signup() {
     setLoading(true);
 
     try {
-      await signUp(email, password);
+      const userCredential = await signUp(email, password);
+      analytics.track('signup_completed', { email });
+      if (userCredential.user) {
+        analytics.identify(userCredential.user.uid, { email });
+      }
       navigate('/');
     } catch (err: any) {
       setError(err.message || 'Failed to create account. Please try again.');

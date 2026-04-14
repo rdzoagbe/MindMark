@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { Clock, ExternalLink, Pin, PinOff, CheckCircle2, AlertCircle, Archive, PlayCircle } from 'lucide-react';
 import { Session, SessionStatus, Priority } from '../types';
@@ -24,7 +24,7 @@ const priorityConfig: Record<Priority, 'gray' | 'indigo' | 'amber' | 'rose' | 'g
   high: 'rose',
 };
 
-export const SessionCard: React.FC<SessionCardProps> = ({ session, onTogglePin, onUpdateStatus }) => {
+export const SessionCard = memo(({ session, onTogglePin, onUpdateStatus }: SessionCardProps) => {
   const StatusIcon = statusConfig[session.status].icon;
 
   return (
@@ -106,4 +106,4 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session, onTogglePin, 
       </Link>
     </Card>
   );
-};
+});

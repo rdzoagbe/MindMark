@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Trash2, Link as LinkIcon, Save, AlertCircle, Pin, PinOff } from 'lucide-react';
+import { Plus, Trash2, Link as LinkIcon, Save, AlertCircle, Pin, PinOff, PlayCircle } from 'lucide-react';
 import { Session, SessionLink, Priority, SessionStatus } from '../types';
 import { sessionValidation } from '../utils/sessionValidation';
 import { normalizeUrl, isValidUrl } from '../utils/normalizeUrl';

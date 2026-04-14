@@ -3,6 +3,7 @@ import { Home, PlusCircle, Settings, BookMarked, Sparkles } from 'lucide-react';
 import { usePlan } from '../hooks/usePlan';
 import { motion, AnimatePresence } from 'motion/react';
 import { PlanBadge } from './PlanBadge';
+import { SyncIndicator } from './SyncIndicator';
 
 export function Layout() {
   const location = useLocation();
@@ -26,8 +27,9 @@ export function Layout() {
               </div>
               <span className="hidden sm:inline">Context Saver</span>
             </Link>
-            <div className="hidden lg:block">
+            <div className="hidden lg:flex items-center gap-3">
               <PlanBadge plan={currentPlan} size="sm" />
+              <SyncIndicator />
             </div>
           </div>
           <nav className="flex gap-1">

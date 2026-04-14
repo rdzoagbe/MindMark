@@ -16,7 +16,8 @@ import {
   PinOff,
   ChevronRight,
   Calendar,
-  MoreVertical
+  MoreVertical,
+  FileQuestion
 } from 'lucide-react';
 import { useSessions } from '../hooks/useSessions';
 import { SessionStatus, Priority } from '../types';
@@ -26,6 +27,7 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
+import { EmptyState } from '../components/EmptyState';
 import { format } from 'date-fns';
 
 const priorityConfig: Record<Priority, { label: string; variant: 'gray' | 'indigo' | 'amber' | 'rose' | 'green' }> = {
@@ -50,17 +52,16 @@ export function SessionDetail() {
 
   if (!session) {
     return (
-      <div className="text-center py-32 space-y-6">
-        <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-[2rem] flex items-center justify-center mx-auto text-slate-400">
-          <AlertCircle className="w-10 h-10" />
-        </div>
-        <div className="space-y-2">
-          <h2 className="text-3xl font-display font-extrabold text-slate-900 dark:text-white">Session not found</h2>
-          <p className="text-slate-500 dark:text-slate-400 font-medium">The session you are looking for does not exist or has been deleted.</p>
-        </div>
-        <Button onClick={() => navigate('/')} variant="primary" size="lg">
-          Go back home
-        </Button>
+      <div className="py-20">
+        <EmptyState
+          icon={FileQuestion}
+          title="Session not found"
+          description="The session you are looking for does not exist or has been deleted."
+          action={{
+            label: "Go back home",
+            onClick: () => navigate('/')
+          }}
+        />
       </div>
     );
   }

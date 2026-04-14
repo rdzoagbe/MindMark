@@ -8,6 +8,7 @@ import { PageHeader } from '../components/ui/PageHeader';
 import { Card } from '../components/ui/Card';
 import { Badge } from '../components/ui/Badge';
 import { Button } from '../components/ui/Button';
+import { analytics } from '../services/analytics';
 
 export function Pricing() {
   const { currentPlan, downgrade } = usePlan();
@@ -15,8 +16,12 @@ export function Pricing() {
   const [loadingPlan, setLoadingPlan] = useState<StripePlan | null>(null);
 
   const handleUpgrade = (plan: StripePlan) => {
+    analytics.track('upgrade_clicked', { plan });
+    analytics.track('plan_selected', { plan, timestamp: new Date().toISOString() });
+    localStorage.setItem('last_selected_plan', plan);
     setLoadingPlan(plan);
     // Redirect to Stripe Checkout
+    analytics.track('stripe_checkout_opened', { plan });
     redirectToCheckout(plan);
   };
 

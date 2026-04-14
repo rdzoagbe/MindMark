@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocalStorage } from './useLocalStorage';
 import { Session, SessionStatus } from '../types';
 import { sessionMigrations } from '../utils/sessionMigrations';
@@ -64,7 +64,7 @@ export function useSessions() {
     }
   }, [canSync, user]);
 
-  const addSession = async (sessionData: Omit<Session, 'id' | 'createdAt' | 'updatedAt'>) => {
+  const addSession = useCallback(async (sessionData: Omit<Session, 'id' | 'createdAt' | 'updatedAt'>) => {
     const newSession: Session = {
       ...sessionData,
       id: crypto.randomUUID(),
@@ -73,21 +73,36 @@ export function useSessions() {
     };
 
     if (canSync && user) {
-      await saveSessionToCloud(user.uid, newSession);
+      window.dispatchEvent(new Event('sync-start'));
+      try {
+        await saveSessionToCloud(user.uid, newSession);
+      } finally {
+        window.dispatchEvent(new Event('sync-end'));
+      }
     } else {
       setLocalSessions((prev) => [newSession, ...prev]);
     }
     return newSession;
-  };
+  }, [canSync, user, setLocalSessions]);
 
-  const updateSession = async (id: string, sessionData: Partial<Omit<Session, 'id' | 'createdAt' | 'updatedAt'>>) => {
-    const sessionToUpdate = sessions.find(s => s.id === id);
+  const sessionsRef = useRef(sessions);
+  useEffect(() => {
+    sessionsRef.current = sessions;
+  }, [sessions]);
+
+  const updateSession = useCallback(async (id: string, sessionData: Partial<Omit<Session, 'id' | 'createdAt' | 'updatedAt'>>) => {
+    const sessionToUpdate = sessionsRef.current.find(s => s.id === id);
     if (!sessionToUpdate) return;
 
     const updatedSession = { ...sessionToUpdate, ...sessionData, updatedAt: Date.now() };
 
     if (canSync && user) {
-      await saveSessionToCloud(user.uid, updatedSession);
+      window.dispatchEvent(new Event('sync-start'));
+      try {
+        await saveSessionToCloud(user.uid, updatedSession);
+      } finally {
+        window.dispatchEvent(new Event('sync-end'));
+      }
     } else {
       setLocalSessions((prev) =>
         prev.map((session) =>
@@ -95,18 +110,23 @@ export function useSessions() {
         )
       );
     }
-  };
+  }, [canSync, user, setLocalSessions]);
 
-  const deleteSession = async (id: string) => {
+  const deleteSession = useCallback(async (id: string) => {
     if (canSync && user) {
-      await deleteSessionFromCloud(user.uid, id);
+      window.dispatchEvent(new Event('sync-start'));
+      try {
+        await deleteSessionFromCloud(user.uid, id);
+      } finally {
+        window.dispatchEvent(new Event('sync-end'));
+      }
     } else {
       setLocalSessions((prev) => prev.filter((session) => session.id !== id));
     }
-  };
+  }, [canSync, user, setLocalSessions]);
 
-  const duplicateSession = async (id: string) => {
-    const sessionToDuplicate = sessions.find(s => s.id === id);
+  const duplicateSession = useCallback(async (id: string) => {
+    const sessionToDuplicate = sessionsRef.current.find(s => s.id === id);
     if (sessionToDuplicate) {
       const { id: _, createdAt: __, updatedAt: ___, ...rest } = sessionToDuplicate;
       return addSession({
@@ -114,55 +134,65 @@ export function useSessions() {
         title: `${rest.title} (Copy)`,
       });
     }
-  };
+  }, [addSession]);
 
-  const togglePin = async (id: string) => {
-    const session = sessions.find(s => s.id === id);
+  const togglePin = useCallback(async (id: string) => {
+    const session = sessionsRef.current.find(s => s.id === id);
     if (session) {
       await updateSession(id, { pinned: !session.pinned });
     }
-  };
+  }, [updateSession]);
 
-  const updateStatus = async (id: string, status: SessionStatus) => {
+  const updateStatus = useCallback(async (id: string, status: SessionStatus) => {
     await updateSession(id, { status });
-  };
+  }, [updateSession]);
 
-  const archiveSession = async (id: string) => {
+  const archiveSession = useCallback(async (id: string) => {
     await updateStatus(id, 'archived');
-  };
+  }, [updateStatus]);
 
-  const restoreSession = async (id: string) => {
+  const restoreSession = useCallback(async (id: string) => {
     await updateStatus(id, 'active');
-  };
+  }, [updateStatus]);
 
-  const markAsDone = async (id: string) => {
+  const markAsDone = useCallback(async (id: string) => {
     await updateStatus(id, 'done');
-  };
+  }, [updateStatus]);
 
-  const clearAllData = async () => {
+  const clearAllData = useCallback(async () => {
     if (window.confirm('Are you sure you want to clear ALL sessions? This cannot be undone.')) {
       if (canSync && user) {
-        // For cloud, we'd need to delete each one or have a batch delete
-        // For simplicity in this first version, let's just delete them one by one
-        for (const session of cloudSessions) {
-          await deleteSessionFromCloud(user.uid, session.id);
+        window.dispatchEvent(new Event('sync-start'));
+        try {
+          // For cloud, we'd need to delete each one or have a batch delete
+          // For simplicity in this first version, let's just delete them one by one
+          for (const session of cloudSessions) {
+            await deleteSessionFromCloud(user.uid, session.id);
+          }
+        } finally {
+          window.dispatchEvent(new Event('sync-end'));
         }
       } else {
         setLocalSessions([]);
       }
     }
-  };
+  }, [canSync, user, cloudSessions, setLocalSessions]);
 
-  const importSessions = async (importedSessions: any[]) => {
+  const importSessions = useCallback(async (importedSessions: any[]) => {
     const migrated = sessionMigrations.migrate(importedSessions);
     if (canSync && user) {
-      for (const session of migrated) {
-        await saveSessionToCloud(user.uid, session);
+      window.dispatchEvent(new Event('sync-start'));
+      try {
+        for (const session of migrated) {
+          await saveSessionToCloud(user.uid, session);
+        }
+      } finally {
+        window.dispatchEvent(new Event('sync-end'));
       }
     } else {
       setLocalSessions(migrated);
     }
-  };
+  }, [canSync, user, setLocalSessions]);
 
   const getSummary = () => {
     const active = sessions.filter(s => s.status === 'active').length;

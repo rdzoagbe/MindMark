@@ -1,5 +1,5 @@
 import { BarChart3, Calendar, Clock, CheckCircle } from 'lucide-react';
-import { useMemo } from 'react';
+import { useMemo, memo } from 'react';
 import { Session } from '../types';
 import { Card } from './ui/Card';
 
@@ -7,7 +7,7 @@ interface SummaryStripProps {
   sessions: Session[];
 }
 
-export function SummaryStrip({ sessions }: SummaryStripProps) {
+export const SummaryStrip = memo(({ sessions }: SummaryStripProps) => {
   const stats = useMemo(() => {
     const active = sessions.filter(s => s.status === 'active');
     const done = sessions.filter(s => s.status === 'done').length;
@@ -65,4 +65,4 @@ export function SummaryStrip({ sessions }: SummaryStripProps) {
       </Card>
     </div>
   );
-}
+});

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { LogIn, Mail, Lock, AlertCircle, ArrowRight, BookMarked } from 'lucide-react';
 import { signIn } from '../services/authService';
+import { analytics } from '../services/analytics';
 import { motion } from 'motion/react';
 
 import { Card } from '../components/ui/Card';
@@ -20,8 +21,12 @@ export function Login() {
     setLoading(true);
 
     try {
-      await signIn(email, password);
-      navigate('/');
+      const userCredential = await signIn(email, password);
+      analytics.track('login_completed', { email });
+      if (userCredential.user) {
+        analytics.identify(userCredential.user.uid, { email });
+      }
+      navigate('/', { state: { message: 'Your sessions are now synced across devices' } });
     } catch (err: any) {
       setError(err.message || 'Failed to sign in. Please check your credentials.');
     } finally {

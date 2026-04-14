@@ -1,11 +1,13 @@
-import { useState, useMemo } from 'react';
-import { Plus, Pin, Sparkles, Cloud, ArrowRight } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useMemo, useEffect } from 'react';
+import { Plus, Pin, Sparkles, Cloud, ArrowRight, CheckCircle2, X } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useSessions } from '../hooks/useSessions';
+import { useLocalStorage } from '../hooks/useLocalStorage';
 import { SessionCard } from '../components/SessionCard';
 import { SummaryStrip } from '../components/SummaryStrip';
 import { SearchFilterBar } from '../components/SearchFilterBar';
 import { EmptyState } from '../components/EmptyState';
+import { OnboardingCard } from '../components/OnboardingCard';
 import { SessionStatus } from '../types';
 import { FeatureGate } from '../components/FeatureGate';
 import { usePlan } from '../hooks/usePlan';
@@ -13,7 +15,7 @@ import { useAuth } from '../hooks/useAuth';
 import { PageHeader } from '../components/ui/PageHeader';
 import { Button } from '../components/ui/Button';
 import { Card } from '../components/ui/Card';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Clock } from 'lucide-react';
 
 export function Home() {
@@ -23,6 +25,22 @@ export function Home() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState<SessionStatus | 'all'>('active');
   const navigate = useNavigate();
+  const location = useLocation();
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useLocalStorage('context-saver-onboarding-completed', false);
+
+  useEffect(() => {
+    if (location.state?.message) {
+      setToastMessage(location.state.message);
+      // Clear the state so it doesn't show again on refresh
+      window.history.replaceState({}, document.title);
+      
+      const timer = setTimeout(() => {
+        setToastMessage(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [location]);
 
   // Filter sessions based on search query and status
   const filteredSessions = useMemo(() => {
@@ -59,6 +77,28 @@ export function Home() {
 
   return (
     <div className="space-y-12">
+      <AnimatePresence>
+        {toastMessage && (
+          <motion.div
+            initial={{ opacity: 0, y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="fixed top-24 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 bg-white dark:bg-slate-800 px-6 py-4 rounded-2xl shadow-premium border border-slate-100 dark:border-white/10"
+          >
+            <div className="w-8 h-8 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+              <CheckCircle2 className="w-5 h-5" />
+            </div>
+            <p className="text-sm font-medium text-slate-700 dark:text-slate-200">{toastMessage}</p>
+            <button 
+              onClick={() => setToastMessage(null)}
+              className="ml-4 p-1 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition-colors"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <PageHeader 
         title="Dashboard" 
         description="Welcome back. Pick up exactly where you left off."
@@ -71,6 +111,12 @@ export function Home() {
           New Session
         </Button>
       </PageHeader>
+
+      <AnimatePresence>
+        {!hasCompletedOnboarding && (
+          <OnboardingCard onDismiss={() => setHasCompletedOnboarding(true)} />
+        )}
+      </AnimatePresence>
 
       <SummaryStrip sessions={sessions} />
       
@@ -201,11 +247,31 @@ export function Home() {
           </div>
         ) : (
           <EmptyState 
-            isSearch={searchQuery !== '' || statusFilter !== 'all'} 
+            isSearch={sessions.length > 0 && searchQuery !== ''} 
+            title={
+              sessions.length === 0 
+                ? "Your future self will thank you" 
+                : searchQuery !== '' 
+                  ? "No matches found" 
+                  : `No ${statusFilter} sessions`
+            }
+            description={
+              sessions.length === 0
+                ? "Context Saver helps you save what you were doing, why you paused, and what to do next. Capture your first context before you step away."
+                : searchQuery !== ''
+                  ? "We couldn't find any sessions matching your search. Try a different search term or clear filters."
+                  : `You don't have any sessions marked as ${statusFilter} right now.`
+            }
             onClearSearch={() => {
               setSearchQuery('');
               setStatusFilter('all');
-            }} 
+            }}
+            action={
+              sessions.length === 0 ? undefined : (searchQuery === '' ? {
+                label: "Clear Filters",
+                onClick: () => setStatusFilter('all')
+              } : undefined)
+            }
           />
         )}
       </div>
