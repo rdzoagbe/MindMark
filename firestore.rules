@@ -75,6 +75,12 @@ service cloud.firestore {
              (!('tags' in data) || (data.tags is list && data.tags.size() <= 20));
     }
 
+    function isValidSubscription(data) {
+      return data.keys().hasAll(['status', 'plan']) &&
+             data.status is string &&
+             data.plan is string;
+    }
+
     // ===============================================================
     // Rules
     // ===============================================================
@@ -89,6 +95,10 @@ service cloud.firestore {
         allow create: if isOwner(userId) && isValidSession(request.resource.data);
         allow update: if isOwner(userId) && isValidSession(request.resource.data);
         allow delete: if isOwner(userId);
+      }
+
+      match /billing/{document} {
+        allow read: if isOwner(userId);
       }
     }
   }

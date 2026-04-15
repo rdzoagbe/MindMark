@@ -3,6 +3,7 @@ import {
   signInWithEmailAndPassword, 
   signOut as firebaseSignOut, 
   onAuthStateChanged,
+  sendPasswordResetEmail,
   User
 } from 'firebase/auth';
 import { auth } from './firebase';
@@ -13,6 +14,10 @@ export const signUp = (email: string, password: string) => {
 
 export const signIn = (email: string, password: string) => {
   return signInWithEmailAndPassword(auth, email, password);
+};
+
+export const sendPasswordReset = (email: string) => {
+  return sendPasswordResetEmail(auth, email);
 };
 
 export const signOut = () => {

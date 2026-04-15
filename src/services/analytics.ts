@@ -9,6 +9,7 @@ type EventName =
   | 'trial_started'
   | 'guest_mode_started'
   | 'password_suggested'
+  | 'password_reset_requested'
   | 'upgrade_prompt_clicked';
 
 interface EventProperties {

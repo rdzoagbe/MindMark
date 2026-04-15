@@ -258,17 +258,15 @@ export function useSessionsInternal() {
   }, [updateStatus]);
 
   const clearAllData = useCallback(async () => {
-    if (window.confirm('Are you sure you want to clear ALL sessions? This cannot be undone.')) {
-      if (canSync && user) {
-        window.dispatchEvent(new Event('sync-start'));
-        try {
-          await clearAllCloudSessions(user.uid);
-        } finally {
-          window.dispatchEvent(new Event('sync-end'));
-        }
-      } else {
-        setLocalSessions([]);
+    if (canSync && user) {
+      window.dispatchEvent(new Event('sync-start'));
+      try {
+        await clearAllCloudSessions(user.uid);
+      } finally {
+        window.dispatchEvent(new Event('sync-end'));
       }
+    } else {
+      setLocalSessions([]);
     }
   }, [canSync, user, setLocalSessions]);
 

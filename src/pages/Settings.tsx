@@ -60,13 +60,16 @@ export function Settings() {
   };
 
   const handleClearAllData = async () => {
-    try {
-      await clearAllData();
-      setImportMessage({ type: 'success', text: 'All data cleared successfully.' });
-      setTimeout(() => setImportMessage(null), 5000);
-    } catch (error) {
-      setImportMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to clear data.' });
-      setTimeout(() => setImportMessage(null), 5000);
+    if (window.confirm('Are you sure you want to clear ALL sessions? This cannot be undone.')) {
+      try {
+        await clearAllData();
+        localStorage.removeItem('context-saver-onboarding-completed');
+        setImportMessage({ type: 'success', text: 'All data cleared successfully.' });
+        setTimeout(() => setImportMessage(null), 5000);
+      } catch (error) {
+        setImportMessage({ type: 'error', text: error instanceof Error ? error.message : 'Failed to clear data.' });
+        setTimeout(() => setImportMessage(null), 5000);
+      }
     }
   };
 

@@ -1,7 +1,8 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Home, PlusCircle, Settings, BookMarked, Sparkles, BarChart3 } from 'lucide-react';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Home, PlusCircle, Settings, BookMarked, Sparkles, BarChart3, ChevronLeft, User, LogOut } from 'lucide-react';
 import { usePlan } from '../hooks/usePlan';
 import { useAuth } from '../hooks/useAuth';
+import { signOut } from '../services/authService';
 import { motion, AnimatePresence } from 'motion/react';
 import { PlanBadge } from './PlanBadge';
 import { SyncIndicator } from './SyncIndicator';
@@ -12,9 +13,21 @@ import { useSessions } from '../contexts/SessionContext';
 
 export function Layout() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { currentPlan, isFree, isPro } = usePlan();
   const { user, isAuthenticated } = useAuth();
   const { migrationState, performMigration } = useSessions();
+
+  const isRootPath = location.pathname === '/dashboard';
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      navigate('/');
+    } catch (error) {
+      console.error('Failed to log out:', error);
+    }
+  };
 
   const navItems = [
     { path: '/dashboard', icon: Home, label: 'Dashboard' },
@@ -65,23 +78,62 @@ export function Layout() {
           })}
         </nav>
 
-        <div className="p-6 border-t theme-border space-y-4">
-          <PlanBadge plan={currentPlan} size="sm" />
-          <SyncIndicator />
+        <div className="p-4 border-t theme-border space-y-4">
+          {isAuthenticated && (
+            <div className="flex items-center gap-3 px-2 py-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border theme-border">
+              <div className="w-10 h-10 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm shrink-0">
+                {user?.photoURL ? (
+                  <img src={user.photoURL} alt="" className="w-full h-full rounded-lg object-cover" referrerPolicy="no-referrer" />
+                ) : (
+                  <User className="w-5 h-5" />
+                )}
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-bold theme-text-primary truncate">{user?.email?.split('@')[0]}</p>
+                <button onClick={handleLogout} className="text-[10px] font-semibold text-rose-500 hover:text-rose-600 flex items-center gap-1">
+                  <LogOut className="w-3 h-3" />
+                  Sign Out
+                </button>
+              </div>
+            </div>
+          )}
+          <div className="px-2 space-y-3">
+            <PlanBadge plan={currentPlan} size="sm" />
+            <SyncIndicator />
+          </div>
         </div>
       </aside>
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
-        {/* Mobile Header */}
-        <header className="sm:hidden glass sticky top-0 z-30 px-6 h-16 flex items-center justify-between">
-          <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight">
-            <div className="w-8 h-8 bg-indigo-600 dark:bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-sm">
-              <BookMarked className="w-5 h-5" />
-            </div>
-            <span>Context Saver</span>
-          </Link>
-          <div className="flex items-center gap-2">
+        {/* Header */}
+        <header className="glass sticky top-0 z-30 px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            {!isRootPath && (
+              <button 
+                onClick={() => navigate(-1)}
+                className="p-2 -ml-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/5 theme-text-secondary transition-colors"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+            )}
+            <Link to={isAuthenticated ? "/dashboard" : "/"} className="sm:hidden flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight">
+              <div className="w-8 h-8 bg-indigo-600 dark:bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-sm">
+                <BookMarked className="w-5 h-5" />
+              </div>
+              <span>Context Saver</span>
+            </Link>
+          </div>
+          <div className="flex items-center gap-3">
+            {isAuthenticated && (
+              <div className="sm:hidden w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm">
+                {user?.photoURL ? (
+                  <img src={user.photoURL} alt="" className="w-full h-full rounded-lg object-cover" referrerPolicy="no-referrer" />
+                ) : (
+                  <User className="w-4 h-4" />
+                )}
+              </div>
+            )}
             <PlanBadge plan={currentPlan} size="sm" />
           </div>
         </header>

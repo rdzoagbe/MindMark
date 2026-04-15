@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { LogIn, Mail, Lock, AlertCircle, ArrowRight, BookMarked } from 'lucide-react';
-import { signIn } from '../services/authService';
+import { LogIn, Mail, Lock, AlertCircle, ArrowRight, BookMarked, ChevronLeft, CheckCircle2 } from 'lucide-react';
+import { signIn, sendPasswordReset } from '../services/authService';
 import { analytics } from '../services/analytics';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
@@ -13,6 +13,8 @@ export function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [resetMode, setResetMode] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,18 +23,58 @@ export function Login() {
     setLoading(true);
 
     try {
-      const userCredential = await signIn(email, password);
-      analytics.track('login_completed', { email });
-      if (userCredential.user) {
-        analytics.identify(userCredential.user.uid, { email });
+      if (resetMode) {
+        await sendPasswordReset(email);
+        setResetSent(true);
+        analytics.track('password_reset_requested', { email });
+      } else {
+        const userCredential = await signIn(email, password);
+        analytics.track('login_completed', { email });
+        if (userCredential.user) {
+          analytics.identify(userCredential.user.uid, { email });
+        }
+        navigate('/dashboard', { state: { message: 'Your sessions are now synced across devices' } });
       }
-      navigate('/dashboard', { state: { message: 'Your sessions are now synced across devices' } });
     } catch (err: any) {
-      setError(err.message || 'Failed to sign in. Please check your credentials.');
+      let message = err.message || 'An error occurred. Please try again.';
+      if (err.code === 'auth/invalid-credential') {
+        message = 'Invalid email or password. Please check your credentials and try again.';
+      } else if (err.code === 'auth/user-not-found') {
+        message = 'No account found with this email.';
+      }
+      setError(message);
     } finally {
       setLoading(false);
     }
   };
+
+  if (resetSent) {
+    return (
+      <div className="min-h-[80vh] flex items-center justify-center px-6">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-md w-full"
+        >
+          <Card className="shadow-lg border theme-border p-8 sm:p-10 text-center">
+            <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-6">
+              <CheckCircle2 className="w-8 h-8" />
+            </div>
+            <h2 className="text-2xl font-bold theme-text-primary mb-3">Check your email</h2>
+            <p className="theme-text-secondary mb-8">
+              We've sent a password reset link to <span className="font-semibold theme-text-primary">{email}</span>.
+            </p>
+            <Button fullWidth onClick={() => {
+              setResetSent(false);
+              setResetMode(false);
+            }}>
+              Back to Login
+            </Button>
+          </Card>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center px-6">
@@ -44,12 +86,26 @@ export function Login() {
       >
         <Card className="shadow-lg border theme-border p-8 sm:p-10">
           <div className="text-center">
-            <Link to="/" className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl text-white shadow-sm mb-6 hover:opacity-90 transition-opacity">
-              <BookMarked className="w-8 h-8" />
-            </Link>
-            <h2 className="text-3xl font-bold theme-text-primary tracking-tight">Welcome Back</h2>
+            {resetMode ? (
+              <button 
+                onClick={() => setResetMode(false)}
+                className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline mb-6"
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Back to sign in
+              </button>
+            ) : (
+              <Link to="/" className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl text-white shadow-sm mb-6 hover:opacity-90 transition-opacity">
+                <BookMarked className="w-8 h-8" />
+              </Link>
+            )}
+            <h2 className="text-3xl font-bold theme-text-primary tracking-tight">
+              {resetMode ? 'Reset Password' : 'Welcome Back'}
+            </h2>
             <p className="mt-3 theme-text-secondary">
-              Sign in to sync your context across all your devices.
+              {resetMode 
+                ? "Enter your email and we'll send you a link to reset your password."
+                : 'Sign in to sync your context across all your devices.'}
             </p>
           </div>
 
@@ -73,28 +129,41 @@ export function Login() {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
                     className="block w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border theme-border focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl theme-text-primary placeholder-slate-400 transition-all outline-none"
                     placeholder="name@company.com"
                   />
                 </div>
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-sm font-medium theme-text-secondary ml-1">Password</label>
-                <div className="relative group">
-                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500 transition-colors">
-                    <Lock className="w-5 h-5" />
+              {!resetMode && (
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between ml-1">
+                    <label className="text-sm font-medium theme-text-secondary">Password</label>
+                    <button 
+                      type="button"
+                      onClick={() => setResetMode(true)}
+                      className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
+                    >
+                      Forgot password?
+                    </button>
                   </div>
-                  <input
-                    type="password"
-                    required
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border theme-border focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl theme-text-primary placeholder-slate-400 transition-all outline-none"
-                    placeholder="••••••••"
-                  />
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500 transition-colors">
+                      <Lock className="w-5 h-5" />
+                    </div>
+                    <input
+                      type="password"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      autoComplete="current-password"
+                      className="block w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border theme-border focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl theme-text-primary placeholder-slate-400 transition-all outline-none"
+                      placeholder="••••••••"
+                    />
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
             <Button
@@ -102,21 +171,23 @@ export function Login() {
               loading={loading}
               fullWidth
               size="lg"
-              icon={ArrowRight}
-              className="flex-row-reverse"
+              icon={resetMode ? Mail : ArrowRight}
+              className={resetMode ? "" : "flex-row-reverse"}
             >
-              Sign in
+              {resetMode ? 'Send Reset Link' : 'Sign in'}
             </Button>
           </form>
 
-          <div className="mt-8 text-center">
-            <p className="text-sm theme-text-secondary">
-              Don't have an account?{' '}
-              <Link to="/signup" className="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold">
-                Sign up for free
-              </Link>
-            </p>
-          </div>
+          {!resetMode && (
+            <div className="mt-8 text-center">
+              <p className="text-sm theme-text-secondary">
+                Don't have an account?{' '}
+                <Link to="/signup" className="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold">
+                  Sign up for free
+                </Link>
+              </p>
+            </div>
+          )}
         </Card>
       </motion.div>
     </div>
