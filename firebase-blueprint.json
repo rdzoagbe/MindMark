@@ -1,43 +1,43 @@
 {
   "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and settings",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "uid": { "type": "string" },
+        "createdAt": { "type": "number" }
+      },
+      "required": ["email", "uid"]
+    },
     "Session": {
       "title": "Session",
       "description": "A work context session",
       "type": "object",
       "properties": {
-        "id": { "type": "string", "description": "Unique session ID" },
-        "title": { "type": "string", "description": "Session title" },
-        "category": { "type": "string", "description": "Session category" },
-        "currentTask": { "type": "string", "description": "What the user is currently doing" },
-        "pauseReason": { "type": "string", "description": "Why the session was paused" },
-        "nextStep": { "type": "string", "description": "What to do next when resuming" },
-        "notes": { "type": "string", "description": "Additional notes" },
-        "tags": { "type": "array", "items": { "type": "string" }, "description": "List of tags" },
-        "links": { 
-          "type": "array", 
-          "items": { 
-            "type": "object",
-            "properties": {
-              "id": { "type": "string" },
-              "label": { "type": "string" },
-              "url": { "type": "string" },
-              "comment": { "type": "string" }
-            }
-          }
-        },
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "currentTask": { "type": "string" },
+        "nextStep": { "type": "string" },
+        "pauseReason": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "paused", "completed"] },
         "priority": { "type": "string", "enum": ["low", "medium", "high"] },
-        "status": { "type": "string", "enum": ["active", "archived", "done", "blocked"] },
-        "pinned": { "type": "boolean" },
-        "createdAt": { "type": "number" },
-        "updatedAt": { "type": "number" }
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "updatedAt": { "type": "number" },
+        "createdAt": { "type": "number" }
       },
-      "required": ["id", "title", "category", "currentTask", "nextStep", "priority", "status", "createdAt", "updatedAt"]
+      "required": ["id", "title", "status"]
     }
   },
   "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User private data"
+    },
     "/users/{userId}/sessions/{sessionId}": {
       "schema": "Session",
-      "description": "User's work context sessions"
+      "description": "User work sessions"
     }
   }
 }

@@ -1,28 +1,30 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    
     // ===============================================================
     // Assumed Data Model
     // ===============================================================
     //
-    // Collection: /users/{userId}/sessions
-    // Document ID: sessionId
+    // Collection: users
+    // Document ID: {userId}
+    // Fields:
+    //   - email: string (required, email format)
+    //   - uid: string (required)
+    //   - createdAt: number (optional)
+    //
+    // Collection: users/{userId}/sessions
+    // Document ID: {sessionId}
     // Fields:
     //   - id: string (required)
-    //   - title: string (required, 1-100 chars)
-    //   - category: string (required, 1-50 chars)
-    //   - currentTask: string (required, 0-5000 chars)
-    //   - pauseReason: string (optional, 0-500 chars)
-    //   - nextStep: string (required, 1-500 chars)
-    //   - notes: string (optional, 0-10000 chars)
-    //   - tags: list of strings (max 20 tags, each max 30 chars)
-    //   - links: list of objects (max 20 links)
-    //   - priority: string (low, medium, high)
-    //   - status: string (active, archived, done, blocked)
-    //   - pinned: bool (required)
-    //   - createdAt: number (required, immutable)
+    //   - title: string (required, max 100 chars)
+    //   - currentTask: string (optional, max 1000 chars)
+    //   - nextStep: string (optional, max 1000 chars)
+    //   - pauseReason: string (optional, max 500 chars)
+    //   - status: string (required, enum: active, paused, completed)
+    //   - priority: string (optional, enum: low, medium, high)
+    //   - tags: list (optional, max 20 items, each max 30 chars)
     //   - updatedAt: number (required)
+    //   - createdAt: number (optional)
     //
     // ===============================================================
 
@@ -38,27 +40,39 @@ service cloud.firestore {
       return isAuthenticated() && request.auth.uid == userId;
     }
 
-    function isAdmin() {
-      return isAuthenticated() && 
-        (request.auth.token.email == "rolanddzoagbe@gmail.com" && request.auth.token.email_verified == true);
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidStatus(status) {
+      return status in ['active', 'paused', 'completed'];
+    }
+
+    function isValidPriority(priority) {
+      return priority in ['low', 'medium', 'high'];
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['email', 'uid']) &&
+             data.email is string && isValidEmail(data.email) &&
+             data.uid == request.auth.uid;
     }
 
     function isValidSession(data) {
-      return data.keys().hasAll(['id', 'title', 'category', 'currentTask', 'nextStep', 'priority', 'status', 'pinned', 'createdAt', 'updatedAt']) &&
+      return data.keys().hasAll(['id', 'title', 'status', 'updatedAt']) &&
              data.id is string &&
-             data.title is string && data.title.size() > 0 && data.title.size() <= 100 &&
-             data.category is string && data.category.size() <= 50 &&
-             data.currentTask is string && data.currentTask.size() <= 5000 &&
-             data.nextStep is string && data.nextStep.size() <= 500 &&
+             data.title is string && data.title.size() <= 100 &&
+             isValidStatus(data.status) &&
+             data.updatedAt is number &&
+             (!('priority' in data) || isValidPriority(data.priority)) &&
+             (!('currentTask' in data) || (data.currentTask is string && data.currentTask.size() <= 1000)) &&
+             (!('nextStep' in data) || (data.nextStep is string && data.nextStep.size() <= 1000)) &&
              (!('pauseReason' in data) || (data.pauseReason is string && data.pauseReason.size() <= 500)) &&
-             (!('notes' in data) || (data.notes is string && data.notes.size() <= 50000)) &&
-             (!('tags' in data) || (data.tags is list && data.tags.size() <= 50)) &&
-             (!('links' in data) || (data.links is list && data.links.size() <= 50)) &&
-             data.priority in ['low', 'medium', 'high'] &&
-             data.status in ['active', 'archived', 'done', 'blocked'] &&
-             data.pinned is bool &&
-             data.createdAt is number &&
-             data.updatedAt is number;
+             (!('tags' in data) || (data.tags is list && data.tags.size() <= 20));
     }
 
     // ===============================================================
@@ -66,32 +80,16 @@ service cloud.firestore {
     // ===============================================================
 
     match /users/{userId} {
-      allow read, write: if isOwner(userId) || isAdmin();
-      
-      match /billing/{document=**} {
-        allow read: if isOwner(userId) || isAdmin();
-        allow write: if false;
-      }
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidUser(request.resource.data);
+      allow update: if isOwner(userId) && isValidUser(request.resource.data);
       
       match /sessions/{sessionId} {
-        allow read: if isOwner(userId) || isAdmin();
-        
-        allow create: if isOwner(userId) && 
-                         isValidSession(request.resource.data) &&
-                         request.resource.data.id == sessionId;
-                         
-        allow update: if (isOwner(userId) || isAdmin()) && 
-                         isValidSession(request.resource.data) &&
-                         request.resource.data.createdAt == resource.data.createdAt &&
-                         request.resource.data.id == resource.data.id;
-                         
-        allow delete: if isOwner(userId) || isAdmin();
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidSession(request.resource.data);
+        allow update: if isOwner(userId) && isValidSession(request.resource.data);
+        allow delete: if isOwner(userId);
       }
-    }
-
-    // Default deny
-    match /{document=**} {
-      allow read, write: if false;
     }
   }
 }

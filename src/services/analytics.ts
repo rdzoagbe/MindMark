@@ -8,6 +8,7 @@ type EventName =
   | 'landing_cta_clicked'
   | 'trial_started'
   | 'guest_mode_started'
+  | 'password_suggested'
   | 'upgrade_prompt_clicked';
 
 interface EventProperties {

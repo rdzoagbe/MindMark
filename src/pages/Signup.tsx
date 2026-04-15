@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserPlus, Mail, Lock, AlertCircle, ArrowRight, BookMarked, ShieldCheck } from 'lucide-react';
+import { UserPlus, Mail, Lock, AlertCircle, ArrowRight, BookMarked, ShieldCheck, Sparkles, Eye, EyeOff } from 'lucide-react';
 import { signUp } from '../services/authService';
 import { analytics } from '../services/analytics';
 import { motion } from 'motion/react';
@@ -14,7 +14,20 @@ export function Signup() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  const generatePassword = () => {
+    const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+";
+    let retVal = "";
+    for (let i = 0, n = charset.length; i < 12; ++i) {
+      retVal += charset.charAt(Math.floor(Math.random() * n));
+    }
+    setPassword(retVal);
+    setConfirmPassword(retVal);
+    setShowPassword(true);
+    analytics.track('password_suggested');
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,19 +105,36 @@ export function Signup() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm font-medium theme-text-secondary ml-1">Password</label>
+                <div className="flex items-center justify-between ml-1">
+                  <label className="text-sm font-medium theme-text-secondary">Password</label>
+                  <button 
+                    type="button" 
+                    onClick={generatePassword}
+                    className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 flex items-center gap-1"
+                  >
+                    <Sparkles className="w-3 h-3" />
+                    Suggest secure password
+                  </button>
+                </div>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500 transition-colors">
                     <Lock className="w-5 h-5" />
                   </div>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="block w-full pl-11 pr-4 py-3 bg-white dark:bg-slate-900 border theme-border focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl theme-text-primary placeholder-slate-400 transition-all outline-none"
+                    className="block w-full pl-11 pr-12 py-3 bg-white dark:bg-slate-900 border theme-border focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl theme-text-primary placeholder-slate-400 transition-all outline-none"
                     placeholder="Min 6 characters"
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-4 flex items-center text-slate-400 hover:text-slate-600 transition-colors"
+                  >
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  </button>
                 </div>
               </div>
 
@@ -115,7 +145,7 @@ export function Signup() {
                     <ShieldCheck className="w-5 h-5" />
                   </div>
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     required
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
