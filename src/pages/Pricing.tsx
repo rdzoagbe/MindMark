@@ -28,7 +28,7 @@ export function Pricing() {
   return (
     <div className="max-w-7xl mx-auto space-y-20 pb-20">
       <div className="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
-        <Link to="/" className="hover:text-indigo-600 transition-colors">Dashboard</Link>
+        <Link to="/dashboard" className="hover:text-indigo-600 transition-colors">Dashboard</Link>
         <ChevronLeft className="w-4 h-4 rotate-180" />
         <span className="text-slate-900 dark:text-white">Pricing</span>
       </div>

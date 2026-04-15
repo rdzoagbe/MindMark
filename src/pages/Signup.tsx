@@ -38,7 +38,7 @@ export function Signup() {
       if (userCredential.user) {
         analytics.identify(userCredential.user.uid, { email });
       }
-      navigate('/');
+      navigate('/dashboard');
     } catch (err: any) {
       setError(err.message || 'Failed to create account. Please try again.');
     } finally {

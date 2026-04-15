@@ -10,7 +10,7 @@ export function Layout() {
   const { currentPlan, isFree } = usePlan();
 
   const navItems = [
-    { path: '/', icon: Home, label: 'Dashboard' },
+    { path: '/dashboard', icon: Home, label: 'Dashboard' },
     { path: '/create', icon: PlusCircle, label: 'New Session' },
     { path: '/pricing', icon: Sparkles, label: 'Plans', highlight: isFree },
     { path: '/settings', icon: Settings, label: 'Settings' },
@@ -21,7 +21,7 @@ export function Layout() {
       {/* Sidebar (Desktop) */}
       <aside className="hidden sm:flex flex-col w-64 border-r border-slate-200/50 dark:border-white/5 bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl sticky top-0 h-screen">
         <div className="p-6 flex items-center gap-3">
-          <Link to="/" className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight hover:opacity-80 transition-all active:scale-95">
+          <Link to="/dashboard" className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight hover:opacity-80 transition-all active:scale-95">
             <div className="w-8 h-8 bg-indigo-600 dark:bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-sm">
               <BookMarked className="w-5 h-5" />
             </div>
@@ -67,7 +67,7 @@ export function Layout() {
       <main className="flex-1 flex flex-col min-w-0 h-screen overflow-y-auto">
         {/* Mobile Header */}
         <header className="sm:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-md sticky top-0 z-30 border-b border-slate-200 dark:border-slate-800 px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight">
+          <Link to="/dashboard" className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight">
             <div className="w-8 h-8 bg-indigo-600 dark:bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-sm">
               <BookMarked className="w-5 h-5" />
             </div>

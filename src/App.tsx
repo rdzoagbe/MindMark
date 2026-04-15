@@ -7,6 +7,7 @@ import { Suspense, lazy } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
+import { Landing } from './pages/Landing';
 import { useTheme } from './hooks/useTheme';
 
 // Lazy load heavy pages
@@ -33,16 +34,18 @@ function AppContent() {
     <HashRouter>
       <Suspense fallback={<PageLoader />}>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="create" element={<CreateSession />} />
-            <Route path="edit/:id" element={<EditSession />} />
-            <Route path="session/:id" element={<SessionDetail />} />
-            <Route path="settings" element={<Settings />} />
-            <Route path="pricing" element={<Pricing />} />
-            <Route path="upgrade-success" element={<UpgradeSuccess />} />
-            <Route path="login" element={<Login />} />
-            <Route path="signup" element={<Signup />} />
+          <Route path="/" element={<Landing />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          
+          <Route element={<Layout />}>
+            <Route path="/dashboard" element={<Home />} />
+            <Route path="/create" element={<CreateSession />} />
+            <Route path="/edit/:id" element={<EditSession />} />
+            <Route path="/session/:id" element={<SessionDetail />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="/pricing" element={<Pricing />} />
+            <Route path="/upgrade-success" element={<UpgradeSuccess />} />
           </Route>
         </Routes>
       </Suspense>

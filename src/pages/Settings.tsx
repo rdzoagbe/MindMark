@@ -57,6 +57,12 @@ export function Settings() {
 
   return (
     <div className="max-w-4xl mx-auto space-y-12 pb-20">
+      <div className="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
+        <Link to="/dashboard" className="hover:text-indigo-600 transition-colors">Dashboard</Link>
+        <ChevronRight className="w-4 h-4" />
+        <span className="text-slate-900 dark:text-white">Settings</span>
+      </div>
+
       <PageHeader 
         title="Settings" 
         description="Manage your account, preferences, and data."

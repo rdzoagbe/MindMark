@@ -10,14 +10,14 @@ export function CreateSession() {
   const handleSubmit = async (data: any) => {
     await addSession(data);
     analytics.track('session_created', { category: data.category, priority: data.priority });
-    navigate('/');
+    navigate('/dashboard');
   };
 
   return (
     <div className="max-w-5xl mx-auto">
       <SessionForm 
         onSubmit={handleSubmit} 
-        onCancel={() => navigate('/')} 
+        onCancel={() => navigate('/dashboard')} 
       />
     </div>
   );

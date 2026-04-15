@@ -67,7 +67,7 @@ export function UpgradeSuccess() {
 
         <div className="pt-8">
           <Link
-            to="/"
+            to="/dashboard"
             className="inline-flex items-center justify-center gap-3 w-full sm:w-auto px-12 py-5 bg-indigo-600 text-white rounded-[1.5rem] font-display font-extrabold text-lg hover:bg-indigo-700 transition-all shadow-indigo active:scale-95"
           >
             Return to Dashboard

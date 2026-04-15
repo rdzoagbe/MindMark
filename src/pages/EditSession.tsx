@@ -20,7 +20,7 @@ export function EditSession() {
           description="The session you are trying to edit does not exist or has been deleted."
           action={{
             label: "Go back home",
-            onClick: () => navigate('/')
+            onClick: () => navigate('/dashboard')
           }}
         />
       </div>

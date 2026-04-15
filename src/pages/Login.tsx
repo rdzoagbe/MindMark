@@ -26,7 +26,7 @@ export function Login() {
       if (userCredential.user) {
         analytics.identify(userCredential.user.uid, { email });
       }
-      navigate('/', { state: { message: 'Your sessions are now synced across devices' } });
+      navigate('/dashboard', { state: { message: 'Your sessions are now synced across devices' } });
     } catch (err: any) {
       setError(err.message || 'Failed to sign in. Please check your credentials.');
     } finally {

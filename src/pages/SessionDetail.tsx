@@ -59,7 +59,7 @@ export function SessionDetail() {
           description="The session you are looking for does not exist or has been deleted."
           action={{
             label: "Go back home",
-            onClick: () => navigate('/')
+            onClick: () => navigate('/dashboard')
           }}
         />
       </div>
@@ -69,7 +69,7 @@ export function SessionDetail() {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this session?')) {
       await deleteSession(session.id);
-      navigate('/');
+      navigate('/dashboard');
     }
   };
 
@@ -93,7 +93,7 @@ export function SessionDetail() {
   return (
     <div className="max-w-5xl mx-auto space-y-8 pb-20">
       <div className="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
-        <Link to="/" className="hover:text-indigo-600 transition-colors">Dashboard</Link>
+        <Link to="/dashboard" className="hover:text-indigo-600 transition-colors">Dashboard</Link>
         <ChevronRight className="w-4 h-4" />
         <span className="text-slate-900 dark:text-white truncate max-w-[200px]">{session.title}</span>
       </div>
