@@ -62,48 +62,48 @@ export function Settings() {
         description="Manage your account, preferences, and data."
       />
 
-      <Card padding="none" className="divide-y divide-slate-100 dark:divide-white/5 premium-card">
+      <Card padding="none" className="divide-y divide-slate-200 dark:divide-slate-800">
         {/* Account Section */}
-        <div className="p-10 sm:p-12">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+        <div className="p-8 sm:p-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
               <User className="w-5 h-5" />
             </div>
-            <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white">Account</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Account</h2>
           </div>
           
           {isAuthenticated ? (
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-8 p-8 bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-100 dark:border-white/5">
-              <div className="flex items-center gap-5">
-                <div className="w-16 h-16 rounded-[1.5rem] bg-white dark:bg-slate-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm">
-                  <User className="w-8 h-8" />
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-lg bg-white dark:bg-slate-800 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shadow-sm">
+                  <User className="w-6 h-6" />
                 </div>
                 <div>
-                  <p className="text-lg font-display font-extrabold text-slate-900 dark:text-white">{user?.email}</p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Logged in via Email</p>
+                  <p className="text-base font-semibold text-slate-900 dark:text-white">{user?.email}</p>
+                  <p className="text-sm text-slate-500 dark:text-slate-400">Logged in via Email</p>
                 </div>
               </div>
               <Button
                 variant="outline"
-                size="lg"
+                size="md"
                 icon={LogOut}
                 onClick={handleLogout}
-                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-900/20 border-rose-100 dark:border-rose-900/30"
+                className="text-rose-600 hover:text-rose-700 hover:bg-rose-50 dark:hover:bg-rose-900/20 border-rose-200 dark:border-rose-900/30"
               >
                 Sign Out
               </Button>
             </div>
           ) : (
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-8 p-8 bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-100 dark:border-white/5">
-              <div className="space-y-2">
-                <p className="text-lg font-display font-extrabold text-slate-900 dark:text-white">Guest Mode</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Your data is stored locally on this device.</p>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div className="space-y-1">
+                <p className="text-base font-semibold text-slate-900 dark:text-white">Guest Mode</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Your data is stored locally on this device.</p>
               </div>
-              <div className="flex gap-4">
-                <Button variant="outline" size="lg" onClick={() => navigate('/login')}>
+              <div className="flex gap-3">
+                <Button variant="outline" size="md" onClick={() => navigate('/login')}>
                   Sign In
                 </Button>
-                <Button size="lg" onClick={() => navigate('/signup')}>
+                <Button size="md" onClick={() => navigate('/signup')}>
                   Create Account
                 </Button>
               </div>
@@ -112,57 +112,57 @@ export function Settings() {
         </div>
 
         {/* Plan Section */}
-        <div className="p-10 sm:p-12">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
+        <div className="p-8 sm:p-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-lg bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
               <Sparkles className="w-5 h-5" />
             </div>
-            <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white">Subscription</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Subscription</h2>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-8 p-8 bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-100 dark:border-white/5">
-            <div className="flex items-center gap-5">
-              <div className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center shadow-indigo ${!isFree ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-400'}`}>
-                {!isFree ? <Sparkles className="w-8 h-8" /> : <CreditCard className="w-8 h-8" />}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div className="flex items-center gap-4">
+              <div className={`w-12 h-12 rounded-lg flex items-center justify-center shadow-sm ${!isFree ? 'bg-indigo-600 text-white' : 'bg-white dark:bg-slate-800 text-slate-400'}`}>
+                {!isFree ? <Sparkles className="w-6 h-6" /> : <CreditCard className="w-6 h-6" />}
               </div>
               <div>
                 <div className="flex items-center gap-3">
-                  <p className="text-lg font-display font-extrabold text-slate-900 dark:text-white capitalize">
+                  <p className="text-base font-semibold text-slate-900 dark:text-white capitalize">
                     {currentPlan} Plan
                   </p>
                   <PlanBadge plan={currentPlan} size="sm" />
                 </div>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   {!isFree ? 'Active subscription' : 'Limited features'}
                 </p>
               </div>
             </div>
             {!isFree ? (
-              <Button variant="outline" size="lg" onClick={() => alert('Redirecting to Stripe Customer Portal...')}>
+              <Button variant="outline" size="md" onClick={() => alert('Redirecting to Stripe Customer Portal...')}>
                 Manage Subscription
               </Button>
             ) : (
-              <Button size="lg" onClick={() => navigate('/pricing')} icon={Sparkles}>
+              <Button size="md" onClick={() => navigate('/pricing')} icon={Sparkles}>
                 Upgrade Plan
               </Button>
             )}
           </div>
 
           {/* Developer Fallback for Testing */}
-          <div className="mt-10 pt-10 border-t border-slate-100 dark:border-white/5">
+          <div className="mt-8 pt-8 border-t border-slate-200 dark:border-slate-800">
             <div className="flex items-center justify-between">
               <div className="space-y-1">
-                <p className="text-lg font-display font-extrabold text-slate-900 dark:text-white">Simulate Pro access</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Developer tool to test feature gating without Stripe.</p>
+                <p className="text-base font-semibold text-slate-900 dark:text-white">Simulate Pro access</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Developer tool to test feature gating without Stripe.</p>
               </div>
               <button
                 onClick={() => isFree ? upgrade('pro') : downgrade()}
-                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors focus:outline-none ${
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${
                   !isFree ? 'bg-indigo-600' : 'bg-slate-300 dark:bg-slate-700'
                 }`}
               >
                 <span
-                  className={`inline-block h-5 w-5 transform rounded-full bg-white transition-transform shadow-sm ${
+                  className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${
                     !isFree ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
@@ -172,13 +172,13 @@ export function Settings() {
         </div>
 
         {/* Cloud Sync */}
-        <div className="p-10 sm:p-12">
-          <div className="flex items-center justify-between mb-10">
+        <div className="p-8 sm:p-10">
+          <div className="flex items-center justify-between mb-8">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+              <div className="w-10 h-10 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
                 <Cloud className="w-5 h-5" />
               </div>
-              <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white">Cloud Sync</h2>
+              <h2 className="text-xl font-bold text-slate-900 dark:text-white">Cloud Sync</h2>
             </div>
             {isAuthenticated ? (
               <Badge variant="green" icon={CheckCircle2}>Active</Badge>
@@ -187,15 +187,15 @@ export function Settings() {
             )}
           </div>
           
-          <div className="text-center space-y-6 p-10 bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-100 dark:border-white/5">
-            <div className={`inline-flex items-center justify-center w-16 h-16 rounded-[1.5rem] bg-white dark:bg-slate-800 shadow-sm ${isAuthenticated ? 'text-emerald-500' : 'text-indigo-500'}`}>
-              <Cloud className="w-8 h-8" />
+          <div className="text-center space-y-4 p-8 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
+            <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg bg-white dark:bg-slate-800 shadow-sm ${isAuthenticated ? 'text-emerald-500' : 'text-indigo-500'}`}>
+              <Cloud className="w-6 h-6" />
             </div>
             <div className="space-y-2">
-              <p className="text-xl font-display font-extrabold text-slate-900 dark:text-white">
+              <p className="text-lg font-semibold text-slate-900 dark:text-white">
                 {isAuthenticated ? 'Your data is being synced' : 'Multi-device Continuity'}
               </p>
-              <p className="text-sm text-slate-500 dark:text-slate-400 font-medium max-w-md mx-auto leading-relaxed">
+              <p className="text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
                 {isAuthenticated 
                   ? 'All your sessions are securely backed up and available across all your devices in real-time.'
                   : 'Upgrade to Pro and create an account to keep your context available across all your devices.'}
@@ -205,7 +205,7 @@ export function Settings() {
               <div className="pt-2">
                 <Link
                   to="/signup"
-                  className="inline-flex items-center gap-2 text-sm font-display font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+                  className="inline-flex items-center gap-2 text-sm font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
                 >
                   Create account to sync across devices <ChevronRight className="w-4 h-4" />
                 </Link>
@@ -215,22 +215,22 @@ export function Settings() {
         </div>
 
         {/* Appearance */}
-        <div className="p-10 sm:p-12">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 rounded-xl bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
+        <div className="p-8 sm:p-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-lg bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
               <Monitor className="w-5 h-5" />
             </div>
-            <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white">Appearance</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Appearance</h2>
           </div>
-          <div className="flex items-center justify-between p-8 bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-100 dark:border-white/5">
+          <div className="flex items-center justify-between p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
             <div className="space-y-1">
-              <p className="text-lg font-display font-extrabold text-slate-900 dark:text-white">Theme</p>
-              <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Toggle between light and dark mode.</p>
+              <p className="text-base font-semibold text-slate-900 dark:text-white">Theme</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">Toggle between light and dark mode.</p>
             </div>
-            <div className="flex bg-slate-200 dark:bg-slate-800 p-1.5 rounded-2xl">
+            <div className="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-lg">
               <button
                 onClick={() => theme === 'dark' && toggleTheme()}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-display font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
                   theme === 'light' 
                     ? 'bg-white text-indigo-600 shadow-sm' 
                     : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
@@ -241,7 +241,7 @@ export function Settings() {
               </button>
               <button
                 onClick={() => theme === 'light' && toggleTheme()}
-                className={`flex items-center gap-2 px-6 py-2.5 rounded-xl text-sm font-display font-bold transition-all ${
+                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
                   theme === 'dark' 
                     ? 'bg-slate-900 text-indigo-400 shadow-sm' 
                     : 'text-slate-500 hover:text-slate-700 dark:hover:text-slate-300'
@@ -255,31 +255,31 @@ export function Settings() {
         </div>
 
         {/* Data Management */}
-        <div className="p-10 sm:p-12">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
+        <div className="p-8 sm:p-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
               <Download className="w-5 h-5" />
             </div>
-            <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white">Data Management</h2>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-white">Data Management</h2>
           </div>
           
-          <div className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-8 bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-100 dark:border-white/5">
+          <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
               <div className="space-y-1">
-                <p className="text-lg font-display font-extrabold text-slate-900 dark:text-white">Export Data</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Download all your sessions as a JSON file.</p>
+                <p className="text-base font-semibold text-slate-900 dark:text-white">Export Data</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Download all your sessions as a JSON file.</p>
               </div>
-              <Button variant="outline" size="lg" icon={Download} onClick={handleExport}>
+              <Button variant="outline" size="md" icon={Download} onClick={handleExport}>
                 Export JSON
               </Button>
             </div>
 
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-8 bg-slate-50 dark:bg-slate-900/50 rounded-[2rem] border border-slate-100 dark:border-white/5">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800">
               <div className="space-y-1">
-                <p className="text-lg font-display font-extrabold text-slate-900 dark:text-white">Import Data</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Restore sessions from a JSON file.</p>
+                <p className="text-base font-semibold text-slate-900 dark:text-white">Import Data</p>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Restore sessions from a JSON file.</p>
               </div>
-              <Button variant="outline" size="lg" icon={Upload} onClick={handleImportClick}>
+              <Button variant="outline" size="md" icon={Upload} onClick={handleImportClick}>
                 Import JSON
               </Button>
               <input
@@ -294,19 +294,19 @@ export function Settings() {
         </div>
 
         {/* Danger Zone */}
-        <div className="p-10 sm:p-12 bg-rose-50/30 dark:bg-rose-900/10">
-          <div className="flex items-center gap-3 mb-10">
-            <div className="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center text-rose-600 dark:text-rose-400">
+        <div className="p-8 sm:p-10 bg-rose-50/50 dark:bg-rose-900/10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-lg bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center text-rose-600 dark:text-rose-400">
               <AlertTriangle className="w-5 h-5" />
             </div>
-            <h2 className="text-2xl font-display font-extrabold text-rose-600 dark:text-rose-400">Danger Zone</h2>
+            <h2 className="text-xl font-bold text-rose-600 dark:text-rose-400">Danger Zone</h2>
           </div>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-8 p-8 bg-white dark:bg-slate-900/50 rounded-[2rem] border border-rose-100 dark:border-rose-900/20">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 p-6 bg-white dark:bg-slate-900/50 rounded-xl border border-rose-200 dark:border-rose-900/20">
             <div className="space-y-1">
-              <p className="text-lg font-display font-extrabold text-slate-900 dark:text-white">Clear All Data</p>
-              <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">Permanently delete all sessions from this device.</p>
+              <p className="text-base font-semibold text-slate-900 dark:text-white">Clear All Data</p>
+              <p className="text-sm text-slate-500 dark:text-slate-400">Permanently delete all sessions from this device.</p>
             </div>
-            <Button variant="danger" size="lg" icon={Trash2} onClick={clearAllData}>
+            <Button variant="danger" size="md" icon={Trash2} onClick={clearAllData}>
               Clear All Data
             </Button>
           </div>

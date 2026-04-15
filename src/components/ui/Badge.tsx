@@ -27,17 +27,17 @@ export function Badge({
   };
 
   const sizes = {
-    xs: 'px-2.5 py-0.5 text-[10px]',
-    sm: 'px-3 py-1 text-[11px]',
-    md: 'px-4 py-1.5 text-[12px]'
+    xs: 'px-2 py-0.5 text-xs',
+    sm: 'px-2.5 py-0.5 text-xs',
+    md: 'px-3 py-1 text-sm'
   };
 
   return (
     <span 
-      className={`inline-flex items-center gap-1.5 font-display font-bold uppercase tracking-widest rounded-full border ${variants[variant]} ${sizes[size]} ${className}`}
+      className={`inline-flex items-center gap-1.5 font-medium rounded-full border ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
     >
-      {Icon && <Icon className={size === 'xs' ? 'w-2.5 h-2.5' : 'w-3 h-3'} />}
+      {Icon && <Icon className={size === 'xs' ? 'w-3 h-3' : 'w-3.5 h-3.5'} />}
       {children}
     </span>
   );

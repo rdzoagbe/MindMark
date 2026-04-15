@@ -133,15 +133,15 @@ export function Home() {
               </div>
               <div className="relative z-10 flex items-center justify-between">
                 <div className="flex items-center gap-6">
-                  <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-md">
-                    <Sparkles className="w-7 h-7" />
+                  <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center backdrop-blur-md">
+                    <Sparkles className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="font-display font-extrabold text-2xl">Upgrade to Plus</h3>
-                    <p className="text-indigo-100 font-medium">Unlock pinned sessions, smart reminders, and more.</p>
+                    <h3 className="font-bold text-xl">Upgrade to Plus</h3>
+                    <p className="text-indigo-100 text-sm">Unlock pinned sessions, smart reminders, and more.</p>
                   </div>
                 </div>
-                <div className="hidden sm:flex items-center gap-2 bg-white/20 px-6 py-3 rounded-2xl text-sm font-display font-bold group-hover:bg-white/30 transition-colors backdrop-blur-md">
+                <div className="hidden sm:flex items-center gap-2 bg-white/20 px-4 py-2 rounded-lg text-sm font-semibold group-hover:bg-white/30 transition-colors backdrop-blur-md">
                   View Plans
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
@@ -161,15 +161,15 @@ export function Home() {
             <Card variant="ghost" className="hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all duration-300 border-indigo-100 dark:border-indigo-900/50">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-6">
-                  <div className="w-14 h-14 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-indigo">
-                    <Cloud className="w-7 h-7" />
+                  <div className="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-sm">
+                    <Cloud className="w-6 h-6" />
                   </div>
                   <div>
-                    <h3 className="font-display font-extrabold text-2xl text-slate-900 dark:text-white">Cloud Sync Available</h3>
-                    <p className="text-slate-500 dark:text-slate-400 font-medium">Create account to sync across devices.</p>
+                    <h3 className="font-bold text-xl text-slate-900 dark:text-white">Cloud Sync Available</h3>
+                    <p className="text-slate-500 dark:text-slate-400 text-sm">Create account to sync across devices.</p>
                   </div>
                 </div>
-                <div className="hidden sm:flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-display font-bold text-sm">
+                <div className="hidden sm:flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-semibold text-sm">
                   Get Started
                   <Plus className="w-4 h-4 group-hover:rotate-90 transition-transform" />
                 </div>
@@ -188,21 +188,21 @@ export function Home() {
         />
 
         {filteredSessions.length > 0 ? (
-          <div className="space-y-16">
+          <div className="space-y-12">
             <FeatureGate feature="pinned_sessions" inline>
               {pinnedSessions.length > 0 && (
-                <section className="space-y-8">
+                <section className="space-y-6">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-[1rem] bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+                    <div className="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
                       <Pin className="w-5 h-5 fill-current" />
                     </div>
-                    <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white">Pinned Sessions</h2>
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-white">Pinned Sessions</h2>
                   </div>
                   <motion.div 
                     variants={container}
                     initial="hidden"
                     animate="show"
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                   >
                     {pinnedSessions.map((session) => (
                       <motion.div key={session.id} variants={item}>
@@ -218,12 +218,12 @@ export function Home() {
               )}
             </FeatureGate>
 
-            <section className="space-y-8">
+            <section className="space-y-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-[1rem] bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
+                <div className="w-10 h-10 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
                   <Clock className="w-5 h-5" />
                 </div>
-                <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-white">
                   {pinnedSessions.length > 0 ? 'Recent Sessions' : 'All Sessions'}
                 </h2>
               </div>
@@ -231,7 +231,7 @@ export function Home() {
                 variants={container}
                 initial="hidden"
                 animate="show"
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
               >
                 {otherSessions.map((session) => (
                   <motion.div key={session.id} variants={item}>

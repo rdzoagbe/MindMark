@@ -25,43 +25,43 @@ export function OnboardingCard({ onDismiss }: OnboardingCardProps) {
         </button>
         
         <div className="p-2 sm:p-4">
-          <div className="max-w-3xl mb-10">
-            <h2 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white mb-3">
+          <div className="max-w-3xl mb-8">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
               Welcome to Context Saver 👋
             </h2>
-            <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed text-lg">
+            <p className="text-slate-600 dark:text-slate-300 text-base">
               Never lose your train of thought again. Context Saver helps you capture exactly what you're doing, why you paused, and what to do next, so you can resume instantly.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="flex flex-col gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-                <PlusCircle className="w-6 h-6" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                <PlusCircle className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-1">1. Create a session</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">Start a new session when you need to step away from your work.</p>
+                <h3 className="font-semibold text-slate-900 dark:text-white text-base mb-1">1. Create a session</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Start a new session when you need to step away from your work.</p>
               </div>
             </div>
             
-            <div className="flex flex-col gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-                <FileText className="w-6 h-6" />
+            <div className="flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                <FileText className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-1">2. Add context</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">Jot down your current task, why you're pausing, and the exact next step.</p>
+                <h3 className="font-semibold text-slate-900 dark:text-white text-base mb-1">2. Add context</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Jot down your current task, why you're pausing, and the exact next step.</p>
               </div>
             </div>
             
-            <div className="flex flex-col gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
-                <PlayCircle className="w-6 h-6" />
+            <div className="flex flex-col gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
+                <PlayCircle className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 dark:text-white text-lg mb-1">3. Resume later</h3>
-                <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed font-medium">Come back, read your notes, and pick up exactly where you left off.</p>
+                <h3 className="font-semibold text-slate-900 dark:text-white text-base mb-1">3. Resume later</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">Come back, read your notes, and pick up exactly where you left off.</p>
               </div>
             </div>
           </div>

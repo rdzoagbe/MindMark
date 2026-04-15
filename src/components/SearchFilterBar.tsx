@@ -20,19 +20,19 @@ export const SearchFilterBar = memo(({ searchQuery, setSearchQuery, statusFilter
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="block w-full pl-14 pr-6 py-4 border-2 border-transparent bg-white dark:bg-slate-900 rounded-[1.5rem] text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm font-medium"
+          className="block w-full pl-12 pr-4 py-3 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-xl text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm"
           placeholder="Search by title, notes, tags, category..."
         />
       </div>
       
       <div className="relative min-w-[200px] group">
-        <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+        <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
           <Filter className="h-5 w-5 text-slate-400 group-focus-within:text-indigo-500 transition-colors" />
         </div>
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as any)}
-          className="block w-full pl-14 pr-10 py-4 border-2 border-transparent bg-white dark:bg-slate-900 rounded-[1.5rem] text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm font-medium appearance-none cursor-pointer"
+          className="block w-full pl-12 pr-10 py-3 border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 rounded-xl text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all shadow-sm appearance-none cursor-pointer"
         >
           <option value="all">All Status</option>
           <option value="active">Active</option>

@@ -91,8 +91,8 @@ export function SessionDetail() {
   const StatusIcon = statusConfig[session.status].icon;
 
   return (
-    <div className="max-w-5xl mx-auto space-y-12 pb-20">
-      <div className="flex items-center gap-2 text-sm font-display font-bold text-slate-500 dark:text-slate-400">
+    <div className="max-w-5xl mx-auto space-y-8 pb-20">
+      <div className="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400">
         <Link to="/" className="hover:text-indigo-600 transition-colors">Dashboard</Link>
         <ChevronRight className="w-4 h-4" />
         <span className="text-slate-900 dark:text-white truncate max-w-[200px]">{session.title}</span>
@@ -141,9 +141,9 @@ export function SessionDetail() {
         </div>
       </PageHeader>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-2 space-y-10">
-          <Card className="space-y-10 premium-card">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
+          <Card className="space-y-8">
             <div className="flex flex-wrap items-center gap-3">
               <Badge variant={statusConfig[session.status].variant} icon={StatusIcon}>
                 {statusConfig[session.status].label}
@@ -156,17 +156,17 @@ export function SessionDetail() {
               </Badge>
             </div>
 
-            <div className="space-y-4">
-              <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Current Task</h3>
-              <p className="text-3xl font-display font-extrabold text-slate-900 dark:text-white leading-tight whitespace-pre-wrap">
+            <div className="space-y-3">
+              <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Current Task</h3>
+              <p className="text-2xl font-bold text-slate-900 dark:text-white leading-tight whitespace-pre-wrap">
                 {session.currentTask || 'No task description provided.'}
               </p>
             </div>
 
             {session.pauseReason && (
-              <div className="pt-8 border-t border-slate-100 dark:border-white/5">
-                <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-4 ml-1">Pause Reason</h3>
-                <p className="text-lg text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
+              <div className="pt-6 border-t border-slate-200 dark:border-slate-800">
+                <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 ml-1">Pause Reason</h3>
+                <p className="text-base text-slate-700 dark:text-slate-300 leading-relaxed">
                   {session.pauseReason}
                 </p>
               </div>
@@ -197,49 +197,49 @@ export function SessionDetail() {
           </div>
 
           {session.notes && (
-            <Card className="space-y-6 premium-card">
-              <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Additional Notes</h3>
-              <p className="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap font-medium">
+            <Card className="space-y-4">
+              <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Additional Notes</h3>
+              <p className="text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
                 {session.notes}
               </p>
             </Card>
           )}
         </div>
 
-        <div className="space-y-10">
-          <Card className="space-y-8 premium-card">
-            <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Reference Links</h3>
-            <div className="space-y-4">
+        <div className="space-y-8">
+          <Card className="space-y-6">
+            <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Reference Links</h3>
+            <div className="space-y-3">
               {session.links.map((link) => (
                 <a
                   key={link.id}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block p-5 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-100 dark:border-white/5 hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-300"
+                  className="group block p-4 bg-slate-50 dark:bg-slate-800/50 rounded-xl border border-slate-200 dark:border-slate-800 hover:border-indigo-500 dark:hover:border-indigo-500 transition-all duration-300"
                 >
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-sm font-display font-extrabold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-semibold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                       {link.label || 'Untitled Link'}
                     </span>
-                    <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-indigo-50 group-hover:bg-indigo-600 p-1 rounded-md transition-all" />
+                    <ExternalLink className="w-4 h-4 text-slate-400 group-hover:text-indigo-600 transition-colors" />
                   </div>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate font-medium">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
                     {link.url}
                   </p>
                   {link.comment && (
-                    <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-3 italic font-medium">
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 italic">
                       {link.comment}
                     </p>
                   )}
                 </a>
               ))}
               {session.links.length === 0 && (
-                <div className="text-center py-8 space-y-3">
-                  <div className="w-12 h-12 bg-slate-50 dark:bg-slate-900/50 rounded-xl flex items-center justify-center mx-auto text-slate-300">
-                    <Tag className="w-6 h-6" />
+                <div className="text-center py-6 space-y-2">
+                  <div className="w-10 h-10 bg-slate-50 dark:bg-slate-800/50 rounded-lg flex items-center justify-center mx-auto text-slate-400">
+                    <Tag className="w-5 h-5" />
                   </div>
-                  <p className="text-xs text-slate-400 dark:text-slate-500 italic font-medium">
+                  <p className="text-sm text-slate-400 dark:text-slate-500 italic">
                     No links attached.
                   </p>
                 </div>
@@ -247,48 +247,48 @@ export function SessionDetail() {
             </div>
           </Card>
 
-          <Card className="space-y-6 premium-card">
-            <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Tags</h3>
+          <Card className="space-y-4">
+            <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {session.tags.map((tag) => (
-                <Badge key={tag} variant="indigo" icon={Tag} className="rounded-xl">
+                <Badge key={tag} variant="indigo" icon={Tag} className="rounded-md">
                   {tag}
                 </Badge>
               ))}
               {session.tags.length === 0 && (
-                <p className="text-xs text-slate-400 dark:text-slate-500 italic font-medium ml-1">No tags.</p>
+                <p className="text-sm text-slate-400 dark:text-slate-500 italic ml-1">No tags.</p>
               )}
             </div>
           </Card>
 
-          <Card className="space-y-6 premium-card">
-            <h3 className="text-xs font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest ml-1">Metadata</h3>
-            <div className="space-y-6">
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-[1rem] bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center text-slate-400">
-                  <Calendar className="w-5 h-5" />
+          <Card className="space-y-6">
+            <h3 className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider ml-1">Metadata</h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-slate-400">
+                  <Calendar className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-display font-bold text-slate-400 uppercase tracking-widest">Created</p>
-                  <p className="font-display font-extrabold text-slate-900 dark:text-white">{format(new Date(session.createdAt), 'MMM d, yyyy')}</p>
+                  <p className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Created</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white">{format(new Date(session.createdAt), 'MMM d, yyyy')}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-[1rem] bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center text-slate-400">
-                  <Clock className="w-5 h-5" />
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-slate-400">
+                  <Clock className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-display font-bold text-slate-400 uppercase tracking-widest">Last Updated</p>
-                  <p className="font-display font-extrabold text-slate-900 dark:text-white">{format(new Date(session.updatedAt), 'HH:mm')}</p>
+                  <p className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Last Updated</p>
+                  <p className="text-sm font-semibold text-slate-900 dark:text-white">{format(new Date(session.updatedAt), 'HH:mm')}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-[1rem] bg-slate-50 dark:bg-slate-900/50 flex items-center justify-center text-slate-400">
-                  <MoreVertical className="w-5 h-5" />
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-slate-50 dark:bg-slate-800/50 flex items-center justify-center text-slate-400">
+                  <MoreVertical className="w-4 h-4" />
                 </div>
                 <div>
-                  <p className="text-[10px] font-display font-bold text-slate-400 uppercase tracking-widest">Session ID</p>
-                  <p className="font-mono text-[11px] text-slate-400 font-bold">{session.id.slice(0, 12)}...</p>
+                  <p className="text-[10px] font-medium text-slate-500 uppercase tracking-wider">Session ID</p>
+                  <p className="font-mono text-xs text-slate-500">{session.id.slice(0, 12)}...</p>
                 </div>
               </div>
             </div>

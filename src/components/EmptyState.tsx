@@ -35,16 +35,15 @@ export function EmptyState({
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="text-center py-24 px-6 bg-gradient-to-b from-slate-50 to-white dark:from-slate-900/50 dark:to-slate-900 rounded-[3rem] border border-slate-100 dark:border-white/5 shadow-premium"
+      className="text-center py-16 px-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm"
     >
-      <div className="inline-flex items-center justify-center w-24 h-24 rounded-[2.5rem] bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 shadow-sm mb-8 relative">
-        <div className="absolute inset-0 bg-indigo-600/5 dark:bg-indigo-400/5 rounded-[2.5rem] blur-xl"></div>
-        <Icon className="h-10 w-10 relative z-10" />
+      <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-indigo-50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 mb-6">
+        <Icon className="h-8 w-8" />
       </div>
-      <h3 className="text-3xl font-display font-extrabold text-slate-900 dark:text-white mb-4 tracking-tight">
+      <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-2">
         {displayTitle}
       </h3>
-      <p className="text-slate-500 dark:text-slate-400 text-lg font-medium max-w-md mx-auto mb-10 leading-relaxed">
+      <p className="text-slate-500 dark:text-slate-400 text-sm max-w-sm mx-auto mb-8">
         {displayDescription}
       </p>
       
@@ -53,8 +52,6 @@ export function EmptyState({
           <Button
             to={action.to}
             icon={action.icon}
-            size="lg"
-            className="px-8 py-4 rounded-[1.5rem] text-lg"
           >
             {action.label}
           </Button>
@@ -62,8 +59,6 @@ export function EmptyState({
           <Button
             onClick={action.onClick}
             icon={action.icon}
-            size="lg"
-            className="px-8 py-4 rounded-[1.5rem] text-lg"
           >
             {action.label}
           </Button>
@@ -72,8 +67,6 @@ export function EmptyState({
         <Button
           onClick={onClearSearch}
           variant="outline"
-          size="lg"
-          className="px-8 py-4 rounded-[1.5rem] text-lg"
         >
           Clear Search
         </Button>
@@ -81,8 +74,6 @@ export function EmptyState({
         <Button
           to="/create"
           icon={Plus}
-          size="lg"
-          className="px-8 py-4 rounded-[1.5rem] text-lg"
         >
           Create your first session
         </Button>

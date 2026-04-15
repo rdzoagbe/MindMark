@@ -52,8 +52,8 @@ export const SessionCard = memo(({ session, onTogglePin, onUpdateStatus }: Sessi
         </button>
       )}
 
-      <Link to={`/session/${session.id}`} className="block p-8">
-        <div className="flex flex-wrap items-center gap-2 mb-6">
+      <Link to={`/session/${session.id}`} className="block p-6">
+        <div className="flex flex-wrap items-center gap-2 mb-4">
           <Badge variant={statusConfig[session.status].variant} icon={StatusIcon} size="xs">
             {statusConfig[session.status].label}
           </Badge>
@@ -65,25 +65,25 @@ export const SessionCard = memo(({ session, onTogglePin, onUpdateStatus }: Sessi
           </Badge>
         </div>
 
-        <h3 className="text-2xl font-display font-extrabold text-slate-900 dark:text-white mb-4 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-tight">
+        <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-3 line-clamp-2 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors leading-tight">
           {session.title}
         </h3>
 
-        <div className="mb-6 p-5 bg-indigo-50/50 dark:bg-indigo-900/10 border border-indigo-100/50 dark:border-indigo-900/20 rounded-2xl">
-          <p className="text-[11px] font-display font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-2">Next Step</p>
-          <p className="text-sm font-bold text-slate-800 dark:text-slate-200 line-clamp-2 leading-relaxed">
+        <div className="mb-4 p-4 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-1">Next Step</p>
+          <p className="text-sm font-medium text-slate-800 dark:text-slate-200 line-clamp-2">
             {session.nextStep || 'No next step defined...'}
           </p>
         </div>
 
-        <div className="flex items-center justify-between mt-auto pt-6 border-t border-slate-100 dark:border-white/5">
+        <div className="flex items-center justify-between mt-auto pt-4 border-t border-slate-100 dark:border-slate-800">
           <div className="flex items-center gap-4 text-slate-400 dark:text-slate-500">
-            <div className="flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest">
+            <div className="flex items-center gap-1.5 text-xs font-medium">
               <Clock className="w-3.5 h-3.5" />
               {new Date(session.updatedAt).toLocaleDateString()}
             </div>
             {session.links.length > 0 && (
-              <div className="flex items-center gap-1.5 text-[11px] font-display font-bold uppercase tracking-widest">
+              <div className="flex items-center gap-1.5 text-xs font-medium">
                 <ExternalLink className="w-3.5 h-3.5" />
                 {session.links.length}
               </div>
@@ -92,12 +92,12 @@ export const SessionCard = memo(({ session, onTogglePin, onUpdateStatus }: Sessi
           
           <div className="flex gap-1.5">
             {session.tags.slice(0, 2).map((tag) => (
-              <Badge key={tag} variant="gray" size="xs" className="rounded-lg">
+              <Badge key={tag} variant="gray" size="xs" className="rounded-md">
                 #{tag}
               </Badge>
             ))}
             {session.tags.length > 2 && (
-              <span className="text-[11px] font-display font-bold text-slate-400 dark:text-slate-500 self-center ml-1">
+              <span className="text-xs font-medium text-slate-400 dark:text-slate-500 self-center ml-1">
                 +{session.tags.length - 2}
               </span>
             )}

@@ -29,10 +29,10 @@ export function PlanBadge({ plan, size = 'md' }: PlanBadgeProps) {
   const Icon = config.icon;
 
   return (
-    <span className={`inline-flex items-center gap-1.5 font-display font-bold uppercase tracking-widest border rounded-full ${config.className} ${
-      size === 'sm' ? 'px-2 py-0.5 text-[9px]' : 'px-3 py-1 text-[11px]'
+    <span className={`inline-flex items-center gap-1.5 font-medium border rounded-full ${config.className} ${
+      size === 'sm' ? 'px-2 py-0.5 text-xs' : 'px-2.5 py-0.5 text-sm'
     }`}>
-      <Icon className={size === 'sm' ? 'w-2.5 h-2.5' : 'w-3 h-3'} />
+      <Icon className={size === 'sm' ? 'w-3 h-3' : 'w-3.5 h-3.5'} />
       {config.label}
     </span>
   );

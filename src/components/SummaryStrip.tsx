@@ -27,40 +27,40 @@ export const SummaryStrip = memo(({ sessions }: SummaryStripProps) => {
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-      <Card className="p-5 flex items-center gap-5 border-slate-200 dark:border-white/5 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
-        <div className="w-12 h-12 rounded-[1rem] bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+      <Card padding="sm" className="flex items-center gap-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+        <div className="w-12 h-12 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
           <BarChart3 className="w-6 h-6" />
         </div>
         <div>
-          <p className="text-[11px] font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Active</p>
-          <p className="text-2xl font-display font-extrabold text-slate-900 dark:text-white mt-0.5">{stats.active}</p>
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Active</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white mt-0.5">{stats.active}</p>
         </div>
       </Card>
-      <Card className="p-5 flex items-center gap-5 border-slate-200 dark:border-white/5 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
-        <div className="w-12 h-12 rounded-[1rem] bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+      <Card padding="sm" className="flex items-center gap-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+        <div className="w-12 h-12 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
           <CheckCircle className="w-6 h-6" />
         </div>
         <div>
-          <p className="text-[11px] font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Completed</p>
-          <p className="text-2xl font-display font-extrabold text-slate-900 dark:text-white mt-0.5">{stats.done}</p>
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Completed</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white mt-0.5">{stats.done}</p>
         </div>
       </Card>
-      <Card className="p-5 flex items-center gap-5 border-slate-200 dark:border-white/5 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
-        <div className="w-12 h-12 rounded-[1rem] bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
+      <Card padding="sm" className="flex items-center gap-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+        <div className="w-12 h-12 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
           <Calendar className="w-6 h-6" />
         </div>
         <div>
-          <p className="text-[11px] font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Today</p>
-          <p className="text-2xl font-display font-extrabold text-slate-900 dark:text-white mt-0.5">{stats.resumableToday}</p>
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Today</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white mt-0.5">{stats.resumableToday}</p>
         </div>
       </Card>
-      <Card className="p-5 flex items-center gap-5 border-slate-200 dark:border-white/5 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
-        <div className="w-12 h-12 rounded-[1rem] bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
+      <Card padding="sm" className="flex items-center gap-4 bg-white/50 dark:bg-slate-900/50 backdrop-blur-sm">
+        <div className="w-12 h-12 rounded-lg bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
           <Clock className="w-6 h-6" />
         </div>
         <div>
-          <p className="text-[11px] font-display font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">Updated</p>
-          <p className="text-2xl font-display font-extrabold text-slate-900 dark:text-white mt-0.5">{stats.lastUpdated}</p>
+          <p className="text-xs font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">Updated</p>
+          <p className="text-2xl font-bold text-slate-900 dark:text-white mt-0.5">{stats.lastUpdated}</p>
         </div>
       </Card>
     </div>
