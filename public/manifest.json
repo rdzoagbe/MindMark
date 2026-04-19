@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+<<<<<<< HEAD
+  "name": "MindMark companion",
+  "version": "1.0.0",
+  "homepage_url": "https://mindmark.tech",
+  "description": "Bookmark your mind's exact state. The ultimate context-preservation tool.",
+  "permissions": ["tabs", "storage"],
+  "host_permissions": ["https://mindmark.tech/*"],
+=======
+  "name": "Context Saver Companion",
+  "version": "1.0.0",
+  "description": "Capture all open tabs into your Context Saver operational flow with one click.",
+  "permissions": ["tabs", "storage"],
+>>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": "icon.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+<<<<<<< HEAD
+  "content_scripts": [
+    {
+      "matches": ["https://mindmark.tech/*", "http://localhost:3000/*"],
+      "js": ["content.js"]
+    }
+  ],
+=======
+>>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

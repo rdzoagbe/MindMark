@@ -1,0 +1,11 @@
+{
+<<<<<<< HEAD
+  "name": "MindMark",
+  "description": "Bookmark your mind's exact state. The ultimate context-preservation tool.",
+=======
+  "name": "Context Saver",
+  "description": "A production-ready local-first productivity app to capture work context and resume without friction.",
+>>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
