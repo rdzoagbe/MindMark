@@ -18,7 +18,7 @@ import { Card } from '../components/ui/Card';
 import { useLanguage } from '../hooks/useLanguage';
 
 const HOW_TRANSLATIONS: Record<string, any> = {
-  English: {
+  EN: {
     back: 'Back to Home', signIn: 'Sign in', getStarted: 'Get Started',
     badge: 'The Methodology', title: 'How MindMark', titleHighlight: 'Works',
     subtitle: 'A structured approach to managing operational continuity in high-interruption environments.',
@@ -34,7 +34,7 @@ const HOW_TRANSLATIONS: Record<string, any> = {
       { title: "Continuity", desc: "Maintain multiple workstreams effortlessly. MindMark acts as an external memory for your operational state, allowing for seamless transitions across days or devices.", color: "bg-violet-500", icon: Layers3 }
     ]
   },
-  French: {
+  FR: {
     back: 'Retour à l\'accueil', signIn: 'Se connecter', getStarted: 'Commencer',
     badge: 'La Méthodologie', title: 'Comment MindMark', titleHighlight: 'Fonctionne',
     subtitle: 'Une approche structurée pour gérer la continuité opérationnelle dans les environnements à fortes interruptions.',
@@ -50,7 +50,7 @@ const HOW_TRANSLATIONS: Record<string, any> = {
       { title: "Continuité", desc: "Gérez plusieurs flux de travail sans effort. MindMark agit comme une mémoire externe pour votre état opérationnel.", color: "bg-violet-500", icon: Layers3 }
     ]
   },
-  Spanish: {
+  ES: {
     back: 'Volver al inicio', signIn: 'Iniciar sesión', getStarted: 'Empezar',
     badge: 'La Metodología', title: 'Cómo MindMark', titleHighlight: 'Funciona',
     subtitle: 'Un enfoque estructurado para gestionar la continuidad operativa en entornos de alta interrupción.',
@@ -66,7 +66,7 @@ const HOW_TRANSLATIONS: Record<string, any> = {
       { title: "Continuidad", desc: "Mantén múltiples flujos de trabajo sin esfuerzo. MindMark actúa como una memoria externa para tu estado operacional.", color: "bg-violet-500", icon: Layers3 }
     ]
   },
-  Portuguese: {
+  PT: {
     back: 'Voltar ao início', signIn: 'Entrar', getStarted: 'Começar',
     badge: 'A Metodologia', title: 'Como o MindMark', titleHighlight: 'Funciona',
     subtitle: 'Uma abordagem estruturada para gerenciar a continuidade operacional em ambientes de alta interrupção.',
@@ -82,7 +82,7 @@ const HOW_TRANSLATIONS: Record<string, any> = {
       { title: "Continuidade", desc: "Mantenha vários fluxos de trabalho sem esforço. O MindMark age como uma memória externa para seu estado operacional.", color: "bg-violet-500", icon: Layers3 }
     ]
   },
-  Chinese: {
+  ZH: {
     back: '返回主页', signIn: '登录', getStarted: '开始使用',
     badge: '方法论', title: 'MindMark 如何', titleHighlight: '运作',
     subtitle: '一种在频繁干扰环境中管理操作连续性的结构化方法。',
@@ -98,7 +98,7 @@ const HOW_TRANSLATIONS: Record<string, any> = {
       { title: "连续性", desc: "毫不费力地维护多个工作流。MindMark 充当您操作系统的外部存储器，允许在不同日期或设备之间进行无缝切换。", color: "bg-violet-500", icon: Layers3 }
     ]
   },
-  German: {
+  DE: {
     back: 'Zurück zum Dashboard', signIn: 'Anmelden', getStarted: 'Loslegen',
     badge: 'Die Methodik', title: 'Wie MindMark', titleHighlight: 'funktioniert',
     subtitle: 'Ein strukturierter Ansatz für operative Kontinuität in Umgebungen mit vielen Unterbrechungen.',
@@ -118,7 +118,7 @@ const HOW_TRANSLATIONS: Record<string, any> = {
 
 export function HowItWorks() {
   const { preferredLanguage } = useLanguage();
-  const t = HOW_TRANSLATIONS[preferredLanguage] || HOW_TRANSLATIONS['English'];
+  const t = HOW_TRANSLATIONS[preferredLanguage] || HOW_TRANSLATIONS['EN'];
 
   return (
     <div className="min-h-screen theme-bg theme-text-primary">

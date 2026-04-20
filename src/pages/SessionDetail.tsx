@@ -51,7 +51,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { restoreWorkspace } from '../utils/workspace';
 
 const DETAIL_TRANSLATIONS: Record<string, any> = {
-  English: {
+  EN: {
     loading: 'Loading session...',
     notFoundTitle: 'Session not found',
     notFoundDesc: 'The session you are looking for does not exist or has been deleted.',
@@ -71,7 +71,7 @@ const DETAIL_TRANSLATIONS: Record<string, any> = {
     popupBlocked: 'Popup blocker prevented some tabs from opening. Click the button below to retry manually.',
     confidential: 'Confidential', confidentialTitle: 'Disabled for confidential sessions'
   },
-  French: {
+  FR: {
     loading: 'Chargement de la session...',
     notFoundTitle: 'Session non trouvée',
     notFoundDesc: 'La session que vous recherchez n\'existe pas ou a été supprimée.',
@@ -91,7 +91,7 @@ const DETAIL_TRANSLATIONS: Record<string, any> = {
     popupBlocked: 'Le bloqueur de fenêtres a empêché l\'ouverture de certains onglets.',
     confidential: 'Confidentiel', confidentialTitle: 'Désactivé pour les sessions confidentielles'
   },
-  Spanish: {
+  ES: {
     loading: 'Cargando sesión...',
     notFoundTitle: 'Sesión no encontrada',
     notFoundDesc: 'La sesión que buscas no existe o fue eliminada.',
@@ -111,7 +111,7 @@ const DETAIL_TRANSLATIONS: Record<string, any> = {
     popupBlocked: 'El bloqueador de ventanas emergentes impidió abrir algunas pestañas.',
     confidential: 'Confidencial', confidentialTitle: 'Desactivado para sesiones confidenciales'
   },
-  Portuguese: {
+  PT: {
     loading: 'Carregando sessão...',
     notFoundTitle: 'Sessão não encontrada',
     notFoundDesc: 'A sessão que você procura não existe ou foi excluída.',
@@ -131,7 +131,7 @@ const DETAIL_TRANSLATIONS: Record<string, any> = {
     popupBlocked: 'O bloqueador de pop-ups impediu a abertura de algumas guias.',
     confidential: 'Confidencial', confidentialTitle: 'Desativado para sessões confidenciais'
   },
-  Chinese: {
+  ZH: {
     loading: '正在加载会话...',
     notFoundTitle: '未找到会话',
     notFoundDesc: '您正在寻找的会话不存在或已被删除。',
@@ -151,7 +151,7 @@ const DETAIL_TRANSLATIONS: Record<string, any> = {
     popupBlocked: '弹出窗口拦截器阻止了某些标签页的打开。',
     confidential: '机密', confidentialTitle: '机密会话已禁用此功能'
   },
-  German: {
+  DE: {
     loading: 'Sitzung wird geladen...',
     notFoundTitle: 'Sitzung nicht gefunden',
     notFoundDesc: 'Die gesuchte Sitzung existiert nicht oder wurde gelöscht.',
@@ -175,26 +175,26 @@ const DETAIL_TRANSLATIONS: Record<string, any> = {
 
 const getStatusLabels = (preferredLanguage: string) => {
   const translations: Record<string, any> = {
-    English: { active: 'Active', blocked: 'Blocked', done: 'Done', archived: 'Archived' },
-    French: { active: 'Actif', blocked: 'Bloqué', done: 'Terminé', archived: 'Archivé' },
-    Spanish: { active: 'Activo', blocked: 'Bloqueado', done: 'Hecho', archived: 'Archivado' },
-    Portuguese: { active: 'Ativo', blocked: 'Bloqueado', done: 'Concluído', archived: 'Arquivado' },
-    Chinese: { active: '进行中', blocked: '已受阻', done: '已完成', archived: '已归档' },
-    German: { active: 'Aktiv', blocked: 'Blockiert', done: 'Erledigt', archived: 'Archiviert' }
+    EN: { active: 'Active', blocked: 'Blocked', done: 'Done', archived: 'Archived' },
+    FR: { active: 'Actif', blocked: 'Bloqué', done: 'Terminé', archived: 'Archivé' },
+    ES: { active: 'Activo', blocked: 'Bloqueado', done: 'Hecho', archived: 'Archivado' },
+    PT: { active: 'Ativo', blocked: 'Bloqueado', done: 'Concluído', archived: 'Arquivado' },
+    ZH: { active: '进行中', blocked: '已受阻', done: '已完成', archived: '已归档' },
+    DE: { active: 'Aktiv', blocked: 'Blockiert', done: 'Erledigt', archived: 'Archiviert' }
   };
-  return translations[preferredLanguage] || translations['English'];
+  return translations[preferredLanguage] || translations['EN'];
 };
 
 const getPriorityLabels = (preferredLanguage: string) => {
   const translations: Record<string, any> = {
-    English: { low: 'Low', medium: 'Medium', high: 'High' },
-    French: { low: 'Basse', medium: 'Moyenne', high: 'Haute' },
-    Spanish: { low: 'Baja', medium: 'Media', high: 'Alta' },
-    Portuguese: { low: 'Baixa', medium: 'Média', high: 'Alta' },
-    Chinese: { low: '低', medium: '中', high: '高' },
-    German: { low: 'Niedrig', medium: 'Mittel', high: 'Hoch' }
+    EN: { low: 'Low', medium: 'Medium', high: 'High' },
+    FR: { low: 'Basse', medium: 'Moyenne', high: 'Haute' },
+    ES: { low: 'Baja', medium: 'Media', high: 'Alta' },
+    PT: { low: 'Baixa', medium: 'Média', high: 'Alta' },
+    ZH: { low: '低', medium: '中', high: '高' },
+    DE: { low: 'Niedrig', medium: 'Mittel', high: 'Hoch' }
   };
-  return translations[preferredLanguage] || translations['English'];
+  return translations[preferredLanguage] || translations['EN'];
 };
 
 export function SessionDetail() {
@@ -203,7 +203,7 @@ export function SessionDetail() {
   const { user } = useAuth();
   const { sessions, deleteSession, duplicateSession, updateStatus, updateSession, togglePin, isSyncing } = useSessions();
   const { preferredLanguage } = useLanguage();
-  const t = DETAIL_TRANSLATIONS[preferredLanguage] || DETAIL_TRANSLATIONS['English'];
+  const t = DETAIL_TRANSLATIONS[preferredLanguage] || DETAIL_TRANSLATIONS['EN'];
   
   const statusLabels = getStatusLabels(preferredLanguage);
   const priorityLabels = getPriorityLabels(preferredLanguage);

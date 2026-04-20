@@ -31,7 +31,7 @@ import { format, startOfDay, subDays } from 'date-fns';
 import { useLanguage } from '../hooks/useLanguage';
 
 const ANALYTICS_TRANSLATIONS: Record<string, any> = {
-  English: {
+  EN: {
     title: 'Advanced Analytics', desc: 'Deep insights into your productivity and context management.',
     pro: 'Pro Feature',
     total: 'Total Sessions', active: 'Active Now', completed: 'Completed', blocked: 'Blocked',
@@ -40,7 +40,7 @@ const ANALYTICS_TRANSLATIONS: Record<string, any> = {
     byCategory: 'Sessions by Category',
     topCategories: 'Top Categories'
   },
-  French: {
+  FR: {
     title: 'Analyses Avancées', desc: 'Aperçus profonds de votre productivité et gestion du contexte.',
     pro: 'Fonction Pro',
     total: 'Total Sessions', active: 'Actives', completed: 'Terminées', blocked: 'Bloquées',
@@ -49,7 +49,7 @@ const ANALYTICS_TRANSLATIONS: Record<string, any> = {
     byCategory: 'Sessions par catégorie',
     topCategories: 'Top catégories'
   },
-  Spanish: {
+  ES: {
     title: 'Análisis Avanzado', desc: 'Información profunda sobre tu productividad y gestión.',
     pro: 'Función Pro',
     total: 'Total Sesiones', active: 'Activas Hoy', completed: 'Completadas', blocked: 'Bloqueadas',
@@ -58,7 +58,7 @@ const ANALYTICS_TRANSLATIONS: Record<string, any> = {
     byCategory: 'Sesiones por Categoría',
     topCategories: 'Categorías Principales'
   },
-  Portuguese: {
+  PT: {
     title: 'Análise Avançada', desc: 'Insights profundos sobre sua produtividade e gestão.',
     pro: 'Recurso Pro',
     total: 'Total de Sessões', active: 'Ativas Agora', completed: 'Concluídas', blocked: 'Bloqueadas',
@@ -67,7 +67,7 @@ const ANALYTICS_TRANSLATIONS: Record<string, any> = {
     byCategory: 'Sessões por Categoria',
     topCategories: 'Principais Categorias'
   },
-  Chinese: {
+  ZH: {
     title: '高级分析', desc: '深入了解您的生产力和上下文管理。',
     pro: 'Pro 功能',
     total: '总会话数', active: '当前活跃', completed: '已完成', blocked: '已受阻',
@@ -76,7 +76,7 @@ const ANALYTICS_TRANSLATIONS: Record<string, any> = {
     byCategory: '按类别划分的会话',
     topCategories: '热门类别'
   },
-  German: {
+  DE: {
     title: 'Erweiterte Analysen', desc: 'Tiefe Einblicke in Ihre Produktivität.',
     pro: 'Pro-Funktion',
     total: 'Gesamt Sitzungen', active: 'Jetzt aktiv', completed: 'Erledigt', blocked: 'Blockiert',
@@ -91,20 +91,20 @@ const COLORS = ['#4f46e5', '#8b5cf6', '#ec4899', '#f43f5e', '#f59e0b', '#10b981'
 
 const getPriorityLabels = (preferredLanguage: string) => {
   const translations: Record<string, any> = {
-    English: { low: 'Low', medium: 'Medium', high: 'High' },
-    French: { low: 'Basse', medium: 'Moyenne', high: 'Haute' },
-    Spanish: { low: 'Baja', medium: 'Media', high: 'Alta' },
-    Portuguese: { low: 'Baixa', medium: 'Média', high: 'Alta' },
-    Chinese: { low: '低', medium: '中', high: '高' },
-    German: { low: 'Niedrig', medium: 'Mittel', high: 'Hoch' }
+    EN: { low: 'Low', medium: 'Medium', high: 'High' },
+    FR: { low: 'Basse', medium: 'Moyenne', high: 'Haute' },
+    ES: { low: 'Baja', medium: 'Media', high: 'Alta' },
+    PT: { low: 'Baixa', medium: 'Média', high: 'Alta' },
+    ZH: { low: '低', medium: '中', high: '高' },
+    DE: { low: 'Niedrig', medium: 'Mittel', high: 'Hoch' }
   };
-  return translations[preferredLanguage] || translations['English'];
+  return translations[preferredLanguage] || translations['EN'];
 };
 
 export function AnalyticsDashboard() {
   const { sessions } = useSessions();
   const { preferredLanguage } = useLanguage();
-  const t = ANALYTICS_TRANSLATIONS[preferredLanguage] || ANALYTICS_TRANSLATIONS['English'];
+  const t = ANALYTICS_TRANSLATIONS[preferredLanguage] || ANALYTICS_TRANSLATIONS['EN'];
   const priorityLabels = getPriorityLabels(preferredLanguage);
 
   const stats = useMemo(() => {

@@ -246,6 +246,47 @@ export const TRANSLATIONS: Record<string, any> = {
       privacyDesc: 'We do not sell your data. We do not use your sessions to train AI models.',
       paymentTitle: 'Payment Security',
       paymentDesc: 'All payments are handled by Stripe. We do not store card information.'
+    },
+    privacy: {
+      title: 'Privacy Policy',
+      date: 'Last updated: April 15, 2026',
+      badge: 'Privacy First',
+      s1Title: '1. Information We Collect',
+      s1Desc: 'MindMark is designed with a "local-first" philosophy. For free users, all session data is stored locally and never leaves your device.',
+      s1Pro: 'If you create an account or upgrade to Pro, we collect:',
+      s1List: [
+        'Email address (for account management and authentication)',
+        'Session data (only if Cloud Sync is enabled)',
+        'Usage analytics (to improve the product)',
+        'Payment information (processed securely via Stripe)'
+      ],
+      s2Title: '2. How We Use Your Information',
+      s2Desc: 'We use your information strictly to provide and improve the MindMark service. We do not sell your data.',
+      s3Title: '3. Data Security',
+      s3Desc: 'We implement industry-standard security measures. Cloud-synced data is encrypted at rest and in transit.',
+      s4Title: '4. Your Rights',
+      s4Desc: 'You have the right to access, export, or delete your data at any time.',
+      s5Title: '5. Contact Us',
+      s5Desc: 'Questions? Contact us at privacy@mindmark.app.',
+      footer: 'Your privacy is our priority.'
+    },
+    terms: {
+      title: 'Terms of Service',
+      date: 'Last updated: April 15, 2026',
+      badge: 'Legal Framework',
+      s1Title: '1. Acceptance of Terms',
+      s1Desc: 'By accessing or using MindMark, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the service.',
+      s2Title: '2. Description of Service',
+      s2Desc: 'MindMark provides tools for capturing and resuming work context. We offer both free (local-only) and paid (cloud-sync) plans.',
+      s3Title: '3. User Responsibilities',
+      s3Desc: 'You are responsible for maintaining the confidentiality of your account. You agree to use the service only for lawful purposes.',
+      s4Title: '4. Subscriptions and Payments',
+      s4Desc: 'Paid plans are billed on a subscription basis. You can cancel your subscription at any time through your account settings.',
+      s5Title: '5. Limitation of Liability',
+      s5Desc: 'MindMark is provided "as is" without warranties. We are not liable for any loss of data.',
+      s6Title: '6. Changes to Terms',
+      s6Desc: 'We reserve the right to modify these terms at any time. We will notify users of any significant changes.',
+      footer: 'Clear terms for clear work.'
     }
   },
   FR: {
