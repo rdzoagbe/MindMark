@@ -1,4 +1,16 @@
+/**
+ * PRODUCTION SERVERLESS EXECUTION CONTEXT
+ * 
+ * NOTE: This `index.ts` file acts as the primary Firebase Cloud Functions source of truth 
+ * for the production web build. 
+ * 
+ * IMPORTANT: Features like Stripe Webhooks, Subscriptions, and Extension sync MUST 
+ * be maintained here. Do NOT rely on the local `server.ts` fallback when deployed to production.
+ * 
+ * Ensure all sensitive logic safely checks `process.env`.
+ */
 import * as functions from "firebase-functions";
+import { defineSecret } from "firebase-functions/params";
 import admin from "firebase-admin";
 import Stripe from "stripe";
 import cors from "cors";
@@ -9,22 +21,14 @@ admin.initializeApp();
 
 const corsHandler = cors({ origin: true });
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
-  apiVersion: "2023-10-16",
-});
-
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
-
-// Environment Variable Validation Checks
-if (!process.env.STRIPE_WEBHOOK_SECRET) {
-  functions.logger.error("CRITICAL: STRIPE_WEBHOOK_SECRET is missing. Webhooks will fail.");
-}
-if (!process.env.GEMINI_API_KEY) {
-  functions.logger.error("WARNING: GEMINI_API_KEY is missing. Smart Resume AI features will fall back to empty notes.");
-}
+// Define Secrets parameters correctly for modern Firebase
+const stripeSecretKey = defineSecret("STRIPE_SECRET_KEY");
+const stripeWebhookSecret = defineSecret("STRIPE_WEBHOOK_SECRET");
+const geminiApiKey = defineSecret("GEMINI_API_KEY");
 
 // 1. Stripe Checkout Session Creation
-export const createCheckoutSession = functions.https.onRequest((req, res) => {
+export const createCheckoutSession = functions.runWith({secrets: [stripeSecretKey]}).https.onRequest((req, res) => {
+  const stripe = new Stripe(stripeSecretKey.value(), { apiVersion: "2023-10-16" });
   return corsHandler(req, res, async () => {
     if (req.method !== "POST") {
       res.status(405).send("Method Not Allowed");
@@ -85,7 +89,7 @@ export const getUserPlan = functions.https.onRequest((req, res) => {
 });
 
 // 3. Save Extension Session
-export const saveExtensionSession = functions.https.onRequest((req, res) => {
+export const saveExtensionSession = functions.runWith({secrets: [geminiApiKey]}).https.onRequest((req, res) => {
   return corsHandler(req, res, async () => {
     if (req.method !== "POST") {
       res.status(405).send("Method Not Allowed");
@@ -128,9 +132,9 @@ export const saveExtensionSession = functions.https.onRequest((req, res) => {
       let notes = summary ? `**AI Summary of Saved Tabs:**\n${summary}` : "";
 
       // Background task implementation for summarization if not provided directly
-      if (!summary && links && links.length > 0 && process.env.GEMINI_API_KEY) {
+      if (!summary && links && links.length > 0 && geminiApiKey.value()) {
         try {
-          const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+          const ai = new GoogleGenAI({ apiKey: geminiApiKey.value() });
           const linkList = links.map((l: any) => `- ${l.label} (${l.url})`).join('\n');
           const prompt = `You are a professional multilingual researcher. Analyze these tabs and provide a high-quality summary and next-step recommendation. Ensure the output uses perfect grammar. Output the summary in the user's detected language (defaulting to English if unsure) among: English, French, Spanish, Portuguese, Chinese, or German.\n\nTabs:\n${linkList}`;
           const response = await ai.models.generateContent({ model: "gemini-2.5-flash", contents: prompt });
@@ -173,15 +177,16 @@ export const saveExtensionSession = functions.https.onRequest((req, res) => {
 });
 
 // 4. Stripe Webhook
-export const stripeWebhook = functions.https.onRequest(async (req, res) => {
+export const stripeWebhook = functions.runWith({secrets: [stripeSecretKey, stripeWebhookSecret]}).https.onRequest(async (req, res) => {
+  const stripe = new Stripe(stripeSecretKey.value(), { apiVersion: "2023-10-16" });
   const sig = req.headers["stripe-signature"];
   let event: Stripe.Event;
 
   try {
-    if (!sig || !endpointSecret) {
+    if (!sig || !stripeWebhookSecret.value()) {
       throw new Error("Missing signature or secret");
     }
-    event = stripe.webhooks.constructEvent(req.rawBody, sig, endpointSecret);
+    event = stripe.webhooks.constructEvent(req.rawBody, sig, stripeWebhookSecret.value());
   } catch (err: any) {
     functions.logger.error(`Webhook Error: ${err.message}`);
     res.status(400).send(`Webhook Error: ${err.message}`);
@@ -225,7 +230,7 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
                 subscriptionStatus: "active",
                 stripeCustomerId: customerId,
                 stripeSubscriptionId: subscriptionId,
-                currentPeriodEnd: subscription.items.data[0].current_period_end * 1000,
+                currentPeriodEnd: subscription.current_period_end * 1000,
                 updatedAt: admin.firestore.FieldValue.serverTimestamp(),
               }, { merge: true });
 
@@ -255,7 +260,7 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
               status: subscription.status,
               subscriptionStatus: (subscription.status === "active" || subscription.status === "trialing") ? "active" : "inactive",
               stripeSubscriptionId: subscription.id,
-              currentPeriodEnd: subscription.items.data[0].current_period_end * 1000,
+              currentPeriodEnd: subscription.current_period_end * 1000,
               updatedAt: admin.firestore.FieldValue.serverTimestamp(),
             });
           }

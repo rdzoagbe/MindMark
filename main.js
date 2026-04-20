@@ -12,14 +12,25 @@ let mainWindow;
 
 async function getActiveWindowTitle() {
   try {
-    const command = process.platform === 'win32' 
-      ? 'powershell -command "(Get-Process | Where-Object { $_.MainWindowHandle -eq (Add-Type \u0027[DllImport(\"user32.dll\")] public static extern IntPtr GetForegroundWindow();\u0027 -Name \"Win32GetForegroundWindow\" -PassThru)::GetForegroundWindow() }).MainWindowTitle"'
-      : 'osascript -e "tell application \"System Events\" to get name of first process whose frontmost is true"';
-    const { stdout } = await execAsync(command);
-    return stdout.trim();
-  } catch (error) {
-    console.error('Error capturing window title:', error);
+    // Attempt to load native module 'active-win' dynamically 
+    const activeWindow = (await import('active-win')).default;
+    const windowInfo = await activeWindow();
+    if (windowInfo && windowInfo.title) {
+      return windowInfo.title;
+    }
     return 'Unknown Application';
+  } catch (err) {
+    console.warn('active-win failed to load native modules, falling back to OS scripts:', err);
+    try {
+      const command = process.platform === 'win32' 
+        ? 'powershell -command "(Get-Process | Where-Object { $_.MainWindowHandle -eq (Add-Type \u0027[DllImport(\"user32.dll\")] public static extern IntPtr GetForegroundWindow();\u0027 -Name \"Win32GetForegroundWindow\" -PassThru)::GetForegroundWindow() }).MainWindowTitle"'
+        : 'osascript -e "tell application \\"System Events\\" to get name of first process whose frontmost is true"';
+      const { stdout } = await execAsync(command);
+      return stdout.trim() || 'Unknown Application';
+    } catch (error) {
+      console.error('Error capturing window title via fallback script:', error);
+      return 'Unknown Application';
+    }
   }
 }
 

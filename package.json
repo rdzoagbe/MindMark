@@ -1,7 +1,7 @@
 {
   "name": "mindmark",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "main": "main.js",
   "scripts": {
@@ -50,6 +50,7 @@
     "@google/generative-ai": "^0.21.0",
     "@stripe/stripe-js": "^9.2.0",
     "@tailwindcss/typography": "^0.5.19",
+    "active-win": "^3.0.0",
     "cors": "^2.8.6",
     "cross-env": "^10.1.0",
     "date-fns": "^4.1.0",
@@ -70,26 +71,20 @@
     "tsx": "^4.21.0"
   },
   "devDependencies": {
-    "@tailwindcss/vite": "^4.0.0",
+    "@tailwindcss/vite": "^4.1.14",
     "@types/chrome": "^0.1.40",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^22.14.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^4.3.3",
     "autoprefixer": "^10.4.21",
-    "electron": "^41.2.1",
-    "electron-builder": "^26.8.1",
-    "tailwindcss": "^4.0.0",
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8",
+    "tailwindcss": "^4.1.14",
     "typescript": "~5.8.2",
     "vite": "^6.0.0",
     "vite-plugin-pwa": "^1.2.0"
-  },
-  "overrides": {
-    "protobufjs": "^7.5.4",
-    "google-gax": "^4.4.1",
-    "jsonwebtoken": "^9.0.2",
-    "serialize-javascript": "^7.0.5"
   }
 }

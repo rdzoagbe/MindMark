@@ -47,3 +47,12 @@ export interface UserPlan {
   type: PlanType;
   expiresAt?: number;
 }
+
+declare global {
+  interface Window {
+    electronAPI?: {
+      getActiveWindow: () => Promise<any>;
+      openPath?: (path: string) => Promise<void>;
+    };
+  }
+}

@@ -1,3 +1,15 @@
+/**
+ * LOCAL & ELECTRON EXECUTION CONTEXT
+ * 
+ * NOTE: This `server.ts` file acts as the primary web and API server for local development 
+ * and the Electron desktop app build. 
+ * 
+ * IMPORTANT: For the production web build on Firebase, this file is NOT used.
+ * Production serverless execution (like Stripe Webhooks) MUST be maintained within 
+ * `functions/src/index.ts` as the sole serverless source of truth.
+ * 
+ * Ensure all sensitive logic safely checks `process.env`.
+ */
 import express from 'express';
 import cors from 'cors';
 import { createServer as createViteServer } from 'vite';
@@ -147,7 +159,7 @@ async function startServer() {
                   status: subscription.status,
                   stripeCustomerId: customerId,
                   stripeSubscriptionId: subscriptionId,
-                  currentPeriodEnd: subscription.items.data[0].current_period_end * 1000,
+                  currentPeriodEnd: subscription.current_period_end * 1000,
                   updatedAt: admin.firestore.FieldValue.serverTimestamp(),
                 }, { merge: true });
             }
@@ -174,7 +186,7 @@ async function startServer() {
                 plan: plan,
                 status: subscription.status,
                 stripeSubscriptionId: subscription.id,
-                currentPeriodEnd: subscription.items.data[0].current_period_end * 1000,
+                currentPeriodEnd: subscription.current_period_end * 1000,
                 updatedAt: admin.firestore.FieldValue.serverTimestamp(),
               });
             }

@@ -11,6 +11,7 @@ import { MigrationModal } from './MigrationModal';
 import { useSessions } from '../contexts/SessionContext';
 import { GlobalLanguageSelector } from './GlobalLanguageSelector';
 import { Button } from './ui/Button';
+import { DownloadDropdown } from './DownloadDropdown';
 
 import { useLanguage } from '../hooks/useLanguage';
 
@@ -141,14 +142,12 @@ export function Layout() {
           </div>
           <div className="flex items-center gap-3">
             <GlobalLanguageSelector />
-            <Button
-              variant="outline"
+            <DownloadDropdown
+              variant="simple"
               size="sm"
-              icon={Download}
-              onClick={() => window.open('https://github.com/rdzoagbe/MindMark/releases', '_blank')}
-            >
-              Get Desktop App
-            </Button>
+              text="Desktop App"
+              className="hidden sm:block"
+            />
             {isAuthenticated && (
               <div className="sm:hidden w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white shadow-sm">
                 {user?.photoURL ? (

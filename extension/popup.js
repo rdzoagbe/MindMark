@@ -2,7 +2,12 @@
  * MindMark Companion - Popup Script
  */
 
-const DOMAIN = 'mindmark.tech';
+const CONFIG = {
+  DOMAIN: 'mindmark.tech',
+  API_BASE: 'https://us-central1-accessguard-v2.cloudfunctions.net'
+};
+
+const DOMAIN = CONFIG.DOMAIN;
 // We don't use API_URL here directly anymore, background.js points to the Cloud Function
 
 // State

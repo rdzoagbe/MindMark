@@ -11,12 +11,14 @@ import {
 import { Button } from './ui/Button';
 
 interface DownloadDropdownProps {
-  onWebClick: () => void;
+  onWebClick?: () => void;
   className?: string;
   size?: 'sm' | 'md' | 'lg';
+  variant?: 'split' | 'simple';
+  text?: string;
 }
 
-export function DownloadDropdown({ onWebClick, className = '', size = 'md' }: DownloadDropdownProps) {
+export function DownloadDropdown({ onWebClick, className = '', size = 'md', variant = 'split', text = 'Get Started' }: DownloadDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -68,22 +70,35 @@ export function DownloadDropdown({ onWebClick, className = '', size = 'md' }: Do
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
-      <div className="flex items-center w-full">
-        <Button 
-          onClick={onWebClick}
-          size={size}
-          className="flex-1 sm:flex-initial rounded-r-none border-r border-white/20 px-8 h-14"
-        >
-          Get Started
-        </Button>
+      {variant === 'split' ? (
+        <div className="flex items-center w-full">
+          <Button 
+            onClick={onWebClick}
+            size={size}
+            className="flex-1 sm:flex-initial rounded-r-none border-r border-white/20 px-8 h-14"
+          >
+            {text}
+          </Button>
+          <Button
+            onClick={() => setIsOpen(!isOpen)}
+            size={size}
+            className="rounded-l-none px-4 h-14"
+          >
+            <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+          </Button>
+        </div>
+      ) : (
         <Button
           onClick={() => setIsOpen(!isOpen)}
           size={size}
-          className="rounded-l-none px-4 h-14"
+          variant="outline"
+          className="flex items-center gap-2"
         >
-          <ChevronDown className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
+          <Download className="w-4 h-4" />
+          <span className="hidden sm:inline">{text}</span>
+          <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
         </Button>
-      </div>
+      )}
 
       <AnimatePresence>
         {isOpen && (
