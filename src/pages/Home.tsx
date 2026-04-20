@@ -7,6 +7,7 @@ import { useLanguage } from '../hooks/useLanguage';
 import { useTranslation } from '../hooks/useTranslation';
 import { SessionCard } from '../components/SessionCard';
 import { SummaryStrip } from '../components/SummaryStrip';
+import { DesktopCapture } from '../components/DesktopCapture';
 import { SearchFilterBar } from '../components/SearchFilterBar';
 import { EmptyState } from '../components/EmptyState';
 import { OnboardingCard } from '../components/OnboardingCard';
@@ -176,6 +177,10 @@ export function Home() {
       </AnimatePresence>
 
       <SummaryStrip sessions={sessions} />
+      
+      <FeatureGate feature="cloud_sync" inline>
+        <DesktopCapture />
+      </FeatureGate>
       
       {isFree && (
         <motion.div
