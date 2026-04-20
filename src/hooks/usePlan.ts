@@ -14,31 +14,17 @@ const PLAN_FEATURES: Record<PlanType, Feature[]> = {
 
 export function usePlan() {
   const { user } = useAuth();
-  const [plan, setPlanState] = useState<UserPlan>(() => {
-    const saved = localStorage.getItem('simulated_plan');
-    if (saved) return { type: saved as PlanType };
-    return { type: 'free' };
-  });
+  const [plan, setPlanState] = useState<UserPlan>({ type: 'free' });
 
   useEffect(() => {
     if (!user) {
-      // If not logged in, we can still use simulated plan or default to free
-      const saved = localStorage.getItem('simulated_plan');
-      if (!saved) setPlanState({ type: 'free' });
+      setPlanState({ type: 'free' });
       return;
     }
 
     const unsubscribe = onSnapshot(
       doc(db, 'users', user.uid, 'billing', 'subscription'),
       (docSnap) => {
-        // Only override if we don't have a simulated plan, or if we want real data to take precedence
-        // For simulation purposes, we'll let the simulated plan in localStorage take precedence if it exists
-        const saved = localStorage.getItem('simulated_plan');
-        if (saved) {
-          setPlanState({ type: saved as PlanType });
-          return;
-        }
-
         if (docSnap.exists()) {
           const data = docSnap.data();
           const status = data.status;
@@ -48,17 +34,18 @@ export function usePlan() {
             setPlanState({ type: 'free' });
           }
         } else {
-          setPlanState({ type: 'free' });
+          // Check for manual override in dev (keep for testing but as lowest priority)
+          const saved = localStorage.getItem('simulated_plan');
+          if (saved) {
+            setPlanState({ type: saved as PlanType });
+          } else {
+            setPlanState({ type: 'free' });
+          }
         }
       },
       (error) => {
-        console.error("Error fetching plan (Missing or insufficient permissions).", {
-          uid: user.uid,
-          email: user.email,
-          error: error.message
-        });
-        const saved = localStorage.getItem('simulated_plan');
-        if (!saved) setPlanState({ type: 'free' });
+        console.error("Error fetching plan:", error.message);
+        setPlanState({ type: 'free' });
       }
     );
 
@@ -66,6 +53,7 @@ export function usePlan() {
   }, [user]);
 
   const upgrade = useCallback(async (newPlan: PlanType) => {
+    // Only used for manual UI simulation testing
     setPlanState({ type: newPlan });
     localStorage.setItem('simulated_plan', newPlan);
   }, []);

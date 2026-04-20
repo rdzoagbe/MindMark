@@ -1,120 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, FileText, Scale, Gavel, CheckCircle2 } from 'lucide-react';
-import { motion } from 'motion/react';
-import { Button } from '../components/ui/Button';
+import { ArrowLeft, Scale } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
-import { useLanguage } from '../hooks/useLanguage';
-
-const TERMS_TRANSLATIONS: Record<string, any> = {
-  English: {
-    backHome: 'Home', backDashboard: 'Dashboard',
-    badge: 'Legal Framework', title: 'Terms of Service', date: 'Last updated: April 15, 2026',
-    s1Title: '1. Acceptance of Terms',
-    s1Desc: 'By accessing or using MindMark, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use the service.',
-    s2Title: '2. Description of Service',
-    s2Desc: 'MindMark provides tools for capturing and resuming work context. We offer both free (local-only) and paid (cloud-sync) plans.',
-    s3Title: '3. User Responsibilities',
-    s3Desc: 'You are responsible for maintaining the confidentiality of your account. You agree to use the service only for lawful purposes.',
-    s4Title: '4. Subscriptions and Payments',
-    s4Desc: 'Paid plans are billed on a subscription basis. You can cancel your subscription at any time through your account settings.',
-    s5Title: '5. Limitation of Liability',
-    s5Desc: 'MindMark is provided "as is" without warranties. We are not liable for any loss of data.',
-    s6Title: '6. Changes to Terms',
-    s6Desc: 'We reserve the right to modify these terms at any time. We will notify users of any significant changes.',
-    footer: 'Clear terms for clear work.'
-  },
-  French: {
-    backHome: 'Accueil', backDashboard: 'Tableau de bord',
-    badge: 'Cadre légal', title: 'Conditions d\'utilisation', date: 'Mise à jour : 15 avril 2026',
-    s1Title: '1. Acceptation des conditions',
-    s1Desc: 'En accédant à MindMark, vous acceptez d\'être lié par ces conditions. Si vous n\'êtes pas d\'accord, n\'utilisez pas le service.',
-    s2Title: '2. Description du service',
-    s2Desc: 'MindMark fournit des outils pour capturer le contexte de travail. Nous offrons des plans gratuits et payants.',
-    s3Title: '3. Responsabilités de l\'utilisateur',
-    s3Desc: 'Vous êtes responsable de la confidentialité de votre compte et de son utilisation légale.',
-    s4Title: '4. Abonnements et paiements',
-    s4Desc: 'Les plans payants sont facturés par abonnement. Vous pouvez annuler à tout moment.',
-    s5Title: '5. Limitation de responsabilité',
-    s5Desc: 'MindMark est fourni "en l\'état". Nous ne sommes pas responsables des pertes de données.',
-    s6Title: '6. Modifications',
-    s6Desc: 'Nous nous réservons le droit de modifier ces conditions à tout moment.',
-    footer: 'Des conditions claires pour un travail serein.'
-  },
-  Spanish: {
-    backHome: 'Inicio', backDashboard: 'Panel',
-    badge: 'Marco Legal', title: 'Términos del Servicio', date: 'Última actualización: 15 de abril de 2026',
-    s1Title: '1. Aceptación de Términos',
-    s1Desc: 'Al usar MindMark, aceptas estos términos. Si no estás de acuerdo, por favor no uses el servicio.',
-    s2Title: '2. Descripción del Servicio',
-    s2Desc: 'MindMark ofrece herramientas para capturar el contexto de trabajo. Ofrecemos planes gratuitos y de pago.',
-    s3Title: '3. Responsabilidades del Usuario',
-    s3Desc: 'Eres responsable de la confidencialidad de tu cuenta y de su uso legal.',
-    s4Title: '4. Suscripciones y Pagos',
-    s4Desc: 'Los planes de pago se facturan por suscripción. Puedes cancelar en cualquier momento.',
-    s5Title: '5. Limitación de Responsabilidad',
-    s5Desc: 'MindMark se ofrece "tal cual". No somos responsables por la pérdida de datos.',
-    s6Title: '6. Cambios en los Términos',
-    s6Desc: 'Nos reservamos el derecho de modificar estos términos en cualquier momento.',
-    footer: 'Términos claros para un trabajo enfocado.'
-  },
-  Portuguese: {
-    backHome: 'Início', backDashboard: 'Painel',
-    badge: 'Estrutura Legal', title: 'Termos de Serviço', date: 'Última atualização: 15 de abril de 2026',
-    s1Title: '1. Aceitação dos Termos',
-    s1Desc: 'Ao usar o MindMark, você concorda com estes termos. Se não concordar, não use o serviço.',
-    s2Title: '2. Descrição do Serviço',
-    s2Desc: 'O MindMark fornece ferramentas para capturar o contexto de trabalho. Oferecemos planos gratuitos e pagos.',
-    s3Title: '3. Responsabilidades do Usuário',
-    s3Desc: 'Você é responsável pela confidencialidade da sua conta e pelo seu uso legal.',
-    s4Title: '4. Assinaturas e Pagamentos',
-    s4Desc: 'Planos pagos são cobrados por assinatura. Você pode cancelar a qualquer momento.',
-    s5Title: '5. Limitação de Responsabilidade',
-    s5Desc: 'O MindMark é fornecido "como está". Não somos responsáveis por perda de dados.',
-    s6Title: '6. Alterações nos Termos',
-    s6Desc: 'Reservamo-nos o direito de modificar estes termos a qualquer momento.',
-    footer: 'Termos claros para um trabalho focado.'
-  },
-  Chinese: {
-    backHome: '首页', backDashboard: '仪表板',
-    badge: '法律框架', title: '服务条款', date: '最后更新：2026 年 4 月 15 日',
-    s1Title: '1. 接受条款',
-    s1Desc: '访问或使用 MindMark 即表示您同意受这些服务条款的约束。如果您不同意这些条款，请不要使用此服务。',
-    s2Title: '2. 服务说明',
-    s2Desc: 'MindMark 提供捕捉和恢复工作上下文的工具。我们提供免费（仅限本地）和付费（云同步）计划。',
-    s3Title: '3. 用户责任',
-    s3Desc: '您有责任维护帐户的机密性并确保合法使用服务。',
-    s4Title: '4. 订阅和支付',
-    s4Desc: '付费计划按订阅计费。您可以随时通过帐户设置取消订阅。',
-    s5Title: '5. 责任限制',
-    s5Desc: 'MindMark 按“原样”提供。我们对任何数据丢失不承担责任。',
-    s6Title: '6. 条款变更',
-    s6Desc: '我们保留随时修改这些条款的权利。我们将通知用户重大变更。',
-    footer: '清晰条款，高效工作。'
-  },
-  German: {
-    backHome: 'Startseite', backDashboard: 'Dashboard',
-    badge: 'Rechtlicher Rahmen', title: 'Nutzungsbedingungen', date: 'Letzte Aktualisierung: 15. April 2026',
-    s1Title: '1. Annahme der Bedingungen',
-    s1Desc: 'Durch die Nutzung von MindMark erklären Sie sich mit diesen Bedingungen einverstanden.',
-    s2Title: '2. Beschreibung des Dienstes',
-    s2Desc: 'MindMark bietet Tools zur Erfassung des Arbeitskontextes. Wir bieten Gratis- und Bezahl-Pläne an.',
-    s3Title: '3. Nutzerpflichten',
-    s3Desc: 'Sie sind für die Sicherheit Ihres Kontos und die rechtmäßige Nutzung verantwortlich.',
-    s4Title: '4. Abonnements und Zahlungen',
-    s4Desc: 'Bezahlpläne werden im Abonnement abgerechnet. Kündigung ist jederzeit möglich.',
-    s5Title: '5. Haftungsbeschränkung',
-    s5Desc: 'MindMark wird "wie besehen" bereitgestellt. Wir haften nicht für Datenverlust.',
-    s6Title: '6. Änderungen der Bedingungen',
-    s6Desc: 'Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern.',
-    footer: 'Klare Regeln für konzentriertes Arbeiten.'
-  }
-};
+import { useTranslation } from '../hooks/useTranslation';
 
 export function Terms() {
   const { isAuthenticated } = useAuth();
-  const { preferredLanguage } = useLanguage();
-  const t = TERMS_TRANSLATIONS[preferredLanguage] || TERMS_TRANSLATIONS['English'];
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen theme-bg theme-text-primary">
@@ -122,7 +14,7 @@ export function Terms() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2 theme-text-secondary hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
             <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium">{isAuthenticated ? t.backDashboard : t.backHome}</span>
+            <span className="font-medium">{isAuthenticated ? t('terms.backDashboard') : t('terms.backHome')}</span>
           </Link>
         </div>
       </nav>
@@ -131,48 +23,48 @@ export function Terms() {
         <section className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 theme-text-secondary text-xs font-bold uppercase tracking-wider">
             <Scale className="w-3.5 h-3.5" />
-            {t.badge}
+            {t('terms.badge')}
           </div>
-          <h1 className="text-4xl font-bold tracking-tight theme-text-primary">{t.title}</h1>
-          <p className="theme-text-secondary">{t.date}</p>
+          <h1 className="text-4xl font-bold tracking-tight theme-text-primary">{t('terms.title')}</h1>
+          <p className="theme-text-secondary">{t('terms.date')}</p>
         </section>
 
         <div className="prose prose-slate dark:prose-invert max-w-none space-y-8 theme-text-secondary leading-relaxed">
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">{t.s1Title}</h2>
-            <p>{t.s1Desc}</p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t('terms.s1Title')}</h2>
+            <p>{t('terms.s1Desc')}</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">{t.s2Title}</h2>
-            <p>{t.s2Desc}</p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t('terms.s2Title')}</h2>
+            <p>{t('terms.s2Desc')}</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">{t.s3Title}</h2>
-            <p>{t.s3Desc}</p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t('terms.s3Title')}</h2>
+            <p>{t('terms.s3Desc')}</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">{t.s4Title}</h2>
-            <p>{t.s4Desc}</p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t('terms.s4Title')}</h2>
+            <p>{t('terms.s4Desc')}</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">{t.s5Title}</h2>
-            <p>{t.s5Desc}</p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t('terms.s5Title')}</h2>
+            <p>{t('terms.s5Desc')}</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">{t.s6Title}</h2>
-            <p>{t.s6Desc}</p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t('terms.s6Title')}</h2>
+            <p>{t('terms.s6Desc')}</p>
           </section>
         </div>
       </main>
 
       <footer className="border-t theme-border py-12 theme-surface">
         <div className="max-w-7xl mx-auto px-6 text-center theme-text-secondary text-sm">
-          <p>© {new Date().getFullYear()} MindMark. {t.footer}</p>
+          <p>© {new Date().getFullYear()} MindMark. {t('terms.footer')}</p>
         </div>
       </footer>
     </div>

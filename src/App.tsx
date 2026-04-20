@@ -13,6 +13,7 @@ import { SessionProvider } from './contexts/SessionContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { CommandPalette } from './components/CommandPalette';
+import { SEOManager } from './components/SEOManager';
 
 // Lazy load heavy pages
 const CreateSession = lazy(() => import('./pages/CreateSession').then(module => ({ default: module.CreateSession })));
@@ -44,6 +45,7 @@ function AppContent() {
     <ErrorBoundary>
       <LanguageProvider>
         <HashRouter>
+          <SEOManager />
           <SessionProvider>
             <CommandPalette />
             <Suspense fallback={<PageLoader />}>

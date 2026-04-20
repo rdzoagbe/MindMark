@@ -81,6 +81,16 @@
     "/users/{userId}": {
       "schema": "UserProfile",
       "description": "Private user profile documents."
+    },
+    "/processed_events/{eventId}": {
+      "schema": {
+        "type": "object",
+        "properties": {
+          "processedAt": { "type": "object" },
+          "type": { "type": "string" }
+        }
+      },
+      "description": "Stripe webhook idempotency tracking."
     }
   }
 }

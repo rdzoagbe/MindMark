@@ -6,13 +6,12 @@ const sanitize = (val: string | undefined | null) => {
   return val.replace(/['"]+/g, '').trim();
 };
 
-const LIVE_PUBLIC_KEY = "pk_live_51T9WuB1yFs6IziIVLOyzJRCq6J8Nrbt3l8d9McbNFJvGIDXttWxmcWTJNXX8V2pNqpbgLXg1tAJndUBFflZgwVMr00GzDjqAcB";
 const envKey = sanitize(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-const STRIPE_PUBLIC_KEY = envKey || LIVE_PUBLIC_KEY;
+const STRIPE_PUBLIC_KEY = envKey;
 
 // Strict environment variable check for debugging in production
 if (envKey === undefined) {
-  console.info('[Stripe Info] VITE_STRIPE_PUBLIC_KEY not detected, falling back to LIVE_PUBLIC_KEY.');
+  console.info('[Stripe Info] VITE_STRIPE_PUBLIC_KEY not detected.');
 }
 
 // Initialize Stripe sparingly

@@ -9,7 +9,7 @@ import { Button } from '../components/ui/Button';
 import { useLanguage } from '../hooks/useLanguage';
 
 const SIGNUP_TRANSLATIONS: Record<string, any> = {
-  English: {
+  EN: {
     title: 'Create Account',
     subtitle: 'Start syncing your work context across all your devices.',
     google: 'Google', microsoft: 'Microsoft', or: 'Or continue with email',
@@ -21,7 +21,7 @@ const SIGNUP_TRANSLATIONS: Record<string, any> = {
     errorLength: 'Password must be at least 6 characters long',
     fixKey: 'Fix API Key'
   },
-  French: {
+  FR: {
     title: 'Créer un compte',
     subtitle: 'Synchronisez votre contexte de travail sur tous vos appareils.',
     google: 'Google', microsoft: 'Microsoft', or: 'Ou continuer avec l\'e-mail',
@@ -33,7 +33,7 @@ const SIGNUP_TRANSLATIONS: Record<string, any> = {
     errorLength: 'Le mot de passe doit faire au moins 6 caractères',
     fixKey: 'Corriger la clé API'
   },
-  Spanish: {
+  ES: {
     title: 'Crear Cuenta',
     subtitle: 'Comienza a sincronizar tu contexto de trabajo en todos tus dispositivos.',
     google: 'Google', microsoft: 'Microsoft', or: 'O continúa con el correo',
@@ -45,7 +45,7 @@ const SIGNUP_TRANSLATIONS: Record<string, any> = {
     errorLength: 'La contraseña debe tener al menos 6 caracteres',
     fixKey: 'Corregir clave API'
   },
-  Portuguese: {
+  PT: {
     title: 'Criar Conta',
     subtitle: 'Comece a sincronizar seu contexto em todos os seus dispositivos.',
     google: 'Google', microsoft: 'Microsoft', or: 'Ou continue com e-mail',
@@ -55,9 +55,9 @@ const SIGNUP_TRANSLATIONS: Record<string, any> = {
     already: 'Já tem uma conta?', signIn: 'Entre aqui',
     errorMatch: 'As senhas não coincidem',
     errorLength: 'A senha deve ter pelo menos 6 caracteres',
-    fixKey: 'Corrigir chave API'
+    fixKey: 'Corregir chave API'
   },
-  Chinese: {
+  ZH: {
     title: '创建帐户',
     subtitle: '开始在所有设备上同步您的工作上下文。',
     google: 'Google', microsoft: 'Microsoft', or: '或通过电子邮件继续',
@@ -69,7 +69,7 @@ const SIGNUP_TRANSLATIONS: Record<string, any> = {
     errorLength: '密码长度必须至少为 6 个字符',
     fixKey: '修复 API 密钥'
   },
-  German: {
+  DE: {
     title: 'Konto erstellen',
     subtitle: 'Synchronisieren Sie Ihren Arbeitskontext auf allen Geräten.',
     google: 'Google', microsoft: 'Microsoft', or: 'Oder mit E-Mail weiter',
@@ -93,7 +93,7 @@ export function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const { preferredLanguage } = useLanguage();
-  const t = SIGNUP_TRANSLATIONS[preferredLanguage] || SIGNUP_TRANSLATIONS['English'];
+  const t = SIGNUP_TRANSLATIONS[preferredLanguage] || SIGNUP_TRANSLATIONS['EN'];
 
   // Check for global configuration errors
   React.useEffect(() => {

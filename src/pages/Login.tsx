@@ -9,7 +9,7 @@ import { Button } from '../components/ui/Button';
 import { useLanguage } from '../hooks/useLanguage';
 
 const LOGIN_TRANSLATIONS: Record<string, any> = {
-  English: {
+  EN: {
     welcome: 'Welcome Back', reset: 'Reset Password',
     subWelcome: 'Sign in to sync your context across all your devices.',
     subReset: "Enter your email and we'll send you a link to reset your password.",
@@ -22,7 +22,7 @@ const LOGIN_TRANSLATIONS: Record<string, any> = {
     resetNote: '(Note: If you signed up with Google or Microsoft, you may not receive an email).',
     fixKey: 'Fix API Key'
   },
-  French: {
+  FR: {
     welcome: 'Bon retour parmi nous', reset: 'Réinitialiser le mot de passe',
     subWelcome: 'Connectez-vous pour synchroniser votre contexte sur tous vos appareils.',
     subReset: "Entrez votre e-mail et nous vous enverrons un lien de réinitialisation.",
@@ -35,7 +35,7 @@ const LOGIN_TRANSLATIONS: Record<string, any> = {
     resetNote: '(Note : Si vous utilisez Google ou Microsoft, vous ne recevrez peut-être pas d\'e-mail).',
     fixKey: 'Corriger la clé API'
   },
-  Spanish: {
+  ES: {
     welcome: 'Bienvenido de nuevo', reset: 'Restablecer Contraseña',
     subWelcome: 'Inicia sesión para sincronizar tu contexto en todos tus dispositivos.',
     subReset: "Ingresa tu correo y te enviaremos un enlace de restablecimiento.",
@@ -48,7 +48,7 @@ const LOGIN_TRANSLATIONS: Record<string, any> = {
     resetNote: '(Nota: Si usas Google o Microsoft, es posible que no recibas el correo).',
     fixKey: 'Corregir clave API'
   },
-  Portuguese: {
+  PT: {
     welcome: 'Bem-vindo de volta', reset: 'Redefinir Senha',
     subWelcome: 'Conecte-se para sincronizar seu contexto em todos os seus dispositivos.',
     subReset: "Insira seu e-mail e enviaremos um link de redefinição.",
@@ -58,10 +58,10 @@ const LOGIN_TRANSLATIONS: Record<string, any> = {
     noAccount: "Não tem uma conta?", signUp: 'Cadastre-se grátis',
     back: 'Voltar ao login',
     checkEmail: 'Verifique seu e-mail', checkSub: 'Se existir uma conta para {email}, enviamos um link.',
-    resetNote: '(Nota: Se você usa Google ou Microsoft, pode não receber o e-mail).',
+    resetNote: '(Nota: Si você usa Google ou Microsoft, pode não receber o e-mail).',
     fixKey: 'Corrigir chave API'
   },
-  Chinese: {
+  ZH: {
     welcome: '欢迎回来', reset: '重置密码',
     subWelcome: '登录以在所有设备上同步您的上下文。',
     subReset: "输入您的电子邮件，我们将向您发送重置密码的链接。",
@@ -74,7 +74,7 @@ const LOGIN_TRANSLATIONS: Record<string, any> = {
     resetNote: '（注意：如果您使用 Google 或 Microsoft 注册，可能不会收到电子邮件）。',
     fixKey: '修复 API 密钥'
   },
-  German: {
+  DE: {
     welcome: 'Willkommen zurück', reset: 'Passwort zurücksetzen',
     subWelcome: 'Anmelden, um den Kontext auf allen Geräten zu synchronisieren.',
     subReset: "Geben Sie Ihre E-Mail ein, um einen Reset-Link zu erhalten.",
@@ -99,7 +99,7 @@ export function Login() {
   const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
   const { preferredLanguage } = useLanguage();
-  const t = LOGIN_TRANSLATIONS[preferredLanguage] || LOGIN_TRANSLATIONS['English'];
+  const t = LOGIN_TRANSLATIONS[preferredLanguage] || LOGIN_TRANSLATIONS['EN'];
 
   // Check for global configuration errors
   React.useEffect(() => {

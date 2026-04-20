@@ -18,7 +18,7 @@ import { Card } from '../components/ui/Card';
 import { useLanguage } from '../hooks/useLanguage';
 
 const OUTCOMES_TRANSLATIONS: Record<string, any> = {
-  English: {
+  EN: {
     back: 'Back to Home', signIn: 'Sign in', getStarted: 'Get Started',
     badge: 'Measurable Impact', title: 'Real-world', titleHighlight: 'Outcomes',
     subtitle: 'How MindMark transforms the way high-performance teams handle interruptions and task switching.',
@@ -36,7 +36,7 @@ const OUTCOMES_TRANSLATIONS: Record<string, any> = {
       { title: "Instant Flow State", desc: "Flow is fragile. Our structured resume process helps you re-enter flow state faster by providing a low-friction entry point.", metric: "Flow Entry", val: "2x Faster", icon: Zap }
     ]
   },
-  French: {
+  FR: {
     back: 'Retour à l\'accueil', signIn: 'Se connecter', getStarted: 'Commencer',
     badge: 'Impact mesurable', title: 'Résultats', titleHighlight: 'concrets',
     subtitle: 'Comment MindMark transforme la façon dont les équipes performantes gèrent les interruptions.',
@@ -54,7 +54,7 @@ const OUTCOMES_TRANSLATIONS: Record<string, any> = {
       { title: "Flow instantané", desc: "Notre processus structuré vous aide à ré-entrer en état de flow plus rapidement.", metric: "Entrée en flow", val: "2x plus rapide", icon: Zap }
     ]
   },
-  Spanish: {
+  ES: {
     back: 'Volver al inicio', signIn: 'Iniciar sesión', getStarted: 'Empezar',
     badge: 'Impacto medible', title: 'Resultados', titleHighlight: 'Reales',
     subtitle: 'Cómo MindMark transforma la forma en que los equipos de alto rendimiento manejan las interrupciones.',
@@ -72,7 +72,7 @@ const OUTCOMES_TRANSLATIONS: Record<string, any> = {
       { title: "Estado de Flow Instantáneo", desc: "Nuestro proceso estructurado te ayuda a re-entrar en flow más rápido.", metric: "Entrada en Flow", val: "2x más rápido", icon: Zap }
     ]
   },
-  Portuguese: {
+  PT: {
     back: 'Voltar ao início', signIn: 'Entrar', getStarted: 'Começar',
     badge: 'Impacto mensurável', title: 'Resultados', titleHighlight: 'Reais',
     subtitle: 'Como o MindMark transforma a maneira como equipes de alta performance lidam com interrupções.',
@@ -90,7 +90,7 @@ const OUTCOMES_TRANSLATIONS: Record<string, any> = {
       { title: "Estado de Flow Instantâneo", desc: "Nosso processo estruturado ajuda você a reentrar no estado de flow mais rápido.", metric: "Entrada no Flow", val: "2x mais rápido", icon: Zap }
     ]
   },
-  Chinese: {
+  ZH: {
     back: '返回主页', signIn: '登录', getStarted: '开始使用',
     badge: '可衡量的影响', title: '真实世界的', titleHighlight: '成果',
     subtitle: 'MindMark 如何改变高效团队处理干扰和任务切换的方式。',
@@ -108,7 +108,7 @@ const OUTCOMES_TRANSLATIONS: Record<string, any> = {
       { title: "即时进入心流状态", desc: "心流是脆弱的。我们结构化的恢复过程通过提供低摩擦的切入点，帮助您更快地重新进入心流状态。", metric: "进入心流", val: "快 2 倍", icon: Zap }
     ]
   },
-  German: {
+  DE: {
     back: 'Zurück zum Dashboard', signIn: 'Anmelden', getStarted: 'Loslegen',
     badge: 'Messbarer Impact', title: 'Echte', titleHighlight: 'Ergebnisse',
     subtitle: 'Wie MindMark die Art und Weise verändert, wie Hochleistungsteams mit Unterbrechungen umgehen.',
@@ -130,7 +130,7 @@ const OUTCOMES_TRANSLATIONS: Record<string, any> = {
 
 export function Outcomes() {
   const { preferredLanguage } = useLanguage();
-  const t = OUTCOMES_TRANSLATIONS[preferredLanguage] || OUTCOMES_TRANSLATIONS['English'];
+  const t = OUTCOMES_TRANSLATIONS[preferredLanguage] || OUTCOMES_TRANSLATIONS['EN'];
 
   return (
     <div className="min-h-screen theme-bg theme-text-primary">
