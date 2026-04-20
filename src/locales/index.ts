@@ -1,5 +1,6 @@
 export const TRANSLATIONS: Record<string, any> = {
   EN: {
+    locale: 'en-US',
     common: {
       dashboard: 'Dashboard',
       settings: 'Settings',
@@ -197,17 +198,23 @@ export const TRANSLATIONS: Record<string, any> = {
         plus: {
           name: 'MindMark Plus',
           desc: 'Entry-level sync for mobility.',
-          features: ['Everything in Basic', 'Cloud Sync (1 Device)', 'Basic Session History', 'Email Support']
+          features: ['Everything in Basic', 'Cloud Sync (1 Device)', 'Basic Session History', 'Email Support'],
+          amount: 5,
+          currency: 'EUR'
         },
         pro: {
           name: 'MindMark Pro',
           desc: 'The standard for high-focus pros.',
-          features: ['Everything in Plus', 'Unlimited Device Sync', 'AI Smart Resume', 'Advanced Productivity Analytics', 'Priority Session Restore']
+          features: ['Everything in Plus', 'Unlimited Device Sync', 'AI Smart Resume', 'Advanced Productivity Analytics', 'Priority Session Restore'],
+          amount: 10,
+          currency: 'EUR'
         },
         premium: {
           name: 'MindMark Premium',
           desc: 'Unrestricted collaboration & scaling.',
-          features: ['Everything in Pro', 'Collaboration Mode', 'Unlimited Team Shares', 'Custom Tag Systems', 'VIP Dedicated Support']
+          features: ['Everything in Pro', 'Collaboration Mode', 'Unlimited Team Shares', 'Custom Tag Systems', 'VIP Dedicated Support'],
+          amount: 25,
+          currency: 'EUR'
         }
       }
     },
@@ -242,6 +249,7 @@ export const TRANSLATIONS: Record<string, any> = {
     }
   },
   FR: {
+    locale: 'fr-FR',
     common: {
       dashboard: 'Tableau de bord',
       settings: 'Paramètres',
@@ -484,6 +492,7 @@ export const TRANSLATIONS: Record<string, any> = {
     }
   },
   ES: {
+    locale: 'es-ES',
     common: {
       dashboard: 'Panel',
       settings: 'Ajustes',
@@ -681,17 +690,23 @@ export const TRANSLATIONS: Record<string, any> = {
         plus: {
           name: 'MindMark Plus',
           desc: 'Sincronización de nivel de entrada para movilidad.',
-          features: ['Todo lo de Básico', 'Sincronización en la nube (1 dispositivo)', 'Historial de sesiones básico', 'Soporte por email']
+          features: ['Todo lo de Básico', 'Sincronización en la nube (1 dispositivo)', 'Historial de sesiones básico', 'Soporte por email'],
+          amount: 5,
+          currency: 'EUR'
         },
         pro: {
           name: 'MindMark Pro',
           desc: 'El estándar para profesionales de enfoque alto.',
-          features: ['Todo lo de Plus', 'Sincronización de dispositivos ilimitada', 'Reanudación inteligente por IA', 'Analítica de productividad avanzada', 'Restauración de sesión prioritaria']
+          features: ['Todo lo de Plus', 'Sincronización de dispositivos ilimitada', 'Reanudación inteligente por IA', 'Analítica de productividad avanzada', 'Restauración de sesión prioritaria'],
+          amount: 10,
+          currency: 'EUR'
         },
         premium: {
           name: 'MindMark Premium',
           desc: 'Colaboración y escalado sin restricciones.',
-          features: ['Todo lo de Pro', 'Modo de colaboración', 'Compartición de equipo ilimitada', 'Sistemas de etiquetas personalizados', 'Soporte VIP dedicado']
+          features: ['Todo lo de Pro', 'Modo de colaboración', 'Compartición de equipo ilimitada', 'Sistemas de etiquetas personalizados', 'Soporte VIP dedicado'],
+          amount: 25,
+          currency: 'EUR'
         }
       }
     },
@@ -726,6 +741,7 @@ export const TRANSLATIONS: Record<string, any> = {
     }
   },
   PT: {
+    locale: 'pt-BR',
     common: {
       dashboard: 'Painel',
       settings: 'Configurações',
@@ -923,17 +939,23 @@ export const TRANSLATIONS: Record<string, any> = {
         plus: {
           name: 'MindMark Plus',
           desc: 'Sincronização de nível básico para mobilidade.',
-          features: ['Tudo do Básico', 'Sincronização na Nuvem (1 dispositivo)', 'Histórico de Sessões Básico', 'Suporte por e-mail']
+          features: ['Tudo do Básico', 'Sincronização na Nuvem (1 dispositivo)', 'Histórico de Sessões Básico', 'Suporte por e-mail'],
+          amount: 5,
+          currency: 'EUR'
         },
         pro: {
           name: 'MindMark Pro',
           desc: 'O padrão para profissionais de alto foco.',
-          features: ['Tudo do Plus', 'Sincronização Ilimitada de Dispositivos', 'Retomada Inteligente por IA', 'Análise de Produtividade Avançada', 'Restauração de Sessão Prioritária']
+          features: ['Tudo do Plus', 'Sincronização Ilimitada de Dispositivos', 'Retomada Inteligente por IA', 'Análise de Produtividade Avançada', 'Restauração de Sessão Prioritária'],
+          amount: 10,
+          currency: 'EUR'
         },
         premium: {
           name: 'MindMark Premium',
           desc: 'Colaboração e escala sem restrições.',
-          features: ['Tudo do Pro', 'Modo de Colaboração', 'Compartilhamento de Equipe Ilimitado', 'Sistemas de Tags Personalizados', 'Suporte VIP Dedicado']
+          features: ['Tudo do Pro', 'Modo de Colaboração', 'Compartilhamento de Equipe Ilimitado', 'Sistemas de Tags Personalizados', 'Suporte VIP Dedicado'],
+          amount: 25,
+          currency: 'EUR'
         }
       }
     },
@@ -968,6 +990,7 @@ export const TRANSLATIONS: Record<string, any> = {
     }
   },
   ZH: {
+    locale: 'zh-CN',
     common: {
       dashboard: '仪表板',
       settings: '设置',
@@ -1165,17 +1188,23 @@ export const TRANSLATIONS: Record<string, any> = {
         plus: {
           name: 'MindMark Plus',
           desc: '初级移动同步。',
-          features: ['包含基础版所有功能', '云同步（1 台设备）', '基础会话历史', '电子邮件支持']
+          features: ['包含基础版所有功能', '云同步（1 台设备）', '基础会话历史', '电子邮件支持'],
+          amount: 5,
+          currency: 'EUR'
         },
         pro: {
           name: 'MindMark Pro',
           desc: '高专注专业人士的标准。',
-          features: ['包含 Plus 版所有功能', '无限设备同步', 'AI 智能恢复', '高级生产力分析', '优先会话还原']
+          features: ['包含 Plus 版所有功能', '无限设备同步', 'AI 智能恢复', '高级生产力分析', '优先会话还原'],
+          amount: 10,
+          currency: 'EUR'
         },
         premium: {
           name: 'MindMark Premium',
           desc: '无限制的协作与扩展。',
-          features: ['包含 Pro 版所有功能', '协作模式', '无限团队共享', '自定义标签系统', 'VIP 专享支持']
+          features: ['包含 Pro 版所有功能', '协作模式', '无限团队共享', '自定义标签系统', 'VIP 专享支持'],
+          amount: 25,
+          currency: 'EUR'
         }
       }
     },
@@ -1210,6 +1239,7 @@ export const TRANSLATIONS: Record<string, any> = {
     }
   },
   DE: {
+    locale: 'de-DE',
     common: {
       dashboard: 'Dashboard',
       settings: 'Einstellungen',
@@ -1407,17 +1437,23 @@ export const TRANSLATIONS: Record<string, any> = {
         plus: {
           name: 'MindMark Plus',
           desc: 'Einstiegs-Synchronisation für Mobilität.',
-          features: ['Alles aus Standard', 'Cloud-Sync (1 Gerät)', 'Basis-Sitzungsverlauf', 'E-Mail-Support']
+          features: ['Alles aus Standard', 'Cloud-Sync (1 Gerät)', 'Basis-Sitzungsverlauf', 'E-Mail-Support'],
+          amount: 5,
+          currency: 'EUR'
         },
         pro: {
           name: 'MindMark Pro',
           desc: 'Der Standard für Hochleistungs-Profis.',
-          features: ['Alles aus Plus', 'Unbegrenzte Geräte-Synchronisation', 'KI Smart Resume', 'Erweiterte Produktivitätsanalysen', 'Vorrangige Wiederherstellung']
+          features: ['Alles aus Plus', 'Unbegrenzte Geräte-Synchronisation', 'KI Smart Resume', 'Erweiterte Produktivitätsanalysen', 'Vorrangige Wiederherstellung'],
+          amount: 10,
+          currency: 'EUR'
         },
         premium: {
           name: 'MindMark Premium',
           desc: 'Uneingeschränkte Kollaboration & Skalierung.',
-          features: ['Alles aus Pro', 'Kollaborationsmodus', 'Unbegrenztes Team-Sharing', 'Eigene Tag-Systeme', 'Dedizierter VIP-Support']
+          features: ['Alles aus Pro', 'Kollaborationsmodus', 'Unbegrenztes Team-Sharing', 'Eigene Tag-Systeme', 'Dedizierter VIP-Support'],
+          amount: 25,
+          currency: 'EUR'
         }
       }
     },

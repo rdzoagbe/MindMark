@@ -46,6 +46,17 @@ export function PricingPage() {
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const { t } = useTranslation();
 
+  // Get current locale from translations for proper formatting
+  const currentLocale = (t('locale') as unknown as string) || 'en-US';
+
+  const formatPrice = (amount: number, currency: string) => {
+    return new Intl.NumberFormat(currentLocale, {
+      style: 'currency',
+      currency: currency,
+      maximumFractionDigits: 0,
+    }).format(amount);
+  };
+
   const handleSubscription = async (tier: PricingTier) => {
     if (tier.id === 'free') {
       navigate('/dashboard');
@@ -117,7 +128,9 @@ export function PricingPage() {
                   {tierInfo.name}
                 </h3>
                 <div className="flex items-baseline gap-1">
-                  <span className={`text-5xl font-black tracking-tighter ${isPro ? 'theme-text-primary' : 'theme-text-primary'}`}>{tier.price}</span>
+                  <span className={`text-5xl font-black tracking-tighter ${isPro ? 'theme-text-primary' : 'theme-text-primary'}`}>
+                    {tier.id === 'free' ? tier.price : formatPrice(tierInfo.amount, tierInfo.currency)}
+                  </span>
                   <span className="text-xs theme-text-secondary font-bold uppercase tracking-widest">{tier.id === 'free' ? t('pricing.forever') : t('pricing.perMonth')}</span>
                 </div>
                 <p className="mt-4 text-sm theme-text-secondary font-medium leading-relaxed">{tierInfo.desc}</p>
