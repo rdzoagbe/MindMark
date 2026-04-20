@@ -410,6 +410,54 @@ export function Settings() {
           </div>
         </div>
 
+        {/* Desktop Apps */}
+        <div className="p-8 sm:p-10 border-b theme-border">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+              <Monitor className="w-5 h-5" />
+            </div>
+            <h2 className="text-xl font-bold theme-text-primary">Desktop Apps</h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border theme-border flex flex-col justify-between">
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-base font-semibold theme-text-primary">Windows</h3>
+                  <Badge variant="emerald">Latest</Badge>
+                </div>
+                <p className="text-sm theme-text-secondary">Download the .exe installer for Windows 10/11.</p>
+              </div>
+              <Button 
+                variant="outline" 
+                className="w-full justify-center" 
+                icon={Download} 
+                onClick={() => window.open('https://github.com/rdzoagbe/MindMark/releases/latest', '_blank')}
+              >
+                Download for Windows
+              </Button>
+            </div>
+
+            <div className="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-xl border theme-border flex flex-col justify-between">
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="text-base font-semibold theme-text-primary">macOS</h3>
+                  <Badge variant="emerald">Latest</Badge>
+                </div>
+                <p className="text-sm theme-text-secondary">Download the .dmg installer for Apple Silicon.</p>
+              </div>
+              <Button 
+                variant="outline" 
+                className="w-full justify-center" 
+                icon={Download} 
+                onClick={() => window.open('https://github.com/rdzoagbe/MindMark/releases/latest', '_blank')}
+              >
+                Download for macOS
+              </Button>
+            </div>
+          </div>
+        </div>
+
         {/* Data Management */}
         <div className="p-8 sm:p-10">
           <div className="flex items-center gap-3 mb-8">

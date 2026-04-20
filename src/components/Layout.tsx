@@ -58,7 +58,7 @@ export function Layout() {
       {/* Sidebar (Desktop) */}
       <aside className="hidden sm:flex flex-col w-64 border-r theme-border theme-surface backdrop-blur-xl sticky top-0 h-screen">
         <div className="p-6 flex items-center gap-3">
-          <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight hover:opacity-80 transition-all active:scale-95">
+          <Link to="/dashboard" className="flex items-center gap-3 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight hover:opacity-80 transition-all active:scale-95">
             <div className="w-8 h-8 bg-indigo-600 dark:bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-sm">
               <BookMarked className="w-5 h-5" />
             </div>
@@ -133,7 +133,7 @@ export function Layout() {
                 <ChevronLeft className="w-5 h-5" />
               </button>
             )}
-            <Link to={isAuthenticated ? "/dashboard" : "/"} className="sm:hidden flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight">
+            <Link to="/dashboard" className="sm:hidden flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-xl tracking-tight">
               <div className="w-8 h-8 bg-indigo-600 dark:bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-sm">
                 <BookMarked className="w-5 h-5" />
               </div>
