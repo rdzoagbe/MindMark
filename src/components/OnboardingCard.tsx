@@ -58,11 +58,7 @@ export function OnboardingCard({ onDismiss }: OnboardingCardProps) {
                   Master your continuity flow 🧠
                 </h2>
                 <p className="theme-text-secondary text-base leading-relaxed">
-<<<<<<< HEAD
                   MindMark is your "mental save button". Follow these steps to reduce cognitive load and resume work instantly.
-=======
-                  Context Saver is your "mental save button". Follow these steps to reduce cognitive load and resume work instantly.
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
                 </p>
               </div>
 
@@ -100,7 +96,6 @@ export function OnboardingCard({ onDismiss }: OnboardingCardProps) {
                   </div>
 
                   <div className="flex items-center gap-3">
-<<<<<<< HEAD
                     {steps[currentStep].to && (
                       <Button to={steps[currentStep].to} size="md" icon={ArrowRight}>
                         {steps[currentStep].action}
@@ -130,25 +125,6 @@ export function OnboardingCard({ onDismiss }: OnboardingCardProps) {
                       <button 
                         onClick={() => setCurrentStep(steps.length - 1)}
                         className="text-sm font-medium theme-text-secondary hover:theme-text-primary transition-colors ml-auto"
-=======
-                    {steps[currentStep].to ? (
-                      <Button to={steps[currentStep].to} size="md" icon={ArrowRight}>
-                        {steps[currentStep].action}
-                      </Button>
-                    ) : (
-                      <Button 
-                        onClick={() => setCurrentStep((prev) => (prev + 1) % steps.length)}
-                        size="md"
-                        variant="outline"
-                      >
-                        Next Tip
-                      </Button>
-                    )}
-                    {currentStep < steps.length - 1 && !steps[currentStep].to && (
-                      <button 
-                        onClick={() => setCurrentStep(steps.length - 1)}
-                        className="text-sm font-medium theme-text-secondary hover:theme-text-primary transition-colors"
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
                       >
                         Skip to end
                       </button>
@@ -160,7 +136,6 @@ export function OnboardingCard({ onDismiss }: OnboardingCardProps) {
 
             <div className="hidden lg:grid grid-cols-1 gap-4 w-full max-w-xs">
               {steps.map((step, index) => (
-<<<<<<< HEAD
                 <button 
                   key={step.id}
                   onClick={() => setCurrentStep(index)}
@@ -171,17 +146,6 @@ export function OnboardingCard({ onDismiss }: OnboardingCardProps) {
                   }`}
                 >
                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors shrink-0 ${
-=======
-                <div 
-                  key={step.id}
-                  className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 ${
-                    index === currentStep 
-                      ? 'bg-white dark:bg-slate-900 border-indigo-500/30 shadow-md' 
-                      : 'border-transparent opacity-50'
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
                     index <= currentStep ? 'bg-indigo-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-400'
                   }`}>
                     {index < currentStep ? <CheckCircle2 className="w-5 h-5" /> : <step.icon className="w-4 h-4" />}
@@ -189,11 +153,7 @@ export function OnboardingCard({ onDismiss }: OnboardingCardProps) {
                   <span className={`text-sm font-bold ${index === currentStep ? 'theme-text-primary' : 'theme-text-secondary'}`}>
                     {step.title}
                   </span>
-<<<<<<< HEAD
                 </button>
-=======
-                </div>
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
               ))}
             </div>
           </div>

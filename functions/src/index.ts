@@ -1,7 +1,6 @@
 import * as functions from "firebase-functions";
 import admin from "firebase-admin";
 import Stripe from "stripe";
-<<<<<<< HEAD
 import cors from "cors";
 import crypto from "crypto";
 import { GoogleGenAI } from "@google/genai";
@@ -10,18 +9,20 @@ admin.initializeApp();
 
 const corsHandler = cors({ origin: true });
 
-=======
-
-admin.initializeApp();
-
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
   apiVersion: "2023-10-16",
 });
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || "";
 
-<<<<<<< HEAD
+// Environment Variable Validation Checks
+if (!process.env.STRIPE_WEBHOOK_SECRET) {
+  functions.logger.error("CRITICAL: STRIPE_WEBHOOK_SECRET is missing. Webhooks will fail.");
+}
+if (!process.env.GEMINI_API_KEY) {
+  functions.logger.error("WARNING: GEMINI_API_KEY is missing. Smart Resume AI features will fall back to empty notes.");
+}
+
 // 1. Stripe Checkout Session Creation
 export const createCheckoutSession = functions.https.onRequest((req, res) => {
   return corsHandler(req, res, async () => {
@@ -131,7 +132,7 @@ export const saveExtensionSession = functions.https.onRequest((req, res) => {
         try {
           const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
           const linkList = links.map((l: any) => `- ${l.label} (${l.url})`).join('\n');
-          const prompt = `I have saved a workspace snapshot. Based on the following titles and URLs of the tabs I had open, provide a one-paragraph AI summary (max 3 sentences) of what I was likely researching or working on.\n\nTabs:\n${linkList}`;
+          const prompt = `You are a professional multilingual researcher. Analyze these tabs and provide a high-quality summary and next-step recommendation. Ensure the output uses perfect grammar. Output the summary in the user's detected language (defaulting to English if unsure) among: English, French, Spanish, Portuguese, Chinese, or German.\n\nTabs:\n${linkList}`;
           const response = await ai.models.generateContent({ model: "gemini-2.5-flash", contents: prompt });
           if (response.text) {
              notes = `**AI Context Summary:**\n${response.text}`;
@@ -174,11 +175,6 @@ export const saveExtensionSession = functions.https.onRequest((req, res) => {
 // 4. Stripe Webhook
 export const stripeWebhook = functions.https.onRequest(async (req, res) => {
   const sig = req.headers["stripe-signature"];
-=======
-export const stripeWebhook = functions.https.onRequest(async (req, res) => {
-  const sig = req.headers["stripe-signature"];
-
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
   let event: Stripe.Event;
 
   try {
@@ -206,34 +202,17 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
-<<<<<<< HEAD
         const userId = session.client_reference_id || session.metadata?.userId;
-=======
-        const userId = session.client_reference_id;
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
         
         if (userId) {
           const subscriptionId = session.subscription as string;
           const customerId = session.customer as string;
           
-<<<<<<< HEAD
-=======
-          let plan = "plus";
-          
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
           if (subscriptionId) {
             const subscription = await stripe.subscriptions.retrieve(subscriptionId);
             const priceId = subscription.items.data[0].price.id;
             
-<<<<<<< HEAD
             const plan = mapPriceIdToPlan(priceId);
-=======
-            if (priceId === process.env.STRIPE_PRO_PRICE_ID) {
-              plan = "pro";
-            } else if (priceId === process.env.STRIPE_PREMIUM_PRICE_ID) {
-              plan = "premium";
-            }
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
 
             await admin.firestore()
               .collection("users")
@@ -243,20 +222,14 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
               .set({
                 plan: plan,
                 status: subscription.status,
-<<<<<<< HEAD
                 subscriptionStatus: "active",
-=======
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
                 stripeCustomerId: customerId,
                 stripeSubscriptionId: subscriptionId,
                 currentPeriodEnd: subscription.items.data[0].current_period_end * 1000,
                 updatedAt: admin.firestore.FieldValue.serverTimestamp(),
               }, { merge: true });
-<<<<<<< HEAD
 
             functions.logger.info(`User ${userId} upgraded to ${plan} tier.`);
-=======
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
           }
         }
         break;
@@ -274,26 +247,13 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
             let plan = "free";
             if (subscription.status === "active" || subscription.status === "trialing") {
                const priceId = subscription.items.data[0].price.id;
-<<<<<<< HEAD
                plan = mapPriceIdToPlan(priceId);
-=======
-               if (priceId === process.env.STRIPE_PRO_PRICE_ID) {
-                 plan = "pro";
-               } else if (priceId === process.env.STRIPE_PREMIUM_PRICE_ID) {
-                 plan = "premium";
-               } else {
-                 plan = "plus";
-               }
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
             }
 
             await doc.ref.update({
               plan: plan,
               status: subscription.status,
-<<<<<<< HEAD
               subscriptionStatus: (subscription.status === "active" || subscription.status === "trialing") ? "active" : "inactive",
-=======
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
               stripeSubscriptionId: subscription.id,
               currentPeriodEnd: subscription.items.data[0].current_period_end * 1000,
               updatedAt: admin.firestore.FieldValue.serverTimestamp(),
@@ -317,7 +277,6 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-<<<<<<< HEAD
 
 function mapPriceIdToPlan(priceId: string): string {
   const PRO_IDS = [process.env.STRIPE_PRO_PRICE_ID, 'price_1Qx8ELCvI8qE2Zc1bE1aJ6wB'];
@@ -330,5 +289,3 @@ function mapPriceIdToPlan(priceId: string): string {
   return "free";
 }
 
-=======
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8

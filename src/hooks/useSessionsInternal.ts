@@ -7,33 +7,19 @@ import { useAuth } from './useAuth';
 import { usePlan } from './usePlan';
 import { subscribeToSessions, saveSessionToCloud, deleteSessionFromCloud, migrateSessionsToCloud, clearAllCloudSessions } from '../services/sessionService';
 
-<<<<<<< HEAD
 const STORAGE_KEY = 'mindmark-sessions';
-=======
-const STORAGE_KEY = 'context-saver-sessions';
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
 
 const SAMPLE_DATA: Session[] = [
   {
     id: 'sample-1',
-<<<<<<< HEAD
     title: 'Welcome to MindMark',
-=======
-    title: 'Welcome to Context Saver',
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
     category: 'Onboarding',
     currentTask: 'Exploring the app features.',
     pauseReason: 'Just getting started!',
     nextStep: 'Create your first real session by clicking the "New Session" button.',
-<<<<<<< HEAD
     notes: 'MindMark helps you save what you were doing, why you paused, and what to do next. This way, you can resume instantly without losing momentum.',
     tags: ['onboarding', 'tutorial'],
     links: [{ id: 'l1', label: 'Documentation', url: 'https://github.com/rolanddzoagbe/mindmark' }],
-=======
-    notes: 'Context Saver helps you save what you were doing, why you paused, and what to do next. This way, you can resume instantly without losing momentum.',
-    tags: ['onboarding', 'tutorial'],
-    links: [{ id: 'l1', label: 'Documentation', url: 'https://github.com/rolanddzoagbe/context-saver' }],
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
     priority: 'high',
     status: 'active',
     pinned: true,
@@ -71,11 +57,7 @@ export function useSessionsInternal() {
   const setHasMigrated = useCallback(async (migrated: boolean) => {
     setHasMigratedState(migrated);
     if (user?.uid) {
-<<<<<<< HEAD
       await localforage.setItem(`mindmark-migrated-${user.uid}`, migrated).catch(console.error);
-=======
-      await localforage.setItem(`context-saver-migrated-${user.uid}`, migrated).catch(console.error);
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
     }
   }, [user?.uid]);
 
@@ -89,11 +71,7 @@ export function useSessionsInternal() {
         }
         
         if (user?.uid) {
-<<<<<<< HEAD
           const migrated = await localforage.getItem<boolean>(`mindmark-migrated-${user.uid}`);
-=======
-          const migrated = await localforage.getItem<boolean>(`context-saver-migrated-${user.uid}`);
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
           if (migrated !== null) {
             setHasMigratedState(migrated);
           }

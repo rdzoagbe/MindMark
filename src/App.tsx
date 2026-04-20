@@ -10,6 +10,7 @@ import { Home } from './pages/Home';
 import { Landing } from './pages/Landing';
 import { useTheme } from './hooks/useTheme';
 import { SessionProvider } from './contexts/SessionContext';
+import { LanguageProvider } from './contexts/LanguageContext';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { CommandPalette } from './components/CommandPalette';
 
@@ -41,11 +42,12 @@ function AppContent() {
 
   return (
     <ErrorBoundary>
-      <HashRouter>
-        <SessionProvider>
-          <CommandPalette />
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
+      <LanguageProvider>
+        <HashRouter>
+          <SessionProvider>
+            <CommandPalette />
+            <Suspense fallback={<PageLoader />}>
+              <Routes>
               <Route path="/" element={<Landing />} />
               <Route path="/how-it-works" element={<HowItWorks />} />
               <Route path="/outcomes" element={<Outcomes />} />
@@ -69,6 +71,7 @@ function AppContent() {
           </Suspense>
         </SessionProvider>
       </HashRouter>
+    </LanguageProvider>
     </ErrorBoundary>
   );
 }

@@ -2,8 +2,8 @@
  * MindMark Companion - Popup Script
  */
 
-const DOMAIN = 'ais-dev-bzplh22k7gwv3uvj7ikgxs-327544902703.europe-west1.run.app';
-const API_URL = `https://${DOMAIN}/api/extension/save-session`;
+const DOMAIN = 'mindmark.tech';
+// We don't use API_URL here directly anymore, background.js points to the Cloud Function
 
 // State
 let userId = null;

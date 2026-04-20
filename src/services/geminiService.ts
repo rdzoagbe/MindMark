@@ -31,7 +31,6 @@ export const geminiService = {
       console.error("Gemini Error:", error);
       throw new Error("Failed to generate resume strategy. Please check your AI configuration.");
     }
-<<<<<<< HEAD
   },
 
   async generateLinkSummary(links: { url: string; label: string }[]) {
@@ -59,7 +58,3 @@ export const geminiService = {
   }
 };
 
-=======
-  }
-};
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8

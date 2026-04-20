@@ -27,12 +27,85 @@ import {
   Layers,
   AlertCircle
 } from 'lucide-react';
-import { format, startOfDay, subDays, isWithinInterval } from 'date-fns';
+import { format, startOfDay, subDays } from 'date-fns';
+import { useLanguage } from '../hooks/useLanguage';
+
+const ANALYTICS_TRANSLATIONS: Record<string, any> = {
+  English: {
+    title: 'Advanced Analytics', desc: 'Deep insights into your productivity and context management.',
+    pro: 'Pro Feature',
+    total: 'Total Sessions', active: 'Active Now', completed: 'Completed', blocked: 'Blocked',
+    trend: 'Creation Trend (Last 7 Days)',
+    priorityDist: 'Priority Distribution',
+    byCategory: 'Sessions by Category',
+    topCategories: 'Top Categories'
+  },
+  French: {
+    title: 'Analyses Avancées', desc: 'Aperçus profonds de votre productivité et gestion du contexte.',
+    pro: 'Fonction Pro',
+    total: 'Total Sessions', active: 'Actives', completed: 'Terminées', blocked: 'Bloquées',
+    trend: 'Tendance de création (7 jours)',
+    priorityDist: 'Distribution par priorité',
+    byCategory: 'Sessions par catégorie',
+    topCategories: 'Top catégories'
+  },
+  Spanish: {
+    title: 'Análisis Avanzado', desc: 'Información profunda sobre tu productividad y gestión.',
+    pro: 'Función Pro',
+    total: 'Total Sesiones', active: 'Activas Hoy', completed: 'Completadas', blocked: 'Bloqueadas',
+    trend: 'Tendencia de creación (7 días)',
+    priorityDist: 'Distribución de Prioridad',
+    byCategory: 'Sesiones por Categoría',
+    topCategories: 'Categorías Principales'
+  },
+  Portuguese: {
+    title: 'Análise Avançada', desc: 'Insights profundos sobre sua produtividade e gestão.',
+    pro: 'Recurso Pro',
+    total: 'Total de Sessões', active: 'Ativas Agora', completed: 'Concluídas', blocked: 'Bloqueadas',
+    trend: 'Tendência de criação (7 dias)',
+    priorityDist: 'Distribuição de Prioridade',
+    byCategory: 'Sessões por Categoria',
+    topCategories: 'Principais Categorias'
+  },
+  Chinese: {
+    title: '高级分析', desc: '深入了解您的生产力和上下文管理。',
+    pro: 'Pro 功能',
+    total: '总会话数', active: '当前活跃', completed: '已完成', blocked: '已受阻',
+    trend: '创建趋势（过去 7 天）',
+    priorityDist: '优先级分布',
+    byCategory: '按类别划分的会话',
+    topCategories: '热门类别'
+  },
+  German: {
+    title: 'Erweiterte Analysen', desc: 'Tiefe Einblicke in Ihre Produktivität.',
+    pro: 'Pro-Funktion',
+    total: 'Gesamt Sitzungen', active: 'Jetzt aktiv', completed: 'Erledigt', blocked: 'Blockiert',
+    trend: 'Erstellungs-Trend (7 Tage)',
+    priorityDist: 'Prioritäts-Verteilung',
+    byCategory: 'Sitzungen nach Kategorie',
+    topCategories: 'Top Kategorien'
+  }
+};
 
 const COLORS = ['#4f46e5', '#8b5cf6', '#ec4899', '#f43f5e', '#f59e0b', '#10b981', '#06b6d4'];
 
+const getPriorityLabels = (preferredLanguage: string) => {
+  const translations: Record<string, any> = {
+    English: { low: 'Low', medium: 'Medium', high: 'High' },
+    French: { low: 'Basse', medium: 'Moyenne', high: 'Haute' },
+    Spanish: { low: 'Baja', medium: 'Media', high: 'Alta' },
+    Portuguese: { low: 'Baixa', medium: 'Média', high: 'Alta' },
+    Chinese: { low: '低', medium: '中', high: '高' },
+    German: { low: 'Niedrig', medium: 'Mittel', high: 'Hoch' }
+  };
+  return translations[preferredLanguage] || translations['English'];
+};
+
 export function AnalyticsDashboard() {
   const { sessions } = useSessions();
+  const { preferredLanguage } = useLanguage();
+  const t = ANALYTICS_TRANSLATIONS[preferredLanguage] || ANALYTICS_TRANSLATIONS['English'];
+  const priorityLabels = getPriorityLabels(preferredLanguage);
 
   const stats = useMemo(() => {
     const categoryData: Record<string, number> = {};
@@ -69,7 +142,11 @@ export function AnalyticsDashboard() {
 
     return {
       category: Object.entries(categoryData).map(([name, value]) => ({ name, value })),
-      priority: Object.entries(priorityData).map(([name, value]) => ({ name, value })),
+      priority: Object.entries(priorityData).map(([name, value]) => ({ 
+        name: priorityLabels[name as keyof typeof priorityLabels] || name, 
+        internalName: name,
+        value 
+      })),
       status: Object.entries(statusData).map(([name, value]) => ({ name, value })),
       timeSeries: last7Days,
       total: sessions.length,
@@ -77,15 +154,15 @@ export function AnalyticsDashboard() {
       done: statusData.done,
       blocked: statusData.blocked
     };
-  }, [sessions]);
+  }, [sessions, priorityLabels]);
 
   return (
     <div className="max-w-7xl mx-auto space-y-8 pb-20">
       <PageHeader 
-        title="Advanced Analytics" 
-        description="Deep insights into your productivity and context management."
+        title={t.title} 
+        description={t.desc}
       >
-        <Badge variant="indigo" size="md" icon={Activity}>Pro Feature</Badge>
+        <Badge variant="indigo" size="md" icon={Activity}>{t.pro}</Badge>
       </PageHeader>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -94,7 +171,7 @@ export function AnalyticsDashboard() {
             <Layers className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm font-medium theme-text-secondary">Total Sessions</p>
+            <p className="text-sm font-medium theme-text-secondary">{t.total}</p>
             <p className="text-2xl font-bold theme-text-primary">{stats.total}</p>
           </div>
         </Card>
@@ -103,7 +180,7 @@ export function AnalyticsDashboard() {
             <Activity className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm font-medium theme-text-secondary">Active Now</p>
+            <p className="text-sm font-medium theme-text-secondary">{t.active}</p>
             <p className="text-2xl font-bold theme-text-primary">{stats.active}</p>
           </div>
         </Card>
@@ -112,7 +189,7 @@ export function AnalyticsDashboard() {
             <TrendingUp className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm font-medium theme-text-secondary">Completed</p>
+            <p className="text-sm font-medium theme-text-secondary">{t.completed}</p>
             <p className="text-2xl font-bold theme-text-primary">{stats.done}</p>
           </div>
         </Card>
@@ -121,7 +198,7 @@ export function AnalyticsDashboard() {
             <AlertCircle className="w-6 h-6" />
           </div>
           <div>
-            <p className="text-sm font-medium theme-text-secondary">Blocked</p>
+            <p className="text-sm font-medium theme-text-secondary">{t.blocked}</p>
             <p className="text-2xl font-bold theme-text-primary">{stats.blocked}</p>
           </div>
         </Card>
@@ -133,7 +210,7 @@ export function AnalyticsDashboard() {
             <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
               <Calendar className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-bold theme-text-primary">Creation Trend (Last 7 Days)</h3>
+            <h3 className="text-lg font-bold theme-text-primary">{t.trend}</h3>
           </div>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -180,7 +257,7 @@ export function AnalyticsDashboard() {
             <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
               <BarChart3 className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-bold theme-text-primary">Priority Distribution</h3>
+            <h3 className="text-lg font-bold theme-text-primary">{t.priorityDist}</h3>
           </div>
           <div className="h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
@@ -211,7 +288,7 @@ export function AnalyticsDashboard() {
                 />
                 <Bar dataKey="value" radius={[6, 6, 0, 0]}>
                   {stats.priority.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.name === 'high' ? '#f43f5e' : entry.name === 'medium' ? '#f59e0b' : '#64748b'} />
+                    <Cell key={`cell-${index}`} fill={entry.internalName === 'high' ? '#f43f5e' : entry.internalName === 'medium' ? '#f59e0b' : '#64748b'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -224,7 +301,7 @@ export function AnalyticsDashboard() {
             <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
               <PieChartIcon className="w-5 h-5" />
             </div>
-            <h3 className="text-lg font-bold theme-text-primary">Sessions by Category</h3>
+            <h3 className="text-lg font-bold theme-text-primary">{t.byCategory}</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div className="h-[300px] w-full">
@@ -256,7 +333,7 @@ export function AnalyticsDashboard() {
               </ResponsiveContainer>
             </div>
             <div className="space-y-4">
-              <h4 className="text-sm font-bold theme-text-primary uppercase tracking-wider">Top Categories</h4>
+              <h4 className="text-sm font-bold theme-text-primary uppercase tracking-wider">{t.topCategories}</h4>
               <div className="space-y-3">
                 {stats.category.sort((a, b) => b.value - a.value).slice(0, 5).map((cat, i) => (
                   <div key={cat.name} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">

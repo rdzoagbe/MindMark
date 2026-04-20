@@ -4,9 +4,147 @@ import { ArrowLeft, Shield, Lock, Eye, FileText } from 'lucide-react';
 import { motion } from 'motion/react';
 import { Button } from '../components/ui/Button';
 import { useAuth } from '../hooks/useAuth';
+import { useLanguage } from '../hooks/useLanguage';
+
+const PRIVACY_TRANSLATIONS: Record<string, any> = {
+  English: {
+    backHome: 'Home', backDashboard: 'Dashboard',
+    badge: 'Privacy First', title: 'Privacy Policy', date: 'Last updated: April 15, 2026',
+    s1Title: '1. Information We Collect',
+    s1Desc: 'MindMark is designed with a "local-first" philosophy. For free users, all session data is stored locally and never leaves your device.',
+    s1Pro: 'If you create an account or upgrade to Pro, we collect:',
+    s1List: [
+      'Email address (for account management and authentication)',
+      'Session data (only if Cloud Sync is enabled)',
+      'Usage analytics (to improve the product)',
+      'Payment information (processed securely via Stripe)'
+    ],
+    s2Title: '2. How We Use Your Information',
+    s2Desc: 'We use your information strictly to provide and improve the MindMark service. We do not sell your data.',
+    s3Title: '3. Data Security',
+    s3Desc: 'We implement industry-standard security measures. Cloud-synced data is encrypted at rest and in transit.',
+    s4Title: '4. Your Rights',
+    s4Desc: 'You have the right to access, export, or delete your data at any time.',
+    s5Title: '5. Contact Us',
+    s5Desc: 'Questions? Contact us at privacy@mindmark.app.',
+    footer: 'Your privacy is our priority.'
+  },
+  French: {
+    backHome: 'Accueil', backDashboard: 'Tableau de bord',
+    badge: 'Confidentialité d\'abord', title: 'Politique de Confidentialité', date: 'Mise à jour : 15 avril 2026',
+    s1Title: '1. Informations que nous collectons',
+    s1Desc: 'MindMark est conçu avec une philosophie "local-first". Pour les utilisateurs gratuits, les données restent sur votre appareil.',
+    s1Pro: 'Si vous créez un compte ou passez au Pro, nous collectons :',
+    s1List: [
+      'Adresse e-mail (gestion du compte)',
+      'Données de session (si Cloud Sync est activé)',
+      'Analyses d\'utilisation (amélioration du produit)',
+      'Informations de paiement (via Stripe)'
+    ],
+    s2Title: '2. Comment nous utilisons vos informations',
+    s2Desc: 'Nous utilisons vos informations uniquement pour fournir et améliorer MindMark. Nous ne vendons pas vos données.',
+    s3Title: '3. Sécurité des données',
+    s3Desc: 'Nous appliquons des mesures de sécurité standard. Les données cloud sont chiffrées.',
+    s4Title: '4. Vos droits',
+    s4Desc: 'Vous avez le droit d\'accéder, d\'exporter ou de supprimer vos données à tout moment.',
+    s5Title: '5. Contact',
+    s5Desc: 'Des questions ? Contactez-nous à privacy@mindmark.app.',
+    footer: 'Votre vie privée est notre priorité.'
+  },
+  Spanish: {
+    backHome: 'Inicio', backDashboard: 'Panel',
+    badge: 'Privacidad Primero', title: 'Política de Privacidad', date: 'Última actualización: 15 de abril de 2026',
+    s1Title: '1. Información que Recopilamos',
+    s1Desc: 'MindMark está diseñado con una filosofía de "local-first". Los datos de usuarios gratuitos nunca salen del dispositivo.',
+    s1Pro: 'Si creas una cuenta o pasas a Pro, recopilamos:',
+    s1List: [
+      'Correo electrónico',
+      'Datos de sesión (si se activa Cloud Sync)',
+      'Analítica de uso',
+      'Información de pago (vía Stripe)'
+    ],
+    s2Title: '2. Cómo Usamos tu Información',
+    s2Desc: 'Usamos tu información estrictamente para mejorar el servicio. No vendemos tus datos.',
+    s3Title: '3. Seguridad de Datos',
+    s3Desc: 'Implementamos medidas de seguridad estándar. Los datos en la nube están cifrados.',
+    s4Title: '4. Tus Derechos',
+    s4Desc: 'Tienes derecho a acceder, exportar o eliminar tus datos en cualquier momento.',
+    s5Title: '5. Contacto',
+    s5Desc: '¿Preguntas? Escríbenos a privacy@mindmark.app.',
+    footer: 'Tu privacidad es nuestra prioridad.'
+  },
+  Portuguese: {
+    backHome: 'Início', backDashboard: 'Painel',
+    badge: 'Privacidade Primeiro', title: 'Política de Privacidade', date: 'Última atualização: 15 de abril de 2026',
+    s1Title: '1. Informações que Coletamos',
+    s1Desc: 'O MindMark foi projetado com uma filosofia "local-first". Para usuários gratuitos, os dados nunca saem do dispositivo.',
+    s1Pro: 'Se você criar uma conta ou atualizar para Pro, coletamos:',
+    s1List: [
+      'Endereço de e-mail',
+      'Dados de sessão (se o Cloud Sync estiver ativado)',
+      'Análises de uso',
+      'Informações de pagamento (via Stripe)'
+    ],
+    s2Title: '2. Como Usamos suas Informações',
+    s2Desc: 'Usamos suas informações apenas para melhorar o serviço. Não vendemos seus dados.',
+    s3Title: '3. Segurança de Dados',
+    s3Desc: 'Implementamos medidas de segurança padrão da indústria.',
+    s4Title: '4. Seus Direitos',
+    s4Desc: 'Você tem o direito de acessar, exportar ou excluir seus dados a qualquer momento.',
+    s5Title: '5. Contato',
+    s5Desc: 'Dúvidas? Contate-nos em privacy@mindmark.app.',
+    footer: 'Sua privacidade é nossa prioridade.'
+  },
+  Chinese: {
+    backHome: '首页', backDashboard: '仪表板',
+    badge: '隐私优先', title: '隐私政策', date: '最后更新：2026 年 4 月 15 日',
+    s1Title: '1. 我们收集的信息',
+    s1Desc: 'MindMark 采用“本地优先”的设计理念。对于免费用户，所有会话数据都存储在本地，绝不会离开您的设备。',
+    s1Pro: '如果您创建帐户或升级到 Pro，我们会收集：',
+    s1List: [
+      '电子邮件地址（用于管理和身份验证）',
+      '会话数据（仅当启用云同步时）',
+      '使用情况分析（用于改进产品）',
+      '付款信息（通过 Stripe 安全处理）'
+    ],
+    s2Title: '2. 我们如何使用您的信息',
+    s2Desc: '我们严格地使用您的信息来管理和改进 MindMark 服务。我们不出售您的数据。',
+    s3Title: '3. 数据安全',
+    s3Desc: '我们实施行业标准的安全措施来保护您的数据。云同步数据已被加密。',
+    s4Title: '4. 您的权利',
+    s4Desc: '您有权随时访问、导出或删除您的数据。',
+    s5Title: '5. 联系我们',
+    s5Desc: '有疑问？请通过 privacy@mindmark.app 联系我们。',
+    footer: '您的隐私是我们的首要任务。'
+  },
+  German: {
+    backHome: 'Startseite', backDashboard: 'Dashboard',
+    badge: 'Privatsphäre zuerst', title: 'Datenschutzbestimmungen', date: 'Letzte Aktualisierung: 15. April 2026',
+    s1Title: '1. Informationen, die wir sammeln',
+    s1Desc: 'MindMark ist nach dem "Local-First"-Prinzip konzipiert. Daten von Gratis-Nutzern verlassen das Gerät nicht.',
+    s1Pro: 'Wenn Sie ein Konto erstellen oder auf Pro upgraden, sammeln wir:',
+    s1List: [
+      'E-Mail-Adresse',
+      'Sitzungsdaten (bei Cloud Sync)',
+      'Nutzungsanalysen',
+      'Zahlungsinformationen (via Stripe)'
+    ],
+    s2Title: '2. Wie wir Ihre Informationen nutzen',
+    s2Desc: 'Wir nutzen Ihre Daten ausschließlich zur Bereitstellung des Dienstes. Wir verkaufen keine Daten.',
+    s3Title: '3. Datensicherheit',
+    s3Desc: 'Wir setzen Sicherheitsmaßnahmen nach Industriestandard ein.',
+    s4Title: '4. Ihre Rechte',
+    s4Desc: 'Sie haben jederzeit das Recht auf Auskunft, Export oder Löschung Ihrer Daten.',
+    s5Title: '5. Kontakt',
+    s5Desc: 'Fragen? Kontaktieren Sie uns unter privacy@mindmark.app.',
+    footer: 'Ihre Privatsphäre ist unsere Priorität.'
+  }
+};
 
 export function Privacy() {
   const { isAuthenticated } = useAuth();
+  const { preferredLanguage } = useLanguage();
+  const t = PRIVACY_TRANSLATIONS[preferredLanguage] || PRIVACY_TRANSLATIONS['English'];
 
   return (
     <div className="min-h-screen theme-bg theme-text-primary">
@@ -14,7 +152,7 @@ export function Privacy() {
         <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
           <Link to={isAuthenticated ? "/dashboard" : "/"} className="flex items-center gap-2 theme-text-secondary hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
             <ArrowLeft className="w-5 h-5" />
-            <span className="font-medium">Back to {isAuthenticated ? 'Dashboard' : 'Home'}</span>
+            <span className="font-medium">{isAuthenticated ? t.backDashboard : t.backHome}</span>
           </Link>
         </div>
       </nav>
@@ -23,78 +161,49 @@ export function Privacy() {
         <section className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-wider">
             <Shield className="w-3.5 h-3.5" />
-            Privacy First
+            {t.badge}
           </div>
-          <h1 className="text-4xl font-bold tracking-tight theme-text-primary">Privacy Policy</h1>
-          <p className="theme-text-secondary">Last updated: April 15, 2026</p>
+          <h1 className="text-4xl font-bold tracking-tight theme-text-primary">{t.title}</h1>
+          <p className="theme-text-secondary">{t.date}</p>
         </section>
 
         <div className="prose prose-slate dark:prose-invert max-w-none space-y-8 theme-text-secondary leading-relaxed">
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">1. Information We Collect</h2>
-            <p>
-<<<<<<< HEAD
-              MindMark is designed with a "local-first" philosophy. For free users, all session data is stored locally in your browser's IndexedDB and never leaves your device.
-=======
-              Context Saver is designed with a "local-first" philosophy. For free users, all session data is stored locally in your browser's IndexedDB and never leaves your device.
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
-            </p>
-            <p>
-              If you create an account or upgrade to Pro, we collect:
-            </p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t.s1Title}</h2>
+            <p>{t.s1Desc}</p>
+            <p>{t.s1Pro}</p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Email address (for account management and authentication)</li>
-              <li>Session data (only if Cloud Sync is enabled)</li>
-              <li>Usage analytics (to improve the product)</li>
-              <li>Payment information (processed securely via Stripe)</li>
+              {t.s1List.map((item: string, i: number) => (
+                <li key={i}>{item}</li>
+              ))}
             </ul>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">2. How We Use Your Information</h2>
-            <p>
-<<<<<<< HEAD
-              We use your information strictly to provide and improve the MindMark service. We do not sell your data to third parties, and we do not use your session content to train AI models.
-=======
-              We use your information strictly to provide and improve the Context Saver service. We do not sell your data to third parties, and we do not use your session content to train AI models.
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
-            </p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t.s2Title}</h2>
+            <p>{t.s2Desc}</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">3. Data Security</h2>
-            <p>
-              We implement industry-standard security measures to protect your data. Cloud-synced data is encrypted at rest and in transit. Local data is protected by your browser's security sandbox.
-            </p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t.s3Title}</h2>
+            <p>{t.s3Desc}</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">4. Your Rights</h2>
-            <p>
-              You have the right to access, export, or delete your data at any time. You can clear your local data through the browser settings or delete your cloud account through the Settings page.
-            </p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t.s4Title}</h2>
+            <p>{t.s4Desc}</p>
           </section>
 
           <section className="space-y-4">
-            <h2 className="text-2xl font-bold theme-text-primary">5. Contact Us</h2>
-            <p>
-<<<<<<< HEAD
-              If you have any questions about this Privacy Policy, please contact us at privacy@mindmark.app.
-=======
-              If you have any questions about this Privacy Policy, please contact us at privacy@contextsaver.io.
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
-            </p>
+            <h2 className="text-2xl font-bold theme-text-primary">{t.s5Title}</h2>
+            <p>{t.s5Desc}</p>
           </section>
         </div>
       </main>
 
       <footer className="border-t theme-border py-12 theme-surface">
         <div className="max-w-7xl mx-auto px-6 text-center theme-text-secondary text-sm">
-<<<<<<< HEAD
-          <p>© {new Date().getFullYear()} MindMark. Your privacy is our priority.</p>
-=======
-          <p>© {new Date().getFullYear()} Context Saver. Your privacy is our priority.</p>
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
+          <p>© {new Date().getFullYear()} MindMark. {t.footer}</p>
         </div>
       </footer>
     </div>

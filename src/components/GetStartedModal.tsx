@@ -114,11 +114,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                         <Sparkles className="w-7 h-7" />
                       </div>
                       <div className="text-left">
-<<<<<<< HEAD
                         <h3 className="text-lg font-bold">Get MindMark Pro</h3>
-=======
-                        <h3 className="text-lg font-bold">Get Context Saver Pro</h3>
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
                         <p className="text-indigo-100 text-sm">Unlock cloud sync, AI smart resume, and unlimited devices.</p>
                       </div>
                     </div>

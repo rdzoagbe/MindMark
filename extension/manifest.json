@@ -10,6 +10,8 @@
   ],
   "host_permissions": [
     "https://ais-dev-bzplh22k7gwv3uvj7ikgxs-327544902703.europe-west1.run.app/*",
+    "https://mindmark.tech/*",
+    "https://us-central1-accessguard-v2.cloudfunctions.net/*",
     "https://*.firebaseio.com/*",
     "https://*.googleapis.com/*"
   ],
