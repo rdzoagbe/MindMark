@@ -88,10 +88,10 @@ export function DownloadDropdown({ onWebClick, className = '', size = 'md' }: Do
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            initial={{ opacity: 0, y: 12, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-            className="absolute top-full mt-3 left-0 sm:left-auto sm:right-0 w-full sm:w-80 z-50 theme-surface theme-border border rounded-3xl shadow-2xl overflow-hidden p-3"
+            exit={{ opacity: 0, y: 12, scale: 0.98 }}
+            className="absolute top-full mt-4 left-0 sm:left-auto sm:right-0 w-full sm:w-80 z-[100] theme-surface theme-border border rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden p-3"
           >
             <div className="px-3 py-2 border-b theme-border mb-1">
               <span className="text-[10px] font-black uppercase tracking-[0.2em] theme-text-secondary">Choose Platform</span>
