@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, PlusCircle, Settings, BookMarked, Sparkles, BarChart3, ChevronLeft, User, LogOut } from 'lucide-react';
+import { Home, PlusCircle, Settings, BookMarked, Sparkles, BarChart3, ChevronLeft, User, LogOut, Mic } from 'lucide-react';
 import { usePlan } from '../hooks/usePlan';
 import { useAuth } from '../hooks/useAuth';
 import { signOut } from '../services/authService';
@@ -16,12 +16,12 @@ import { GlobalLanguageSelector } from './GlobalLanguageSelector';
 import { useLanguage } from '../hooks/useLanguage';
 
 const NAV_TRANSLATIONS: Record<string, any> = {
-  English: { dashboard: 'Dashboard', create: 'New Session', analytics: 'Analytics', pricing: 'Plans', settings: 'Settings', signOut: 'Sign Out' },
-  French: { dashboard: 'Tableau', create: 'Nouvelle Session', analytics: 'Analyses', pricing: 'Forfaits', settings: 'Paramètres', signOut: 'Déconnexion' },
-  Spanish: { dashboard: 'Panel', create: 'Nueva Sesión', analytics: 'Análisis', pricing: 'Planes', settings: 'Ajustes', signOut: 'Cerrar sesión' },
-  Portuguese: { dashboard: 'Painel', create: 'Nova Sessão', analytics: 'Análise', pricing: 'Planos', settings: 'Configurações', signOut: 'Sair' },
-  Chinese: { dashboard: '仪表板', create: '新会话', analytics: '分析', pricing: '计划', settings: '设置', signOut: '登出' },
-  German: { dashboard: 'Dashboard', create: 'Neue Sitzung', analytics: 'Analytik', pricing: 'Pläne', settings: 'Einstellungen', signOut: 'Abmelden' }
+  English: { dashboard: 'Dashboard', create: 'New Session', analytics: 'Analytics', meetings: 'Meetings', pricing: 'Plans', settings: 'Settings', signOut: 'Sign Out' },
+  French: { dashboard: 'Tableau', create: 'Nouvelle Session', analytics: 'Analyses', meetings: 'Réunions', pricing: 'Forfaits', settings: 'Paramètres', signOut: 'Déconnexion' },
+  Spanish: { dashboard: 'Panel', create: 'Nueva Sesión', analytics: 'Análisis', meetings: 'Reuniones', pricing: 'Planes', settings: 'Ajustes', signOut: 'Cerrar sesión' },
+  Portuguese: { dashboard: 'Painel', create: 'Nova Sessão', analytics: 'Análise', meetings: 'Reuniões', pricing: 'Planos', settings: 'Configurações', signOut: 'Sair' },
+  Chinese: { dashboard: '仪表板', create: '新会话', analytics: '分析', meetings: '会议', pricing: '计划', settings: '设置', signOut: '登出' },
+  German: { dashboard: 'Dashboard', create: 'Neue Sitzung', analytics: 'Analytik', meetings: 'Besprechungen', pricing: 'Pläne', settings: 'Einstellungen', signOut: 'Abmelden' }
 };
 
 export function Layout() {
@@ -47,6 +47,7 @@ export function Layout() {
   const navItems = [
     { path: '/dashboard', icon: Home, label: t.dashboard },
     { path: '/create', icon: PlusCircle, label: t.create },
+    { path: '/meeting-notes', icon: Mic, label: t.meetings },
     { path: '/analytics', icon: BarChart3, label: t.analytics, proOnly: true },
     { path: '/pricing', icon: Sparkles, label: t.pricing, highlight: isFree },
     { path: '/settings', icon: Settings, label: t.settings },

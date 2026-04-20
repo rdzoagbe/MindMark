@@ -1,60 +1,75 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
 
 export const geminiService = {
-  async generateResumeStrategy(session: { title: string; currentTask: string; nextStep: string; notes?: string }) {
-    try {
-      const prompt = `
-        You are an expert productivity assistant. I am resuming a deep-work session and need a quick "Smart Resume" strategy.
-        
-        Session Title: ${session.title}
-        Current Task: ${session.currentTask}
-        Next Step: ${session.nextStep}
-        Notes: ${session.notes || "No additional notes."}
-        
-        Please provide:
-        1. A concise summary of the current context (2-3 sentences).
-        2. 3 actionable micro-steps to overcome inertia and get back into flow immediately.
-        3. A "Focus Tip" tailored to this specific type of work.
-        
-        Format the response in clean Markdown.
-      `;
+  async summarizeMeeting(transcript: string) {
+    if (!transcript.trim()) return "No conversation detected.";
 
+    try {
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
+        model: "gemini-3-flash-preview",
+        contents: `You are an expert executive assistant. Summarize the following meeting transcript into a concise format:
+        1. **Key Decisions**
+        2. **Action Items** (with owners if mentioned)
+        3. **Important Mentions**
+        
+        Transcript:
+        ${transcript}`,
       });
-      
+
       return response.text;
     } catch (error) {
-      console.error("Gemini Error:", error);
-      throw new Error("Failed to generate resume strategy. Please check your AI configuration.");
+      console.error("Gemini summarization error:", error);
+      throw error;
     }
   },
 
-  async generateLinkSummary(links: { url: string; label: string }[]) {
+  async extractImportantTopics(transcript: string) {
     try {
-      if (!links || links.length === 0) return "No links to summarize.";
-
-      const linkList = links.map(l => `- ${l.label} (${l.url})`).join('\n');
-      const prompt = `
-        I have saved a workspace snapshot. Based on the following titles and URLs of the tabs I had open, provide a one-paragraph AI summary (max 3 sentences) of what I was likely researching or working on.
-        
-        Tabs:
-        ${linkList}
-      `;
-
       const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
+        model: "gemini-3-flash-preview",
+        contents: `Extract the top 5 important topics or keywords from this conversation as a comma-separated list:
+        ${transcript}`,
       });
-      
+
+      return response.text?.split(',').map(s => s.trim()) || [];
+    } catch (error) {
+      console.error("Gemini topic extraction error:", error);
+      return [];
+    }
+  },
+
+  async generateResumeStrategy(data: { title: string; currentTask: string; nextStep: string; notes: string }) {
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: `You are a productivity expert. Given this session context, provide a "Smart Resume Strategy" to help the user get back into deep flow:
+        
+        Session: ${data.title}
+        Current Task: ${data.currentTask}
+        Next Step: ${data.nextStep}
+        Notes: ${data.notes}
+        
+        Give 3 punchy points to resume.`,
+      });
       return response.text;
     } catch (error) {
-      console.error("Gemini Error:", error);
-      return "Could not generate link summary.";
+      console.error("Resume strategy error:", error);
+      return "Flow strategy not available right now. Just focus on the next step!";
+    }
+  },
+
+  async generateLinkSummary(links: string[]) {
+    try {
+      const response = await ai.models.generateContent({
+        model: "gemini-3-flash-preview",
+        contents: `Briefly summarize the context of these URLs for a productivity session: ${links.join(', ')}`,
+      });
+      return response.text;
+    } catch (error) {
+      console.error("Link summary error:", error);
+      return "Contextual summary not available.";
     }
   }
 };
-
