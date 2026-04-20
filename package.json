@@ -17,6 +17,7 @@
   "build": {
     "appId": "com.mindmark.app",
     "productName": "MindMark",
+    "artifactName": "MindMark.${ext}",
     "files": [
       "dist/**/*",
       "main.js",

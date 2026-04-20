@@ -432,7 +432,7 @@ export function Settings() {
                 variant="outline" 
                 className="w-full justify-center" 
                 icon={Download} 
-                onClick={() => window.open('https://github.com/rdzoagbe/MindMark/releases/latest', '_blank')}
+                onClick={() => window.location.href = 'https://github.com/rdzoagbe/MindMark/releases/latest/download/MindMark.exe'}
               >
                 Download for Windows
               </Button>
@@ -450,7 +450,7 @@ export function Settings() {
                 variant="outline" 
                 className="w-full justify-center" 
                 icon={Download} 
-                onClick={() => window.open('https://github.com/rdzoagbe/MindMark/releases/latest', '_blank')}
+                onClick={() => window.location.href = 'https://github.com/rdzoagbe/MindMark/releases/latest/download/MindMark.dmg'}
               >
                 Download for macOS
               </Button>
