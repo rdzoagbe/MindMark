@@ -29,9 +29,12 @@
     "win": {
       "target": "nsis",
       "icon": "public/icon.ico",
-      "certificateFile": "scripts/cert.pfx",
-      "certificatePassword": "CERT_PASSWORD",
       "publisherName": "MindMark Integration Inc."
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "public/icon.icns",
+      "category": "public.app-category.productivity"
     },
     "nsis": {
       "oneClick": false,

@@ -25,6 +25,7 @@ import { GlobalLanguageSelector } from '../components/GlobalLanguageSelector';
 import { useLanguage } from '../hooks/useLanguage';
 import { useTranslation } from '../hooks/useTranslation';
 import { TRANSLATIONS } from '../locales';
+import { DownloadDropdown } from '../components/DownloadDropdown';
 
 export function Landing() {
   const [showGetStarted, setShowGetStarted] = useState(false);
@@ -70,7 +71,7 @@ export function Landing() {
             ) : (
               <>
                 <Link to="/login" className="text-sm font-medium theme-text-secondary hover:theme-text-primary transition-colors">{t('common.signin')}</Link>
-                <Button onClick={handleGetStarted} size="sm">{t('common.getStarted')}</Button>
+                <DownloadDropdown onWebClick={handleGetStarted} size="sm" />
               </>
             )}
           </div>
@@ -102,9 +103,11 @@ export function Landing() {
                 {t('landing.desc')}
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button onClick={handleGetStarted} size="lg" className="h-14 px-10 text-lg w-full sm:w-auto">
-                  {isAuthenticated ? t('landing.ctaDash') : t('landing.ctaPrimary')}
-                </Button>
+                <DownloadDropdown 
+                  onWebClick={handleGetStarted} 
+                  size="lg" 
+                  className="w-full sm:w-auto"
+                />
                 <Button 
                   variant="outline" 
                   size="lg" 
