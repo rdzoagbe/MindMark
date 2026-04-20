@@ -429,7 +429,7 @@ export function SessionDetail() {
       </div>
 
       <PageHeader title={session.title}>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <FeatureGate feature="smart_resume" inline>
             <Button
               variant="primary"
@@ -437,61 +437,59 @@ export function SessionDetail() {
               icon={isGenerating ? Loader2 : Sparkles}
               onClick={handleSmartResume}
               disabled={isGenerating || session.isConfidential}
-              className={isGenerating ? 'animate-pulse' : ''}
+              className={`text-[10px] sm:text-sm px-2 sm:px-4 py-1 sm:py-2 ${isGenerating ? 'animate-pulse' : ''}`}
               title={session.isConfidential ? t.confidentialTitle : t.smartResume}
             >
-              {isGenerating ? t.smartGenerating : t.smartResume}
+              <span className="hidden xs:bold inline">{isGenerating ? t.smartGenerating : t.smartResume}</span>
+              <span className="xs:hidden">{isGenerating ? '...' : 'AI'}</span>
             </Button>
           </FeatureGate>
-          <Button
-            variant="outline"
-            size="sm"
-            icon={Share2}
-            onClick={() => setIsShareModalOpen(true)}
-            title={t.share}
-          >
-            {t.share}
-          </Button>
-          <FeatureGate feature="pinned_sessions" inline>
+          <div className="flex items-center gap-2">
             <Button
               variant="outline"
               size="sm"
-              icon={session.pinned ? PinOff : Pin}
-              onClick={handleTogglePin}
-              title={session.pinned ? t.unpin : t.pin}
-            >
-              {session.pinned ? t.unpin : t.pin}
-            </Button>
-          </FeatureGate>
-          <Button
-            variant="outline"
-            size="sm"
-            icon={Copy}
-            onClick={handleDuplicate}
-            title={t.duplicate}
-          >
-            {t.duplicate}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            icon={Edit2}
-            onClick={() => navigate(`/edit/${session.id}`)}
-            title={t.edit}
-          >
-            {t.edit}
-          </Button>
-          {isOwner && (
+              icon={Share2}
+              onClick={() => setIsShareModalOpen(true)}
+              className="p-2 sm:p-2.5"
+              title={t.share}
+            />
+            <FeatureGate feature="pinned_sessions" inline>
+              <Button
+                variant="outline"
+                size="sm"
+                icon={session.pinned ? PinOff : Pin}
+                onClick={handleTogglePin}
+                className="p-2 sm:p-2.5"
+                title={session.pinned ? t.unpin : t.pin}
+              />
+            </FeatureGate>
             <Button
-              variant="danger"
+              variant="outline"
               size="sm"
-              icon={Trash2}
-              onClick={() => setIsDeleteDialogOpen(true)}
-              title={t.delete}
-            >
-              {t.delete}
-            </Button>
-          )}
+              icon={Copy}
+              onClick={handleDuplicate}
+              className="p-2 sm:p-2.5"
+              title={t.duplicate}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              icon={Edit2}
+              onClick={() => navigate(`/edit/${session.id}`)}
+              className="p-2 sm:p-2.5 text-indigo-600"
+              title={t.edit}
+            />
+            {isOwner && (
+              <Button
+                variant="danger"
+                size="sm"
+                icon={Trash2}
+                onClick={() => setIsDeleteDialogOpen(true)}
+                className="p-2 sm:p-2.5"
+                title={t.delete}
+              />
+            )}
+          </div>
         </div>
       </PageHeader>
 

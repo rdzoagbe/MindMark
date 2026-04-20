@@ -157,62 +157,62 @@ export function AnalyticsDashboard() {
   }, [sessions, priorityLabels]);
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8 pb-20">
+    <div className="space-y-8 pb-20">
       <PageHeader 
         title={t.title} 
         description={t.desc}
       >
-        <Badge variant="indigo" size="md" icon={Activity}>{t.pro}</Badge>
+        <Badge variant="indigo" size="md" icon={Activity} className="shrink-0">{t.pro}</Badge>
       </PageHeader>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card className="p-6 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-            <Layers className="w-6 h-6" />
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        <Card className="p-4 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400 shrink-0">
+            <Layers className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <p className="text-sm font-medium theme-text-secondary">{t.total}</p>
-            <p className="text-2xl font-bold theme-text-primary">{stats.total}</p>
-          </div>
-        </Card>
-        <Card className="p-6 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-            <Activity className="w-6 h-6" />
-          </div>
-          <div>
-            <p className="text-sm font-medium theme-text-secondary">{t.active}</p>
-            <p className="text-2xl font-bold theme-text-primary">{stats.active}</p>
+          <div className="min-w-0">
+            <p className="text-[10px] sm:text-sm font-medium theme-text-secondary uppercase tracking-wider sm:normal-case sm:tracking-normal">{t.total}</p>
+            <p className="text-xl sm:text-2xl font-bold theme-text-primary">{stats.total}</p>
           </div>
         </Card>
-        <Card className="p-6 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
-            <TrendingUp className="w-6 h-6" />
+        <Card className="p-4 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-emerald-50 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400 shrink-0">
+            <Activity className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <p className="text-sm font-medium theme-text-secondary">{t.completed}</p>
-            <p className="text-2xl font-bold theme-text-primary">{stats.done}</p>
+          <div className="min-w-0">
+            <p className="text-[10px] sm:text-sm font-medium theme-text-secondary uppercase tracking-wider sm:normal-case sm:tracking-normal">{t.active}</p>
+            <p className="text-xl sm:text-2xl font-bold theme-text-primary">{stats.active}</p>
           </div>
         </Card>
-        <Card className="p-6 flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-rose-600 dark:text-rose-400">
-            <AlertCircle className="w-6 h-6" />
+        <Card className="p-4 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 shrink-0">
+            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6" />
           </div>
-          <div>
-            <p className="text-sm font-medium theme-text-secondary">{t.blocked}</p>
-            <p className="text-2xl font-bold theme-text-primary">{stats.blocked}</p>
+          <div className="min-w-0">
+            <p className="text-[10px] sm:text-sm font-medium theme-text-secondary uppercase tracking-wider sm:normal-case sm:tracking-normal">{t.completed}</p>
+            <p className="text-xl sm:text-2xl font-bold theme-text-primary">{stats.done}</p>
+          </div>
+        </Card>
+        <Card className="p-4 sm:p-6 flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 sm:gap-4">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-rose-600 dark:text-rose-400 shrink-0">
+            <AlertCircle className="w-5 h-5 sm:w-6 sm:h-6" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-[10px] sm:text-sm font-medium theme-text-secondary uppercase tracking-wider sm:normal-case sm:tracking-normal">{t.blocked}</p>
+            <p className="text-xl sm:text-2xl font-bold theme-text-primary">{stats.blocked}</p>
           </div>
         </Card>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="p-8 space-y-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
+        <Card className="p-5 sm:p-8 space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
               <Calendar className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold theme-text-primary">{t.trend}</h3>
           </div>
-          <div className="h-[300px] w-full">
+          <div className="h-[250px] sm:h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={stats.timeSeries}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" className="text-slate-200 dark:text-slate-800" />
@@ -220,14 +220,14 @@ export function AnalyticsDashboard() {
                   dataKey="date" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{ fill: 'currentColor', fontSize: 12 }}
+                  tick={{ fill: 'currentColor', fontSize: 10 }}
                   className="text-slate-500 dark:text-slate-400"
                   dy={10}
                 />
                 <YAxis 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{ fill: 'currentColor', fontSize: 12 }}
+                  tick={{ fill: 'currentColor', fontSize: 10 }}
                   className="text-slate-500 dark:text-slate-400"
                 />
                 <Tooltip 
@@ -235,7 +235,8 @@ export function AnalyticsDashboard() {
                     backgroundColor: '#1e293b', 
                     border: 'none', 
                     borderRadius: '12px',
-                    color: '#fff'
+                    color: '#fff',
+                    fontSize: '12px'
                   }}
                   itemStyle={{ color: '#fff' }}
                 />
@@ -244,22 +245,22 @@ export function AnalyticsDashboard() {
                   dataKey="count" 
                   stroke="#4f46e5" 
                   strokeWidth={3} 
-                  dot={{ r: 4, fill: '#4f46e5', strokeWidth: 2, stroke: '#fff' }}
-                  activeDot={{ r: 6, strokeWidth: 0 }}
+                  dot={{ r: 3, fill: '#4f46e5', strokeWidth: 2, stroke: '#fff' }}
+                  activeDot={{ r: 5, strokeWidth: 0 }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </Card>
 
-        <Card className="p-8 space-y-6">
+        <Card className="p-5 sm:p-8 space-y-6">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
               <BarChart3 className="w-5 h-5" />
             </div>
             <h3 className="text-lg font-bold theme-text-primary">{t.priorityDist}</h3>
           </div>
-          <div className="h-[300px] w-full">
+          <div className="h-[250px] sm:h-[300px] w-full">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={stats.priority}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="currentColor" className="text-slate-200 dark:text-slate-800" />
@@ -267,14 +268,14 @@ export function AnalyticsDashboard() {
                   dataKey="name" 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{ fill: 'currentColor', fontSize: 12 }}
+                  tick={{ fill: 'currentColor', fontSize: 10 }}
                   className="text-slate-500 dark:text-slate-400"
                   dy={10}
                 />
                 <YAxis 
                   axisLine={false} 
                   tickLine={false} 
-                  tick={{ fill: 'currentColor', fontSize: 12 }}
+                  tick={{ fill: 'currentColor', fontSize: 10 }}
                   className="text-slate-500 dark:text-slate-400"
                 />
                 <Tooltip 
@@ -283,10 +284,11 @@ export function AnalyticsDashboard() {
                     backgroundColor: '#1e293b', 
                     border: 'none', 
                     borderRadius: '12px',
-                    color: '#fff'
+                    color: '#fff',
+                    fontSize: '12px'
                   }}
                 />
-                <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                <Bar dataKey="value" radius={[4, 4, 0, 0]}>
                   {stats.priority.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.internalName === 'high' ? '#f43f5e' : entry.internalName === 'medium' ? '#f59e0b' : '#64748b'} />
                   ))}
@@ -296,7 +298,7 @@ export function AnalyticsDashboard() {
           </div>
         </Card>
 
-        <Card className="p-8 space-y-6 lg:col-span-2">
+        <Card className="p-5 sm:p-8 space-y-6 lg:col-span-2">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center text-slate-600 dark:text-slate-400">
               <PieChartIcon className="w-5 h-5" />
@@ -304,15 +306,15 @@ export function AnalyticsDashboard() {
             <h3 className="text-lg font-bold theme-text-primary">{t.byCategory}</h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-            <div className="h-[300px] w-full">
+            <div className="h-[250px] sm:h-[300px] w-full">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
                     data={stats.category}
                     cx="50%"
                     cy="50%"
-                    innerRadius={60}
-                    outerRadius={100}
+                    innerRadius={50}
+                    outerRadius={80}
                     paddingAngle={5}
                     dataKey="value"
                   >
@@ -325,23 +327,24 @@ export function AnalyticsDashboard() {
                       backgroundColor: '#1e293b', 
                       border: 'none', 
                       borderRadius: '12px',
-                      color: '#fff'
+                      color: '#fff',
+                      fontSize: '12px'
                     }}
                   />
-                  <Legend verticalAlign="middle" align="right" layout="vertical" />
+                  <Legend verticalAlign="bottom" align="center" layout="horizontal" wrapperStyle={{ paddingTop: '20px', fontSize: '10px' }} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
             <div className="space-y-4">
-              <h4 className="text-sm font-bold theme-text-primary uppercase tracking-wider">{t.topCategories}</h4>
-              <div className="space-y-3">
+              <h4 className="text-[10px] font-bold theme-text-primary uppercase tracking-widest">{t.topCategories}</h4>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-1 gap-2">
                 {stats.category.sort((a, b) => b.value - a.value).slice(0, 5).map((cat, i) => (
-                  <div key={cat.name} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800/50 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
-                      <span className="text-sm font-medium theme-text-secondary">{cat.name}</span>
+                  <div key={cat.name} className="flex items-center justify-between p-2.5 bg-slate-50 dark:bg-slate-800/50 rounded-lg">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <div className="w-2.5 h-2.5 rounded-full shrink-0" style={{ backgroundColor: COLORS[i % COLORS.length] }} />
+                      <span className="text-xs font-semibold theme-text-secondary truncate">{cat.name}</span>
                     </div>
-                    <span className="text-sm font-bold theme-text-primary">{cat.value}</span>
+                    <span className="text-xs font-bold theme-text-primary shrink-0">{cat.value}</span>
                   </div>
                 ))}
               </div>
