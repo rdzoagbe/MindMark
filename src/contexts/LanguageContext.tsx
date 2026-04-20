@@ -3,7 +3,7 @@ import { useAuth } from '../hooks/useAuth';
 import { doc, setDoc, onSnapshot } from 'firebase/firestore';
 import { db } from '../services/firebase';
 
-const LANGUAGES = ['English', 'French', 'Spanish', 'Portuguese', 'Chinese', 'German'];
+const LANGUAGES = ['EN', 'FR', 'ES', 'PT', 'ZH', 'DE'];
 
 interface LanguageContextType {
   preferredLanguage: string;
@@ -16,7 +16,7 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  const [preferredLanguage, setPreferredLanguage] = useState<string>('English');
+  const [preferredLanguage, setPreferredLanguage] = useState<string>('EN');
   const [isSavingLanguage, setIsSavingLanguage] = useState(false);
 
   // Initial load from local storage

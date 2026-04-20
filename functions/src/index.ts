@@ -44,8 +44,8 @@ export const createCheckoutSession = functions.https.onRequest((req, res) => {
         mode: "subscription",
         client_reference_id: userId,
         metadata: { userId }, // Safer backup
-        success_url: `https://mindmark.tech/upgrade-success`,
-        cancel_url: `https://mindmark.tech/pricing`,
+        success_url: `${req.headers.origin}/upgrade-success`,
+        cancel_url: `${req.headers.origin}/pricing`,
       });
 
       res.status(200).json({ sessionId: session.id });
@@ -279,13 +279,13 @@ export const stripeWebhook = functions.https.onRequest(async (req, res) => {
 });
 
 function mapPriceIdToPlan(priceId: string): string {
-  const PRO_IDS = [process.env.STRIPE_PRO_PRICE_ID, 'price_1Qx8ELCvI8qE2Zc1bE1aJ6wB'];
-  const PREMIUM_IDS = [process.env.STRIPE_PREMIUM_PRICE_ID, 'price_1Qx8EdCvI8qE2Zc1QJ71dM4q'];
-  const PLUS_IDS = [process.env.STRIPE_PLUS_PRICE_ID, 'price_1Qx8EACvI8qE2Zc1Lz1xT0oN'];
+  const PRO_ID = process.env.STRIPE_PRO_PRICE_ID;
+  const PREMIUM_ID = process.env.STRIPE_PREMIUM_PRICE_ID;
+  const PLUS_ID = process.env.STRIPE_PLUS_PRICE_ID;
 
-  if (PRO_IDS.includes(priceId)) return "pro";
-  if (PREMIUM_IDS.includes(priceId)) return "premium";
-  if (PLUS_IDS.includes(priceId)) return "plus";
+  if (priceId === PRO_ID && PRO_ID) return "pro";
+  if (priceId === PREMIUM_ID && PREMIUM_ID) return "premium";
+  if (priceId === PLUS_ID && PLUS_ID) return "plus";
   return "free";
 }
 

@@ -85,8 +85,8 @@ async function startServer() {
         ],
         mode: 'subscription',
         client_reference_id: userId,
-        success_url: `https://mindmark.tech/upgrade-success`,
-        cancel_url: `https://mindmark.tech/pricing`,
+        success_url: `${req.headers.origin}/upgrade-success`,
+        cancel_url: `${req.headers.origin}/pricing`,
       });
 
       res.json({ sessionId: session.id });
@@ -341,13 +341,13 @@ async function startServer() {
 }
 
 function mapPriceIdToPlan(priceId: string): string {
-  const PLUS_ID = process.env.STRIPE_PLUS_PRICE_ID || "price_1Qx8EACvI8qE2Zc1Lz1xT0oN";
-  const PRO_ID = process.env.STRIPE_PRO_PRICE_ID || "price_1Qx8ELCvI8qE2Zc1bE1aJ6wB";
-  const PREMIUM_ID = process.env.STRIPE_PREMIUM_PRICE_ID || "price_1Qx8EdCvI8qE2Zc1QJ71dM4q";
+  const PLUS_ID = process.env.STRIPE_PLUS_PRICE_ID;
+  const PRO_ID = process.env.STRIPE_PRO_PRICE_ID;
+  const PREMIUM_ID = process.env.STRIPE_PREMIUM_PRICE_ID;
 
-  if (priceId === PLUS_ID) return 'plus';
-  if (priceId === PRO_ID) return 'pro';
-  if (priceId === PREMIUM_ID) return 'premium';
+  if (priceId === PLUS_ID && PLUS_ID) return 'plus';
+  if (priceId === PRO_ID && PRO_ID) return 'pro';
+  if (priceId === PREMIUM_ID && PREMIUM_ID) return 'premium';
   return 'free';
 }
 
