@@ -48,10 +48,10 @@ export function DownloadDropdown({ onWebClick, className = '', size = 'md' }: Do
       icon: Monitor,
       description: 'Download .exe installer',
       onClick: () => {
-        window.location.href = 'https://github.com/rdzoagbe/MindMark/releases/download/v1.0.1/MindMark-Setup-1.0.1.exe';
+        window.open('https://github.com/rdzoagbe/MindMark/releases/latest', '_blank');
         setIsOpen(false);
       },
-      badge: 'v1.0.1'
+      badge: 'Latest'
     },
     {
       id: 'mac',
@@ -59,10 +59,10 @@ export function DownloadDropdown({ onWebClick, className = '', size = 'md' }: Do
       icon: Apple,
       description: 'Download for Apple Silicon',
       onClick: () => {
-        window.location.href = 'https://github.com/rdzoagbe/MindMark/releases/download/v1.0.1/MindMark-1.0.1-arm64.dmg';
+        window.open('https://github.com/rdzoagbe/MindMark/releases/latest', '_blank');
         setIsOpen(false);
       },
-      badge: 'v1.0.1'
+      badge: 'Latest'
     }
   ];
 
