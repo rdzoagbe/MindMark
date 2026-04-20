@@ -1,17 +1,11 @@
 import express from 'express';
-<<<<<<< HEAD
 import cors from 'cors';
-=======
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
 import { createServer as createViteServer } from 'vite';
 import Stripe from 'stripe';
 import admin from 'firebase-admin';
 import path from 'path';
-<<<<<<< HEAD
 import crypto from 'crypto';
 import { geminiService } from './src/services/geminiService';
-=======
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
 
 // Load environment variables for local development
 import { config } from 'dotenv';
@@ -28,16 +22,11 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-<<<<<<< HEAD
   app.use(cors());
 
   // Stripe requires raw body for webhook signature verification
-  const LIVE_SECRET_KEY = "your_stripe_restricted_key_here";
+  const LIVE_SECRET_KEY = ";
   const stripeSecretKey = process.env.STRIPE_SECRET_KEY || LIVE_SECRET_KEY;
-=======
-  // Stripe requires raw body for webhook signature verification
-  const stripeSecretKey = process.env.STRIPE_SECRET_KEY || '';
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
   const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
   let stripeClient: Stripe | null = null;
   
@@ -55,7 +44,6 @@ async function startServer() {
     res.json({ status: 'ok' });
   });
 
-<<<<<<< HEAD
   // Get User Plan (for extension)
   app.get('/api/user/plan', async (req, res) => {
     const userId = req.query.userId as string;
@@ -79,8 +67,6 @@ async function startServer() {
     }
   });
 
-=======
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
   // Create Stripe Checkout Session
   app.post('/api/create-checkout-session', express.json(), async (req, res) => {
     const { priceId, userId } = req.body;
@@ -100,13 +86,8 @@ async function startServer() {
         ],
         mode: 'subscription',
         client_reference_id: userId,
-<<<<<<< HEAD
         success_url: `https://mindmark.tech/upgrade-success`,
         cancel_url: `https://mindmark.tech/pricing`,
-=======
-        success_url: `${req.headers.origin}/upgrade-success`,
-        cancel_url: `${req.headers.origin}/pricing`,
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
       });
 
       res.json({ sessionId: session.id });
@@ -220,7 +201,6 @@ async function startServer() {
   // Regular express parsing for other APIs
   app.use(express.json());
 
-<<<<<<< HEAD
   // Extension API: Save Quick Session
   app.post('/api/extension/save-session', async (req, res) => {
     const { userId, nextStep, links } = req.body;
@@ -294,8 +274,6 @@ async function startServer() {
     }
   });
 
-=======
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
   // Create Stripe Billing Portal Session
   app.post('/api/create-portal-session', async (req, res) => {
     const authHeader = req.headers.authorization;
@@ -364,7 +342,6 @@ async function startServer() {
 }
 
 function mapPriceIdToPlan(priceId: string): string {
-<<<<<<< HEAD
   const PLUS_ID = process.env.STRIPE_PLUS_PRICE_ID || "price_1Qx8EACvI8qE2Zc1Lz1xT0oN";
   const PRO_ID = process.env.STRIPE_PRO_PRICE_ID || "price_1Qx8ELCvI8qE2Zc1bE1aJ6wB";
   const PREMIUM_ID = process.env.STRIPE_PREMIUM_PRICE_ID || "price_1Qx8EdCvI8qE2Zc1QJ71dM4q";
@@ -372,11 +349,6 @@ function mapPriceIdToPlan(priceId: string): string {
   if (priceId === PLUS_ID) return 'plus';
   if (priceId === PRO_ID) return 'pro';
   if (priceId === PREMIUM_ID) return 'premium';
-=======
-  if (priceId === process.env.STRIPE_PLUS_PRICE_ID) return 'plus';
-  if (priceId === process.env.STRIPE_PRO_PRICE_ID) return 'pro';
-  if (priceId === process.env.STRIPE_PREMIUM_PRICE_ID) return 'premium';
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
   return 'free';
 }
 

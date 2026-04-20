@@ -16,15 +16,9 @@ export default defineConfig(({mode}) => {
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'masked-icon.svg'],
         manifest: {
-<<<<<<< HEAD
           name: 'MindMark',
           short_name: 'MindMark',
           description: 'Bookmark your mind\'s exact state.',
-=======
-          name: 'Context Saver',
-          short_name: 'Context Saver',
-          description: 'Operational continuity for interrupted work.',
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
           theme_color: '#4f46e5',
           background_color: '#0f172a',
           display: 'standalone',

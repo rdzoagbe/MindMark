@@ -4,11 +4,7 @@ type Theme = 'light' | 'dark';
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>(() => {
-<<<<<<< HEAD
     const stored = localStorage.getItem('mindmark-theme');
-=======
-    const stored = localStorage.getItem('context-saver-theme');
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
     if (stored === 'light' || stored === 'dark') {
       return stored;
     }
@@ -19,11 +15,7 @@ export function useTheme() {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
-<<<<<<< HEAD
     localStorage.setItem('mindmark-theme', theme);
-=======
-    localStorage.setItem('context-saver-theme', theme);
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
   }, [theme]);
 
   const toggleTheme = () => {

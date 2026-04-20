@@ -1,5 +1,4 @@
 import { loadStripe } from '@stripe/stripe-js';
-<<<<<<< HEAD
 import { API_URL } from '../config/constants';
 
 const sanitize = (val: string | undefined | null) => {
@@ -7,25 +6,24 @@ const sanitize = (val: string | undefined | null) => {
   return val.replace(/['"]+/g, '').trim();
 };
 
-const LIVE_PUBLIC_KEY = "your_stripe_publishable_key_here";
-const STRIPE_PUBLIC_KEY = sanitize(import.meta.env.VITE_STRIPE_PUBLIC_KEY) || LIVE_PUBLIC_KEY;
-=======
+const LIVE_PUBLIC_KEY = "pk_live_51T9WuB1yFs6IziIVLOyzJRCq6J8Nrbt3l8d9McbNFJvGIDXttWxmcWTJNXX8V2pNqpbgLXg1tAJndUBFflZgwVMr00GzDjqAcB";
+const envKey = sanitize(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+const STRIPE_PUBLIC_KEY = envKey || LIVE_PUBLIC_KEY;
 
-const STRIPE_PUBLIC_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
+// Strict environment variable check for debugging in production
+if (envKey === undefined) {
+  console.info('[Stripe Info] VITE_STRIPE_PUBLIC_KEY not detected, falling back to LIVE_PUBLIC_KEY.');
+}
 
 // Initialize Stripe sparingly
 export const stripePromise = STRIPE_PUBLIC_KEY 
   ? loadStripe(STRIPE_PUBLIC_KEY) 
   : Promise.resolve(null);
 
-<<<<<<< HEAD
 if (!STRIPE_PUBLIC_KEY) {
-  console.warn('[Stripe] VITE_STRIPE_PUBLIC_KEY is not set in environment variables. Checkout redirects will fail.');
+  console.error('[Stripe CRITICAL] Valid Stripe Public Key is utterly missing. Check your Vite configuration. The string is literally undefined.');
 }
 
-=======
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
 /**
  * Initiates a Stripe Checkout session by calling the backend,
  * then redirects the user to the secure Stripe checkout page.
@@ -41,12 +39,7 @@ export async function handleCheckout(priceId: string, userId: string) {
     }
 
     // Call your backend to create a Checkout Session
-<<<<<<< HEAD
     const response = await fetch(`${API_URL}/createCheckoutSession`, {
-=======
-    // We assume an endpoint at /api/create-checkout-session exists
-    const response = await fetch('/api/create-checkout-session', {
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

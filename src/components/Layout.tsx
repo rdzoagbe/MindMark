@@ -11,6 +11,18 @@ import { MigrationModal } from './MigrationModal';
 import { FeatureGate } from './FeatureGate';
 import { useSessions } from '../contexts/SessionContext';
 import { NotificationBell } from './ui/NotificationBell';
+import { GlobalLanguageSelector } from './GlobalLanguageSelector';
+
+import { useLanguage } from '../hooks/useLanguage';
+
+const NAV_TRANSLATIONS: Record<string, any> = {
+  English: { dashboard: 'Dashboard', create: 'New Session', analytics: 'Analytics', pricing: 'Plans', settings: 'Settings', signOut: 'Sign Out' },
+  French: { dashboard: 'Tableau', create: 'Nouvelle Session', analytics: 'Analyses', pricing: 'Forfaits', settings: 'Paramètres', signOut: 'Déconnexion' },
+  Spanish: { dashboard: 'Panel', create: 'Nueva Sesión', analytics: 'Análisis', pricing: 'Planes', settings: 'Ajustes', signOut: 'Cerrar sesión' },
+  Portuguese: { dashboard: 'Painel', create: 'Nova Sessão', analytics: 'Análise', pricing: 'Planos', settings: 'Configurações', signOut: 'Sair' },
+  Chinese: { dashboard: '仪表板', create: '新会话', analytics: '分析', pricing: '计划', settings: '设置', signOut: '登出' },
+  German: { dashboard: 'Dashboard', create: 'Neue Sitzung', analytics: 'Analytik', pricing: 'Pläne', settings: 'Einstellungen', signOut: 'Abmelden' }
+};
 
 export function Layout() {
   const location = useLocation();
@@ -18,8 +30,10 @@ export function Layout() {
   const { currentPlan, isFree, isPro } = usePlan();
   const { user, isAuthenticated } = useAuth();
   const { migrationState, performMigration } = useSessions();
+  const { preferredLanguage } = useLanguage();
 
   const isRootPath = location.pathname === '/dashboard';
+  const t = NAV_TRANSLATIONS[preferredLanguage] || NAV_TRANSLATIONS['English'];
 
   const handleLogout = async () => {
     try {
@@ -31,11 +45,11 @@ export function Layout() {
   };
 
   const navItems = [
-    { path: '/dashboard', icon: Home, label: 'Dashboard' },
-    { path: '/create', icon: PlusCircle, label: 'New Session' },
-    { path: '/analytics', icon: BarChart3, label: 'Analytics', proOnly: true },
-    { path: '/pricing', icon: Sparkles, label: 'Plans', highlight: isFree },
-    { path: '/settings', icon: Settings, label: 'Settings' },
+    { path: '/dashboard', icon: Home, label: t.dashboard },
+    { path: '/create', icon: PlusCircle, label: t.create },
+    { path: '/analytics', icon: BarChart3, label: t.analytics, proOnly: true },
+    { path: '/pricing', icon: Sparkles, label: t.pricing, highlight: isFree },
+    { path: '/settings', icon: Settings, label: t.settings },
   ].filter(item => !item.proOnly || isPro);
 
   return (
@@ -47,11 +61,7 @@ export function Layout() {
             <div className="w-8 h-8 bg-indigo-600 dark:bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-sm">
               <BookMarked className="w-5 h-5" />
             </div>
-<<<<<<< HEAD
             <span>MindMark</span>
-=======
-            <span>Context Saver</span>
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
           </Link>
         </div>
 
@@ -97,7 +107,7 @@ export function Layout() {
                 <p className="text-xs font-bold theme-text-primary truncate">{user?.email?.split('@')[0]}</p>
                 <button onClick={handleLogout} className="text-[10px] font-semibold text-rose-500 hover:text-rose-600 flex items-center gap-1">
                   <LogOut className="w-3 h-3" />
-                  Sign Out
+                  {t.signOut}
                 </button>
               </div>
             </div>
@@ -126,15 +136,11 @@ export function Layout() {
               <div className="w-8 h-8 bg-indigo-600 dark:bg-indigo-500 rounded-lg flex items-center justify-center text-white shadow-sm">
                 <BookMarked className="w-5 h-5" />
               </div>
-<<<<<<< HEAD
               <span>MindMark</span>
-=======
-              <span>Context Saver</span>
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
             </Link>
           </div>
           <div className="flex items-center gap-3">
-            {/* Notification Header Appended Here inside a new Component (or inline) */}
+            <GlobalLanguageSelector />
             <FeatureGate feature="pinned_sessions" inline>
                <NotificationBell />
             </FeatureGate>

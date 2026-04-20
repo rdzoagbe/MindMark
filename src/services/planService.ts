@@ -1,10 +1,6 @@
 import { PlanType, UserPlan } from '../types';
 
-<<<<<<< HEAD
 const PLAN_STORAGE_KEY = 'mindmark-plan';
-=======
-const PLAN_STORAGE_KEY = 'context-saver-plan';
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
 
 class PlanService {
   /**

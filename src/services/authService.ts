@@ -45,7 +45,6 @@ export const signOut = () => {
 };
 
 export const observeAuthState = (callback: (user: User | null) => void) => {
-<<<<<<< HEAD
   return onAuthStateChanged(auth, (user) => {
     if (user) {
       // Sync UID to cookie for the extension to read
@@ -73,9 +72,6 @@ export const observeAuthState = (callback: (user: User | null) => void) => {
     }
     callback(user);
   });
-=======
-  return onAuthStateChanged(auth, callback);
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
 };
 
 export const getCurrentUser = () => {

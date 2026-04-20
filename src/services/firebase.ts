@@ -1,6 +1,6 @@
 import { getApp, getApps, initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, doc, getDocFromServer } from 'firebase/firestore';
+import { getFirestore, doc, getDocFromServer, updateDoc, setDoc } from 'firebase/firestore';
 
 /**
  * Sanitize strings (remove quotes and whitespace)

@@ -4,9 +4,84 @@ import { UserPlus, Mail, Lock, AlertCircle, ArrowRight, BookMarked, ShieldCheck,
 import { signUp, signInWithGoogle, signInWithMicrosoft } from '../services/authService';
 import { analytics } from '../services/analytics';
 import { motion } from 'motion/react';
-
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { useLanguage } from '../hooks/useLanguage';
+
+const SIGNUP_TRANSLATIONS: Record<string, any> = {
+  English: {
+    title: 'Create Account',
+    subtitle: 'Start syncing your work context across all your devices.',
+    google: 'Google', microsoft: 'Microsoft', or: 'Or continue with email',
+    email: 'Email Address', password: 'Password', confirm: 'Confirm Password',
+    suggest: 'Suggest secure password',
+    button: 'Create account',
+    already: 'Already have an account?', signIn: 'Sign in here',
+    errorMatch: 'Passwords do not match',
+    errorLength: 'Password must be at least 6 characters long',
+    fixKey: 'Fix API Key'
+  },
+  French: {
+    title: 'Créer un compte',
+    subtitle: 'Synchronisez votre contexte de travail sur tous vos appareils.',
+    google: 'Google', microsoft: 'Microsoft', or: 'Ou continuer avec l\'e-mail',
+    email: 'Adresse e-mail', password: 'Mot de passe', confirm: 'Confirmer le mot de passe',
+    suggest: 'Suggérer un mot de passe sûr',
+    button: 'Créer le compte',
+    already: 'Vous avez déjà un compte ?', signIn: 'Connectez-vous ici',
+    errorMatch: 'Les mots de passe ne correspondent pas',
+    errorLength: 'Le mot de passe doit faire au moins 6 caractères',
+    fixKey: 'Corriger la clé API'
+  },
+  Spanish: {
+    title: 'Crear Cuenta',
+    subtitle: 'Comienza a sincronizar tu contexto de trabajo en todos tus dispositivos.',
+    google: 'Google', microsoft: 'Microsoft', or: 'O continúa con el correo',
+    email: 'Correo Electrónico', password: 'Contraseña', confirm: 'Confirmar Contraseña',
+    suggest: 'Sugerir contraseña segura',
+    button: 'Crear cuenta',
+    already: '¿Ya tienes una cuenta?', signIn: 'Inicia sesión aquí',
+    errorMatch: 'Las contraseñas no coinciden',
+    errorLength: 'La contraseña debe tener al menos 6 caracteres',
+    fixKey: 'Corregir clave API'
+  },
+  Portuguese: {
+    title: 'Criar Conta',
+    subtitle: 'Comece a sincronizar seu contexto em todos os seus dispositivos.',
+    google: 'Google', microsoft: 'Microsoft', or: 'Ou continue com e-mail',
+    email: 'Endereço de e-mail', password: 'Senha', confirm: 'Confirmar Senha',
+    suggest: 'Sugerir senha segura',
+    button: 'Criar conta',
+    already: 'Já tem uma conta?', signIn: 'Entre aqui',
+    errorMatch: 'As senhas não coincidem',
+    errorLength: 'A senha deve ter pelo menos 6 caracteres',
+    fixKey: 'Corrigir chave API'
+  },
+  Chinese: {
+    title: '创建帐户',
+    subtitle: '开始在所有设备上同步您的工作上下文。',
+    google: 'Google', microsoft: 'Microsoft', or: '或通过电子邮件继续',
+    email: '电子邮件地址', password: '密码', confirm: '确认密码',
+    suggest: '建议安全密码',
+    button: '创建帐户',
+    already: '已有帐户？', signIn: '在此登录',
+    errorMatch: '密码不匹配',
+    errorLength: '密码长度必须至少为 6 个字符',
+    fixKey: '修复 API 密钥'
+  },
+  German: {
+    title: 'Konto erstellen',
+    subtitle: 'Synchronisieren Sie Ihren Arbeitskontext auf allen Geräten.',
+    google: 'Google', microsoft: 'Microsoft', or: 'Oder mit E-Mail weiter',
+    email: 'E-Mail Adresse', password: 'Passwort', confirm: 'Passwort bestätigen',
+    suggest: 'Sicheres Passwort vorschlagen',
+    button: 'Konto erstellen',
+    already: 'Haben Sie bereits ein Konto?', signIn: 'Hier anmelden',
+    errorMatch: 'Passwörter stimmen nicht überein',
+    errorLength: 'Passwort muss mindestens 6 Zeichen lang sein',
+    fixKey: 'API-Key korrigieren'
+  }
+};
 
 export function Signup() {
   const [email, setEmail] = useState('');
@@ -17,6 +92,8 @@ export function Signup() {
   const [ssoLoading, setSsoLoading] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { preferredLanguage } = useLanguage();
+  const t = SIGNUP_TRANSLATIONS[preferredLanguage] || SIGNUP_TRANSLATIONS['English'];
 
   // Check for global configuration errors
   React.useEffect(() => {
@@ -78,12 +155,12 @@ export function Signup() {
     setError(null);
 
     if (password !== confirmPassword) {
-      setError('Passwords do not match');
+      setError(t.errorMatch);
       return;
     }
 
     if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
+      setError(t.errorLength);
       return;
     }
 
@@ -115,10 +192,7 @@ export function Signup() {
             <div className="w-16 h-16 bg-rose-100 dark:bg-rose-900/30 rounded-2xl text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-6">
               <AlertCircle className="w-8 h-8" />
             </div>
-            <h2 className="text-2xl font-bold theme-text-primary text-center mb-3">Fix API Key</h2>
-            <p className="theme-text-secondary text-sm text-center mb-6">
-              The API Key configured in your AI Studio Environment Variables is currently being rejected by Google Cloud.
-            </p>
+            <h2 className="text-2xl font-bold theme-text-primary text-center mb-3">{t.fixKey}</h2>
             <form onSubmit={handleOverrideKey} className="space-y-4">
               <div className="space-y-1.5">
                 <label className="text-sm font-medium theme-text-secondary">Paste Exact Web API Key Here</label>
@@ -134,14 +208,6 @@ export function Signup() {
                 Apply Override & Reload
               </Button>
             </form>
-            {localStorage.getItem('FIREBASE_API_KEY_OVERRIDE') && (
-              <button 
-                onClick={clearOverride}
-                className="mt-6 w-full text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-              >
-                Clear Override and Try Environment Settings Again
-              </button>
-            )}
           </Card>
         </motion.div>
       </div>
@@ -161,9 +227,9 @@ export function Signup() {
             <Link to="/" className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl text-white shadow-sm mb-6 hover:opacity-90 transition-opacity">
               <BookMarked className="w-8 h-8" />
             </Link>
-            <h2 className="text-3xl font-bold theme-text-primary tracking-tight">Create Account</h2>
+            <h2 className="text-3xl font-bold theme-text-primary tracking-tight">{t.title}</h2>
             <p className="mt-3 theme-text-secondary">
-              Start syncing your work context across all your devices.
+              {t.subtitle}
             </p>
           </div>
 
@@ -182,7 +248,7 @@ export function Signup() {
                 <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.6-2.79c-1.1.74-2.51 1.18-4.33 1.18-3.34 0-6.17-2.26-7.18-5.32L.89 17.18C2.89 21.11 6.95 24 12 24z" />
                 <path fill="#FBBC05" d="M4.82 14.16c-.26-.74-.4-1.54-.4-2.36s.14-1.62.4-2.36L.89 6.41C.32 7.78 0 9.29 0 10.86s.32 3.08.89 4.45l3.93-3.15z" />
               </svg>
-              Google
+              {t.google}
             </Button>
             <Button 
               variant="outline" 
@@ -199,7 +265,7 @@ export function Signup() {
                 <path fill="#05a6f0" d="M1 12h10v10H1z" />
                 <path fill="#ffba08" d="M12 12h10v10H12z" />
               </svg>
-              Microsoft
+              {t.microsoft}
             </Button>
           </div>
 
@@ -208,7 +274,7 @@ export function Signup() {
               <div className="w-full border-t theme-border"></div>
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white dark:bg-slate-900 px-4 theme-text-secondary font-medium">Or continue with email</span>
+              <span className="bg-white dark:bg-slate-900 px-4 theme-text-secondary font-medium">{t.or}</span>
             </div>
           </div>
 
@@ -222,7 +288,7 @@ export function Signup() {
 
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium theme-text-secondary ml-1">Email Address</label>
+                <label className="text-sm font-medium theme-text-secondary ml-1">{t.email}</label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500 transition-colors">
                     <Mail className="w-5 h-5" />
@@ -241,14 +307,14 @@ export function Signup() {
 
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between ml-1">
-                  <label className="text-sm font-medium theme-text-secondary">Password</label>
+                  <label className="text-sm font-medium theme-text-secondary">{t.password}</label>
                   <button 
                     type="button" 
                     onClick={generatePassword}
                     className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 flex items-center gap-1"
                   >
                     <Sparkles className="w-3 h-3" />
-                    Suggest secure password
+                    {t.suggest}
                   </button>
                 </div>
                 <div className="relative group">
@@ -275,7 +341,7 @@ export function Signup() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-sm font-medium theme-text-secondary ml-1">Confirm Password</label>
+                <label className="text-sm font-medium theme-text-secondary ml-1">{t.confirm}</label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500 transition-colors">
                     <ShieldCheck className="w-5 h-5" />
@@ -301,15 +367,15 @@ export function Signup() {
               icon={ArrowRight}
               className="flex-row-reverse"
             >
-              Create account
+              {t.button}
             </Button>
           </form>
 
           <div className="mt-8 text-center">
             <p className="text-sm theme-text-secondary">
-              Already have an account?{' '}
+              {t.already}{' '}
               <Link to="/login" className="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold">
-                Sign in here
+                {t.signIn}
               </Link>
             </p>
           </div>

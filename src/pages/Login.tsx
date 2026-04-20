@@ -4,9 +4,90 @@ import { LogIn, Mail, Lock, AlertCircle, ArrowRight, BookMarked, ChevronLeft, Ch
 import { signIn, sendPasswordReset, signInWithGoogle, signInWithMicrosoft } from '../services/authService';
 import { analytics } from '../services/analytics';
 import { motion, AnimatePresence } from 'motion/react';
-
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
+import { useLanguage } from '../hooks/useLanguage';
+
+const LOGIN_TRANSLATIONS: Record<string, any> = {
+  English: {
+    welcome: 'Welcome Back', reset: 'Reset Password',
+    subWelcome: 'Sign in to sync your context across all your devices.',
+    subReset: "Enter your email and we'll send you a link to reset your password.",
+    google: 'Google', microsoft: 'Microsoft', or: 'Or continue with',
+    email: 'Email Address', password: 'Password', forgot: 'Forgot password?',
+    signIn: 'Sign in', sendReset: 'Send Reset Link',
+    noAccount: "Don't have an account?", signUp: 'Sign up for free',
+    back: 'Back to sign in',
+    checkEmail: 'Check your email', checkSub: 'If an account exists for {email}, we have sent a password reset link.',
+    resetNote: '(Note: If you signed up with Google or Microsoft, you may not receive an email).',
+    fixKey: 'Fix API Key'
+  },
+  French: {
+    welcome: 'Bon retour parmi nous', reset: 'Réinitialiser le mot de passe',
+    subWelcome: 'Connectez-vous pour synchroniser votre contexte sur tous vos appareils.',
+    subReset: "Entrez votre e-mail et nous vous enverrons un lien de réinitialisation.",
+    google: 'Google', microsoft: 'Microsoft', or: 'Ou continuer avec',
+    email: 'Adresse e-mail', password: 'Mot de passe', forgot: 'Mot de passe oublié ?',
+    signIn: 'Se connecter', sendReset: 'Envoyer le lien',
+    noAccount: "Vous n'avez pas de compte ?", signUp: 'Inscrivez-vous gratuitement',
+    back: 'Retour à la connexion',
+    checkEmail: 'Vérifiez vos e-mails', checkSub: 'Si un compte existe pour {email}, nous avons envoyé un lien.',
+    resetNote: '(Note : Si vous utilisez Google ou Microsoft, vous ne recevrez peut-être pas d\'e-mail).',
+    fixKey: 'Corriger la clé API'
+  },
+  Spanish: {
+    welcome: 'Bienvenido de nuevo', reset: 'Restablecer Contraseña',
+    subWelcome: 'Inicia sesión para sincronizar tu contexto en todos tus dispositivos.',
+    subReset: "Ingresa tu correo y te enviaremos un enlace de restablecimiento.",
+    google: 'Google', microsoft: 'Microsoft', or: 'O continúa con',
+    email: 'Correo Electrónico', password: 'Contraseña', forgot: '¿Olvidaste tu contraseña?',
+    signIn: 'Iniciar sesión', sendReset: 'Enviar enlace',
+    noAccount: "¿No tienes una cuenta?", signUp: 'Regístrate gratis',
+    back: 'Volver al inicio',
+    checkEmail: 'Revisa tu correo', checkSub: 'Si existe una cuenta para {email}, hemos enviado un enlace.',
+    resetNote: '(Nota: Si usas Google o Microsoft, es posible que no recibas el correo).',
+    fixKey: 'Corregir clave API'
+  },
+  Portuguese: {
+    welcome: 'Bem-vindo de volta', reset: 'Redefinir Senha',
+    subWelcome: 'Conecte-se para sincronizar seu contexto em todos os seus dispositivos.',
+    subReset: "Insira seu e-mail e enviaremos um link de redefinição.",
+    google: 'Google', microsoft: 'Microsoft', or: 'Ou continue com',
+    email: 'Endereço de e-mail', password: 'Senha', forgot: 'Esqueceu a senha?',
+    signIn: 'Entrar', sendReset: 'Enviar link',
+    noAccount: "Não tem uma conta?", signUp: 'Cadastre-se grátis',
+    back: 'Voltar ao login',
+    checkEmail: 'Verifique seu e-mail', checkSub: 'Se existir uma conta para {email}, enviamos um link.',
+    resetNote: '(Nota: Se você usa Google ou Microsoft, pode não receber o e-mail).',
+    fixKey: 'Corrigir chave API'
+  },
+  Chinese: {
+    welcome: '欢迎回来', reset: '重置密码',
+    subWelcome: '登录以在所有设备上同步您的上下文。',
+    subReset: "输入您的电子邮件，我们将向您发送重置密码的链接。",
+    google: 'Google', microsoft: 'Microsoft', or: '或继续使用',
+    email: '电子邮件地址', password: '密码', forgot: '忘记密码？',
+    signIn: '登录', sendReset: '发送重置链接',
+    noAccount: "还没有帐户？", signUp: '免费注册',
+    back: '返回登录',
+    checkEmail: '检查您的电子邮件', checkSub: '如果 {email} 的帐户存在，我们已发送重置链接。',
+    resetNote: '（注意：如果您使用 Google 或 Microsoft 注册，可能不会收到电子邮件）。',
+    fixKey: '修复 API 密钥'
+  },
+  German: {
+    welcome: 'Willkommen zurück', reset: 'Passwort zurücksetzen',
+    subWelcome: 'Anmelden, um den Kontext auf allen Geräten zu synchronisieren.',
+    subReset: "Geben Sie Ihre E-Mail ein, um einen Reset-Link zu erhalten.",
+    google: 'Google', microsoft: 'Microsoft', or: 'Oder weiter mit',
+    email: 'E-Mail Adresse', password: 'Passwort', forgot: 'Passwort vergessen?',
+    signIn: 'Anmelden', sendReset: 'Reset-Link senden',
+    noAccount: "Noch kein Konto?", signUp: 'Kostenlos registrieren',
+    back: 'Zurück zur Anmeldung',
+    checkEmail: 'E-Mails prüfen', checkSub: 'Wenn ein Konto für {email} existiert, haben wir einen Link gesendet.',
+    resetNote: '(Hinweis: Bei Google/Microsoft Login erhalten Sie evtl. keine E-Mail).',
+    fixKey: 'API-Key korrigieren'
+  }
+};
 
 export function Login() {
   const [email, setEmail] = useState('');
@@ -17,6 +98,8 @@ export function Login() {
   const [resetMode, setResetMode] = useState(false);
   const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
+  const { preferredLanguage } = useLanguage();
+  const t = LOGIN_TRANSLATIONS[preferredLanguage] || LOGIN_TRANSLATIONS['English'];
 
   // Check for global configuration errors
   React.useEffect(() => {
@@ -115,21 +198,11 @@ export function Login() {
             <div className="w-16 h-16 bg-rose-100 dark:bg-rose-900/30 rounded-2xl text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto mb-6">
               <AlertCircle className="w-8 h-8" />
             </div>
-            <h2 className="text-2xl font-bold theme-text-primary text-center mb-3">Fix API Key</h2>
+            <h2 className="text-2xl font-bold theme-text-primary text-center mb-3">{t.fixKey}</h2>
             <div className="space-y-4 mb-8">
               <p className="theme-text-secondary text-sm text-center">
                 Google Cloud is rejecting your API Key. This usually happens if the key is restricted or if you've switched projects.
               </p>
-              
-              <div className="bg-slate-50 dark:bg-slate-900/50 p-4 rounded-xl space-y-3">
-                <p className="text-xs font-semibold theme-text-primary uppercase tracking-wider">How to Fix:</p>
-                <ol className="text-xs theme-text-secondary space-y-2 list-decimal ml-4">
-                  <li>Go to <b>Google Cloud Console</b> &gt; <b>APIs &amp; Services</b> &gt; <b>Credentials</b>.</li>
-                  <li>Find the <b>Browser API Key</b> (starts with AIzaSy).</li>
-                  <li>Click on it and ensure <b>API Restrictions</b> is set to "None" (or includes Identity Toolkit and Firestore).</li>
-                  <li>Copy the key and paste it below.</li>
-                </ol>
-              </div>
             </div>
             <form onSubmit={handleOverrideKey} className="space-y-4">
               <div className="space-y-1.5">
@@ -146,14 +219,6 @@ export function Login() {
                 Apply Override & Reload
               </Button>
             </form>
-            {localStorage.getItem('FIREBASE_API_KEY_OVERRIDE') && (
-              <button 
-                onClick={clearOverride}
-                className="mt-6 w-full text-sm font-medium text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
-              >
-                Clear Override and Try Environment Settings Again
-              </button>
-            )}
           </Card>
         </motion.div>
       </div>
@@ -172,15 +237,18 @@ export function Login() {
             <div className="w-16 h-16 bg-emerald-100 dark:bg-emerald-900/30 rounded-2xl text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-6">
               <CheckCircle2 className="w-8 h-8" />
             </div>
-            <h2 className="text-2xl font-bold theme-text-primary mb-3">Check your email</h2>
-            <p className="theme-text-secondary mb-8">
-              We've sent a password reset link to <span className="font-semibold theme-text-primary">{email}</span>.
+            <h2 className="text-2xl font-bold theme-text-primary mb-3">{t.checkEmail}</h2>
+            <p className="theme-text-secondary mb-2">
+              {t.checkSub.replace('{email}', email)}
+            </p>
+            <p className="text-xs text-slate-500 mb-8">
+              {t.resetNote}
             </p>
             <Button fullWidth onClick={() => {
               setResetSent(false);
               setResetMode(false);
             }}>
-              Back to Login
+              {t.back}
             </Button>
           </Card>
         </motion.div>
@@ -204,7 +272,7 @@ export function Login() {
                 className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline mb-6"
               >
                 <ChevronLeft className="w-4 h-4" />
-                Back to sign in
+                {t.back}
               </button>
             ) : (
               <Link to="/" className="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-2xl text-white shadow-sm mb-6 hover:opacity-90 transition-opacity">
@@ -212,12 +280,10 @@ export function Login() {
               </Link>
             )}
             <h2 className="text-3xl font-bold theme-text-primary tracking-tight">
-              {resetMode ? 'Reset Password' : 'Welcome Back'}
+              {resetMode ? t.reset : t.welcome}
             </h2>
             <p className="mt-3 theme-text-secondary">
-              {resetMode 
-                ? "Enter your email and we'll send you a link to reset your password."
-                : 'Sign in to sync your context across all your devices.'}
+              {resetMode ? t.subReset : t.subWelcome}
             </p>
           </div>
 
@@ -237,7 +303,7 @@ export function Login() {
                   <path fill="#34A853" d="M12 24c3.24 0 5.95-1.08 7.93-2.91l-3.6-2.79c-1.1.74-2.51 1.18-4.33 1.18-3.34 0-6.17-2.26-7.18-5.32L.89 17.18C2.89 21.11 6.95 24 12 24z" />
                   <path fill="#FBBC05" d="M4.82 14.16c-.26-.74-.4-1.54-.4-2.36s.14-1.62.4-2.36L.89 6.41C.32 7.78 0 9.29 0 10.86s.32 3.08.89 4.45l3.93-3.15z" />
                 </svg>
-                Google
+                {t.google}
               </Button>
               <Button 
                 variant="outline" 
@@ -254,7 +320,7 @@ export function Login() {
                   <path fill="#05a6f0" d="M1 12h10v10H1z" />
                   <path fill="#ffba08" d="M12 12h10v10H12z" />
                 </svg>
-                Microsoft
+                {t.microsoft}
               </Button>
             </div>
           )}
@@ -265,7 +331,7 @@ export function Login() {
                 <div className="w-full border-t theme-border"></div>
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white dark:bg-slate-900 px-4 theme-text-secondary font-medium">Or continue with</span>
+                <span className="bg-white dark:bg-slate-900 px-4 theme-text-secondary font-medium">{t.or}</span>
               </div>
             </div>
           )}
@@ -280,7 +346,7 @@ export function Login() {
 
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <label className="text-sm font-medium theme-text-secondary ml-1">Email Address</label>
+                <label className="text-sm font-medium theme-text-secondary ml-1">{t.email}</label>
                 <div className="relative group">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 group-focus-within:text-indigo-500 transition-colors">
                     <Mail className="w-5 h-5" />
@@ -300,13 +366,13 @@ export function Login() {
               {!resetMode && (
                 <div className="space-y-1.5">
                   <div className="flex items-center justify-between ml-1">
-                    <label className="text-sm font-medium theme-text-secondary">Password</label>
+                    <label className="text-sm font-medium theme-text-secondary">{t.password}</label>
                     <button 
                       type="button"
                       onClick={() => setResetMode(true)}
                       className="text-xs font-semibold text-indigo-600 dark:text-indigo-400 hover:underline"
                     >
-                      Forgot password?
+                      {t.forgot}
                     </button>
                   </div>
                   <div className="relative group">
@@ -335,16 +401,16 @@ export function Login() {
               icon={resetMode ? Mail : ArrowRight}
               className={resetMode ? "" : "flex-row-reverse"}
             >
-              {resetMode ? 'Send Reset Link' : 'Sign in'}
+              {resetMode ? t.sendReset : t.signIn}
             </Button>
           </form>
 
           {!resetMode && (
             <div className="mt-8 text-center">
               <p className="text-sm theme-text-secondary">
-                Don't have an account?{' '}
+                {t.noAccount}{' '}
                 <Link to="/signup" className="text-indigo-600 dark:text-indigo-400 hover:underline font-semibold">
-                  Sign up for free
+                  {t.signUp}
                 </Link>
               </p>
             </div>

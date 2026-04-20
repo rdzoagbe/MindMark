@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 # MindMark
 
 Bookmark your mind's exact state. The ultimate context-preservation tool.
-=======
-# Context Saver
-
-A premium SaaS application to save and resume your work context instantly.
->>>>>>> 817c90190c11ebb70fbcd656933aee47c4526ed8
 
 ## Environment Setup
 
