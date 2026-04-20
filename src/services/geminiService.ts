@@ -41,7 +41,7 @@ export const geminiService = {
     try {
       const ai = ensureAI();
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: `You are an expert executive assistant. Summarize the following meeting transcript into a concise format:
         1. **Key Decisions**
         2. **Action Items** (with owners if mentioned)
@@ -62,7 +62,7 @@ export const geminiService = {
     try {
       const ai = ensureAI();
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: `Extract the top 5 important topics or keywords from this conversation as a comma-separated list:
         ${transcript}`,
       });
@@ -79,7 +79,7 @@ export const geminiService = {
     try {
       const ai = ensureAI();
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: `You are a productivity expert. Given this session context, provide a "Smart Resume Strategy" to help the user get back into deep flow:
         
         Session: ${data.title}
@@ -100,7 +100,7 @@ export const geminiService = {
     try {
       const ai = ensureAI();
       const response = await ai.models.generateContent({
-        model: "gemini-3-flash-preview",
+        model: "gemini-1.5-flash",
         contents: `Briefly summarize the context of these URLs for a productivity session: ${links.join(', ')}`,
       });
       return response.text || "No summary available.";
