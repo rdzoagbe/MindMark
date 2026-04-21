@@ -20,6 +20,7 @@
     }
   ],
   "hosting": {
+    "site": "story-teller-2d7ef",
     "public": "dist",
     "ignore": [
       "firebase.json",
