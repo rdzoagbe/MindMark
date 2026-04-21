@@ -8,11 +8,12 @@ const execAsync = promisify(exec);
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const isDev = process.env.NODE_ENV === 'development';
+
 let mainWindow;
 
 async function getActiveWindowTitle() {
   try {
-    // Attempt to load native module 'active-win' dynamically 
     const activeWindow = (await import('active-win')).default;
     const windowInfo = await activeWindow();
     if (windowInfo && windowInfo.title) {
@@ -20,15 +21,14 @@ async function getActiveWindowTitle() {
     }
     return 'Unknown Application';
   } catch (err) {
-    console.warn('active-win failed to load native modules, falling back to OS scripts:', err);
+    console.warn('active-win failed, falling back:', err);
     try {
-      const command = process.platform === 'win32' 
-        ? 'powershell -command "(Get-Process | Where-Object { $_.MainWindowHandle -eq (Add-Type \u0027[DllImport(\"user32.dll\")] public static extern IntPtr GetForegroundWindow();\u0027 -Name \"Win32GetForegroundWindow\" -PassThru)::GetForegroundWindow() }).MainWindowTitle"'
+      const command = process.platform === 'win32'
+        ? 'powershell -command "(Get-Process | Where-Object { $_.MainWindowHandle -eq (Add-Type \'[DllImport(\"user32.dll\")] public static extern IntPtr GetForegroundWindow();\' -Name \"Win32GetForegroundWindow\" -PassThru)::GetForegroundWindow() }).MainWindowTitle"'
         : 'osascript -e "tell application \\"System Events\\" to get name of first process whose frontmost is true"';
       const { stdout } = await execAsync(command);
       return stdout.trim() || 'Unknown Application';
     } catch (error) {
-      console.error('Error capturing window title via fallback script:', error);
       return 'Unknown Application';
     }
   }
@@ -47,10 +47,12 @@ function createWindow() {
     show: false,
   });
 
-  // Load from local server for Auth support
-  mainWindow.loadURL('http://localhost:3000');
+  if (isDev) {
+    mainWindow.loadURL('http://localhost:3000');
+  } else {
+    mainWindow.loadFile(path.join(__dirname, 'dist/index.html'));
+  }
 
-  // SSO Fix: Open Google login in system browser
   mainWindow.webContents.setWindowOpenHandler(({ url }) => {
     if (url.startsWith('https://accounts.google.com')) {
       shell.openExternal(url);
@@ -59,18 +61,12 @@ function createWindow() {
     return { action: 'allow' };
   });
 
-  mainWindow.once('ready-to-show', () => {
-    mainWindow.show();
-  });
-
-  mainWindow.on('closed', () => {
-    mainWindow = null;
-  });
+  mainWindow.once('ready-to-show', () => mainWindow.show());
+  mainWindow.on('closed', () => { mainWindow = null; });
 }
 
 app.whenReady().then(() => {
   createWindow();
-
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
@@ -80,7 +76,6 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit();
 });
 
-// IPC Handlers
 ipcMain.handle('get-active-window', async () => {
   return await getActiveWindowTitle();
 });

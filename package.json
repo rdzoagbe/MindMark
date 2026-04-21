@@ -43,6 +43,11 @@
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": "always"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "rdzoagbe",
+      "repo": "MindMark"
     }
   },
   "dependencies": {
